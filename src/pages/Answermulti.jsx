@@ -19,6 +19,9 @@ export default function Answermulti(){
     useEffect(() =>{
         Axios.get(`/m-unlock/${id}`)
         .then(function(response){
+          if (response.data.status === "not signed in"){
+           navigate("/") 
+          } else {
             console.log(response);
             setUser({...response.data.data.user})
             const newtitle = response.data.data.kryptDeets.title;
@@ -31,6 +34,7 @@ export default function Answermulti(){
             setUserQuiz(answerRay)
             setAnswerMulti(questData)
             setTitle(newtitle)
+          }
         })
         .catch(function (error) {
             // handle error

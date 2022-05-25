@@ -10,8 +10,8 @@ return(
         <img src={ProfileSix} alt='my profile' className="img-com"/>
         </div>
          <div>
-         <p className="text-secondary-400 text-sm mb-1">{comment}</p>
-         <p className="text-secondary-900 text-sm">{username}</p>
+         <p className="text-secondary-400 text-sm mb-1">{username}</p>
+         <p className="text-secondary-900 text-sm">{comment}</p>
          </div>
     </div>
     <div className="flex justify-between text-secondary-900">

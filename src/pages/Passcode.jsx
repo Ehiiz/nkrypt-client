@@ -21,7 +21,12 @@ export default function Passcodepage(){
     useEffect(() => {
         Axios.get(`/passcode/${id}`)
         .then((res)=>{
-            setUser({...res.data.user})
+            if (res.data.status === "not signed in"){
+               navigate("/") 
+            } else {
+                setUser({...res.data.user})
+            }
+        
         })
         .catch((err) => {
             console.log(err);

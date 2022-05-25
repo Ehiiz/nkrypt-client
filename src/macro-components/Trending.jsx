@@ -9,7 +9,7 @@ import ProfileSeven from "../img/Rectangle 48.png";
 import ProfileEight from "../img/Rectangle 49.png";
 import ProfileNine from "../img/Rectangle 50.png";
 
-export default function Trending(){
+export default function Trending({profiles}){
 
     const profileDetails = [
         {
@@ -98,12 +98,13 @@ const textsize = "text-sm"
 
     return(
         <div className="bg-secondary-600 flex overflow-x-scroll scrollbar-hide mt-16 px-2 pb-4">
-         {profileDetails.map(profile => <Kryptprofile
-            image={profile.image}
+         {profiles.map(profile => <Kryptprofile
+            image={ProfileOne}
             username={profile.username}
             boxstyle={boxstyle}
             imgstyle={imgstyle}
             textsize={textsize}
+            id = {profile._id}
          />)}
             
         </div>

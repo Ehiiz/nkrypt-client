@@ -21,12 +21,16 @@ export default function Settings(){
     useEffect(()=>{
         Axios.get('/settings')
         .then(function(res){
+            if (res.data.status === "not signed in"){
+                    navigate("/")
+            }else {
             const status = res.data.status;
             console.log(status)
             console.log(res)
             setUser({...res.data.user})
             setProfileData({...res.data.data});
             setUserName(res.data.data.username)
+            }
           
         })
         .catch(function(error){

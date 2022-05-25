@@ -27,7 +27,12 @@ export default function Setlock (){
     useEffect(() => {
         Axios.get(`/setlock/${id}`)
         .then((response) => {
-            setUser({...response.data.user})
+            if (response.data.status === "not signed in") {
+                navigate("/")
+            } else {
+                setUser({...response.data.user})
+            }
+           
         })
         .catch((error) => {
             console.log(error)

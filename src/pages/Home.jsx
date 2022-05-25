@@ -14,16 +14,18 @@ export default function Home(){
 
     const [homedata, setHomeData] = useState([]);
     const [user, setUser] = useState({});
+    const [profiles, setProfiles] = useState([]);
 
     useEffect(() => {
         Axios.get("/home")
         .then(function (response) {
-            console.log(response)
-            const newOrder = response.data.data.reverse();
-            console.log(newOrder)
-            console.log(newOrder[1].creator.username)
-            setUser({...response.data.user})
-            setHomeData([...newOrder])
+                console.log(response)
+                const newOrder = response.data.data.reverse();
+                setUser({...response.data.user})
+                setHomeData([...newOrder])
+                const profileOrder = response.data.profiles.reverse()
+                console.log(profileOrder)
+                setProfiles([...profileOrder])
         })
         .catch(function (error) {
             console.log(error);
@@ -49,7 +51,9 @@ export default function Home(){
             <Header 
                 title = {home}
             />
-            <Trending />
+
+            <Trending
+            profiles={profiles} />
             <div className="px-4 mb-18 pb-36 h-fit bg-secondary-600">
            
             {homedata.reverse().map(homedata=> <Timebox

@@ -2,9 +2,11 @@ import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
 import {useEffect, useState} from 'react'
 import Axios from "axios";
+import {Link, useNavigate} from "react-router-dom"
 
 export default function Notification(){
-
+     
+    const navigate = useNavigate();
     const navcolor = {
         home:"fill-secondary-900",
         notification:"fill-primary",
@@ -17,10 +19,16 @@ export default function Notification(){
     useEffect(() => {
        Axios.get("/notifications")
        .then((response)=>{
+           if (response.data.status === "not signed in"){
+               navigate("/")
+           } else {
            console.log(response)
-           setNotifBox(response.data.data)
+           const newNotif = response.data.data.reverse();
+           console.log(newNotif)
+           setNotifBox(newNotif)
            console.log(response.data.data)
             setUser({...response.data.loggeduser})
+           }
        })
        .catch((error)=>{
            console.log(error)
@@ -44,7 +52,7 @@ export default function Notification(){
                 <div className="flex text-white items-center my-2">
        
                 <img className="notif-image" src="" alt="" />
-                <p className="ml-2 text-xs"><span className="text-secondary-400">{notif.user.username}</span> created a krypt <span className="text-secondary-400">{notif.krypt.title}</span></p>
+                <p className="ml-2 text-xs"><span className="text-secondary-400"><Link to={`/profile/${notif.user._id}`}>{notif.user.username}</Link></span> created a krypt <span className="text-secondary-400"><Link to={`/krypt/${notif.krypt._id}`}>{notif.krypt.title}</Link></span></p>
                 </div>
                  <hr />
                 </div>
@@ -53,7 +61,7 @@ export default function Notification(){
                 <div className="flex text-white items-center my-2">
        
                 <img className="notif-image" src="" alt="" />
-                <p className="ml-2 text-xs"><span className="text-secondary-400">{notif.user.username}</span> just dekrypted <span className="text-secondary-400">{notif.krypt.title}</span></p>
+                <p className="ml-2 text-xs"><span className="text-secondary-400"><Link to={`/profile/${notif.user._id}`}>{notif.user.username}</Link></span> just dekrypted <span className="text-secondary-400"><Link to={`/krypt/${notif.krypt._id}`}>{notif.krypt.title}</Link></span></p>
                 </div>
                  <hr />
                 </div>
@@ -62,7 +70,7 @@ export default function Notification(){
                 <div className="flex text-white items-center my-2">
        
                 <img className="notif-image" src="" alt="" />
-                <p className="ml-2 text-xs"><span className="text-secondary-400">{notif.user.username}</span> commented on a krypt <span className="text-secondary-400">{notif.krypt.title}</span></p>
+                <p className="ml-2 text-xs"><span className="text-secondary-400"><Link to={`/profile/${notif.user._id}`}>{notif.user.username}</Link></span> commented on a krypt <span className="text-secondary-400"><Link to={`/krypt/${notif.krypt._id}`}>{notif.krypt.title}</Link></span></p>
                 </div>
                  <hr />
                 </div>

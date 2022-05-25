@@ -22,7 +22,12 @@ const [user, setUser] = useState([{}])
 useEffect(() => {
   Axios.get(`/quiz/${id}`)
   .then((res)=>{
+    if (res.data.status === "not signed in") {
+      navigate("/")
+    } else {
       setUser({...res.data.user})
+    }
+      
   })
   .catch((err) => {
     console.log(err)

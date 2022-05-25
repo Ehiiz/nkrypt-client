@@ -1,7 +1,7 @@
 import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
 import Share from "../macro-components/Share";
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react"
 import Axios from 'axios';
 import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
@@ -18,6 +18,7 @@ export default function Unlocked(){
         profile:"fill-secondary-900",
     }
 
+    const navigate = useNavigate();
     const {id} = useParams();
     const [kryptContent, setKryptContent] = useState([])
     const [kryptTitle, setKryptTitle] = useState("");
@@ -29,7 +30,12 @@ export default function Unlocked(){
     useEffect(()=>{
         Axios.get(`/unlock/${id}`)
         .then(response => {
-            console.log(response)
+            if (response.data.status === "not signed in"){
+                navigate("/")
+            } else if (response.data.status === "failure") {
+                 navigate("/home")
+            } else if (response.data.status === "success"){
+                console.log(response)
             console.log(response.data.data.content)
             console.log(response.data.data.creator.username)
             let contentVal = Object.values(response.data.data.content)
@@ -39,6 +45,7 @@ export default function Unlocked(){
             setKryptContent([...contentVal])
             setKryptCreator(response.data.data.creator.username)
             setKryptTitle(response.data.data.title)
+            }
         })
         .catch(error=>{
             console.log(error)

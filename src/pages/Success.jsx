@@ -1,20 +1,25 @@
 import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
 import Share from "../macro-components/Share";
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import {useEffect,  useState} from "react"
 import Axios from 'axios';
 
 
 export default function Success(){
-
+    const navigate = useNavigate();
     const {id} = useParams();
     const [user, setUser] = useState({});
 
     useEffect(() => {
         Axios.get(`/share/${id}`)
         .then((response) =>{
-            setUser({...response.data.user})
+            if (response.data.status === "not signed in") {
+                navigate("/")
+            } else {
+                setUser({...response.data.user})
+            }
+          
         })
         .catch((error) =>{
             console.log(error);

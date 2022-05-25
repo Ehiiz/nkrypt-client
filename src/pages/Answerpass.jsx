@@ -19,11 +19,14 @@ export default function Answerpass(){
     useEffect(() =>{
         Axios.get(`/p-unlock/${id}`)
         .then(function(response){
-            console.log(response);
-            const newtitle = response.data.data.kryptDeets.title
-            setTitle(newtitle)
-            setUser({...response.data.data.user})
-        
+            if (response.data.status === "not signed in"){
+                navigate("/")
+            } else {
+                console.log(response);
+                const newtitle = response.data.data.kryptDeets.title
+                setTitle(newtitle)
+                setUser({...response.data.data.user})
+            }  
         })
         .catch(function (error) {
             // handle error

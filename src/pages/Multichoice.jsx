@@ -19,8 +19,12 @@ const [user, setUser] = useState({})
 useEffect(() => {
   Axios.get(`/choice/${id}`)
   .then((res)=>{
+    if (res.data.status === "not signed in"){
+      navigate("/")
+    } else {
       setUser({...res.data.user})
-  })
+    }
+    })
   .catch((err)=>{
     console.log(err)
   })
@@ -58,13 +62,13 @@ const sendData = () => {
           })
     }
 
-      const handleChange = (i,e) =>{
-        let newMultibox = [...multibox];
-        console.log(e.target.value)
-        newMultibox[i][e.target.name] = e.target.value;
-        setMultibox(newMultibox)
-        console.log(multibox)
-      }
+const handleChange = (i,e) =>{
+  let newMultibox = [...multibox];
+  console.log(e.target.value)
+  newMultibox[i][e.target.name] = e.target.value;
+  setMultibox(newMultibox)
+  console.log(multibox)
+}
 
       const handleSubmit = (e) => {
         sendData();
@@ -104,8 +108,6 @@ const sendData = () => {
            question={multi.question}
            handleChange={handleChange}
            removeQuestion= {removeQuestion}
-         
-
         />))}
 
         </div>

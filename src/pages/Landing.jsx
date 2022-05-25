@@ -43,10 +43,11 @@ export default function Landing(){
                 Axios.get(`/krypt/${id}`)
                 .then(function (response) {
                   console.log(response)
+                  const kryptcom = response.data.comment.reverse()
                   setKrypt({...response.data.data})
                   setUser({...response.data.user})
                   setKryptBase(response.data.kryptstate)
-                  setComment([...response.data.comment])
+                  setComment([...kryptcom])
                 })
                 .catch(function (error) {
                   // handle error
@@ -81,7 +82,6 @@ export default function Landing(){
           }
       
       const handleClick = (e) =>{
-
               e.preventDefault()
            const payload = {commentvalue, id}
               Axios.post("/comment", payload)
@@ -97,8 +97,6 @@ export default function Landing(){
               
               
           }
-
-        console.log(usercomment)
         
 
     return(

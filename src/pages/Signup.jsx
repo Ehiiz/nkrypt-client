@@ -68,13 +68,10 @@ export default function Signup(){
                                          if(passSpecial === false){
                                              if(passDigit === false){
                                                  if(errorMessage === false){
-                                                     console.log("Baba na master")
-                                                     
+                                                     console.log("Baba na master")  
                                     const payload = {
                                         userData: {email, username, password}
                                     }
-                                
-                                  
                                     //Data Posting Function
                                     Axios.post('/signup', payload)
                                     .then(res => {

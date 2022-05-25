@@ -1,7 +1,7 @@
 import Header from "../core-components/Header";
 import Kryptprofile from "../micro-components/Kryptprofile";
 import Nav from "../core-components/Nav";
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import Profilebox from "../macro-components/Profilebox";
 import {ReactComponent as Settings} from "../svg/Setting.svg"
 import Axios from 'axios';
@@ -10,6 +10,7 @@ import ProfileNine from "../img/Rectangle 50.png";
 
 export default function Profile(){
 
+    const navigate = useNavigate();
     const {id} = useParams();
     const proid = id
 
@@ -30,52 +31,59 @@ export default function Profile(){
    
 
 useEffect(() => {
-    Axios.get(`/profile/${id}`)
-    .then(function(res){
-        console.log(res)
-        const loggeduser = res.data.loggeduser;
-        const profileuser = res.data.profileuser;
-        console.log(profileuser._id)
-        console.log(loggeduser)
-        setProfileData([...res.data.kryptdata]);
-        setProfileDetails({...loggeduser})
-        setTrueDetails({...profileuser})
-        setDekryptData([...res.data.dekryptdata])
-        setFollowingCount(res.data.followingcount);
-        setFollowerCount(res.data.followercount)
-        console.log(loggeduser.following)
-        if(loggeduser._id === profileuser._id){
-            setFollowBttn(false)
-        } else {
-            setFollowBttn(true)
-            const isFound = loggeduser.following.some(element =>{
-                if (element.following === profileuser._id){
-                return true;
-                }
-                else {
-                return false
-                }});
-                console.log(isFound);
-            setFollowing(isFound)
-          const isGot = profileuser.following.some(element =>{
-            if (element.following === loggeduser._id){
-                return true
+    console.log(proid)
+    if (id === "undefined") {
+        navigate('/')
+    } else {
+        Axios.get(`/profile/${id}`)
+        .then(function(res){
+            console.log(res)
+            const loggeduser = res.data.loggeduser;
+            const profileuser = res.data.profileuser;
+            console.log(profileuser._id)
+            console.log(loggeduser)
+            setProfileData([...res.data.kryptdata]);
+            setProfileDetails({...loggeduser})
+            setTrueDetails({...profileuser})
+            setDekryptData([...res.data.dekryptdata])
+            setFollowingCount(res.data.followingcount);
+            setFollowerCount(res.data.followercount)
+            console.log(loggeduser.following)
+            if(loggeduser._id === profileuser._id){
+                setFollowBttn(false)
             } else {
-                return false
+                setFollowBttn(true)
+                const isFound = loggeduser.following.some(element =>{
+                    if (element.following === profileuser._id){
+                    return true;
+                    }
+                    else {
+                    return false
+                    }});
+                    console.log(isFound);
+                setFollowing(isFound)
+              const isGot = profileuser.following.some(element =>{
+                if (element.following === loggeduser._id){
+                    return true
+                } else {
+                    return false
+                }
+              }) 
+              console.log(isGot);
+              setFollower(isGot)
             }
-          }) 
-          console.log(isGot);
-          setFollower(isGot)
-        }
+    
+          
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+        .then(function(){
+    
+        })
 
-      
-    })
-    .catch(function(error){
-        console.log(error);
-    })
-    .then(function(){
-
-    })
+    }
+   
 },[newRender])
 
 console.log(following)
@@ -162,7 +170,7 @@ console.log(following)
          {followBttn && <div className={following ? "profi" : "profi2" } onClick={handleFollow}>
         {following ? "following" : "follow" } </div> } 
          <p className="text-secondary-700 italic text-xs mt-1 mb-4">{follower ? "follows you" : ""} </p> 
-         <div className="flex items-center">
+         <div className="flex items-center mb-2">
             <div className="mr-8 flex flex-col items-center">
             <p className="text-white rounded-full px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-3xl">{followerCount}</p>
             <p className="text-secondary-800 font-bold">taggers</p>
@@ -172,11 +180,11 @@ console.log(following)
             <p className="text-secondary-800 font-bold">tagged</p>
             </div>
             
-         </div>  
-         <Link to="/settings" className="setin">
+       </div>  
+       {followBttn === false ?  <Link to="/settings" className="setin">
         <Settings />
            <p className="ml-2">Settings</p>
-        </Link>
+        </Link> : null}
         <div className="w-full mb-28">
         <section className="flex w-full justify-center">
             <button className={ bttnLive ? "pro-bttn rounded-tl-2xl" : "pro-bttn-dormant rounded-tl-2xl"} name="bttn1" onClick={handleClick}>dekrypts</button>
