@@ -23,7 +23,7 @@ export default function Landing(){
 
     const navigate = useNavigate();
 
-    const [krypt, setKrypt] = useState({title : "", success : "", failure : "", comment : "", content:"", creator :{username:""}})
+    const [krypt, setKrypt] = useState({title : "", success : "", failure : "", comment : "", content:"", details:"", creator :{username:""}})
     const [kryptbase, setKryptBase] = useState("")
     const [user, setUser] = useState({})
     const [usercomment, setComment] = useState([])
@@ -114,7 +114,7 @@ export default function Landing(){
                     </div>
             </div>
             <div className="w-full px-4 mt-3">
-            <p className="text-white">This is the text-based Krypt by</p>
+            <p className="text-white">{krypt.details}</p>
             <p className="text-secondary-400">{krypt.creator.username}</p>
 
             </div>

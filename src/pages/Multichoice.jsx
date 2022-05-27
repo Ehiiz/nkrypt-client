@@ -5,6 +5,7 @@ import Multi from "../macro-components/Multi"
 import Nav from "../core-components/Nav"
 import {ReactComponent as Add} from "../svg/carbon_add-filled.svg"
 import Axios from 'axios';
+import Bio from "../modals/Bio"
 
 
 export default function Choice(){
@@ -14,6 +15,8 @@ const navigate = useNavigate();
 
 const [multibox, setMultibox] = useState([{question:"", option1:"", option2:"", option3:"", option4:"",  answer:""}])
 const [user, setUser] = useState({})
+const [kryptbio, setKryptbio] = useState("")
+const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
@@ -44,7 +47,7 @@ const addMulti = () => {
   
 
 const sendData = () => {
-        const payload = {multibox}
+        const payload = {multibox, kryptbio}
         console.log(multibox);
         console.log(payload);
         Axios.post(`/choice/${id}`, payload)
@@ -60,7 +63,7 @@ const sendData = () => {
           }).catch(error => {
               console.log(error);
           })
-    }
+}
 
 const handleChange = (i,e) =>{
   let newMultibox = [...multibox];
@@ -70,29 +73,52 @@ const handleChange = (i,e) =>{
   console.log(multibox)
 }
 
-      const handleSubmit = (e) => {
-        sendData();
-      }
+const openModal = () =>{
+ if(multibox[0].question === ""){
+  alert("Please enter a valid quiz to proceed")
+ } else {
+  setModal(true)
+ }
+  
+}
 
-      console.log(multibox);
+const closeModal = () => {
+  setModal(false)
+}
+
+const bioChange = (e) =>{
+  setKryptbio(e.target.value)
+}
+
+const handleSubmit = (e) => {
+        sendData();
+}
+
+console.log(multibox);
 
      
-      const removeQuestion = (i) => {
+const removeQuestion = (i) => {
         let newMultibox = [...multibox];
         newMultibox.splice(i,1);
         setMultibox(newMultibox);
-     }
+}
   
-      const navcolor = {
+const navcolor = {
         home:"fill-primary",
         notification:"fill-secondary-900",
         profile:"fill-secondary-900",
-    }
+}
 
 
     return (
         <div>
           <div className="page">
+        {modal && <Bio 
+          kryptbio={kryptbio}
+          bioChange= {bioChange}
+          handleSubmit= {handleSubmit}
+          closeModal= {closeModal}
+        />}
         <Header />
         <section className="choice-sec">
         <div className="w-full flex flex-col items-center">
@@ -118,7 +144,7 @@ const handleChange = (i,e) =>{
         </div>
       
 
-        <button className="sub-bttn" onClick={handleSubmit}> 
+        <button className="sub-bttn" onClick={openModal}> 
          Submit
         </button>
 

@@ -5,6 +5,7 @@ import Questions from "../macro-components/Questions";
 import {useNavigate, useParams} from "react-router-dom";
 import {ReactComponent as Add} from "../svg/carbon_add-filled.svg"
 import Axios from "axios";
+import Bio from "../modals/Bio"
 
 
 export default function Quizpage(){
@@ -14,9 +15,9 @@ const navigate = useNavigate();
 
 
 const [questionBox, setQuestionBox] = useState([{question: "", answer:""}])
-const [user, setUser] = useState([{}])
-
-
+const [user, setUser] = useState({})
+const [kryptbio, setKryptbio] = useState("")
+const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
@@ -37,6 +38,8 @@ useEffect(() => {
 
 }
 ,[])
+
+
 const navcolor = {
     home:"fill-primary",
     notification:"fill-secondary-900",
@@ -50,6 +53,17 @@ const addQuestion = () => {
       console.log("max question")
 }
 
+const removeQuestion = (i) => {
+  let newQuestionBox = [...questionBox];
+  newQuestionBox.splice(i,1);
+setQuestionBox(newQuestionBox)
+}
+
+
+const bioChange = (e) =>{
+  setKryptbio(e.target.value)
+}
+
 const handleChange = (i,e) =>{
       let newQuestionBox = [...questionBox];
       newQuestionBox[i][e.target.name] = e.target.value;
@@ -57,16 +71,12 @@ const handleChange = (i,e) =>{
       console.log(questionBox)
 }
 
-const removeQuestion = (i) => {
-      let newQuestionBox = [...questionBox];
-      newQuestionBox.splice(i,1);
-setQuestionBox(newQuestionBox)
-}
+
 
 
       
 const sendData = () => {
-  const payload = {questionBox}
+  const payload = {questionBox, kryptbio}
   console.log(questionBox);
   console.log(payload);
   Axios.post(`/quiz/${id}`, payload)
@@ -84,6 +94,19 @@ const sendData = () => {
     })
 }
 
+const openModal = () =>{
+  if(questionBox[0].question === ""){
+    return alert("Please create set quiz before submitting")
+  } else {
+    setModal(true)
+  }
+  
+}
+
+const closeModal = () => {
+  setModal(false)
+}
+
 const handleSubmit = () =>{
   sendData();
 }
@@ -91,6 +114,12 @@ const handleSubmit = () =>{
     return(
         
         <div className="page">
+         {modal && <Bio 
+          kryptbio={kryptbio}
+          bioChange= {bioChange}
+          handleSubmit={handleSubmit}
+          closeModal= {closeModal}
+        />}
         <Header />
         <section className="flex flex-col bg-secondary-600 pt-20 w-full items-center px-4 pb-24">
         <div id="q-box" className="w-full flex flex-col items-center">
@@ -124,7 +153,7 @@ const handleSubmit = () =>{
         </div>
       
 
-        <button onClick={handleSubmit} className="sub-bttn"> 
+        <button onClick={openModal} className="sub-bttn"> 
          Submit
         </button>
         </section>

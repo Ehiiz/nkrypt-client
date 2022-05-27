@@ -103,7 +103,9 @@ const sendFile = (data, name,file)=>{
       console.log(res.status)
       const url = res.data.url
       setSuccess(true)
-     setTimeout(()=>{setLoading(false)}, 1000) 
+     setTimeout(()=>{
+      setSuccess(false) 
+      setLoading(false)}, 1000) 
       if (name === "audio"){
         setNewAudio(file)
       } else if (name === "image"){
@@ -125,7 +127,7 @@ const sendFile = (data, name,file)=>{
 }
 
 //Data Posting Function
-    const sendData = () => {
+const sendData = () => {
       const payload = {finalData, kryptTitle, kryptData}
       console.log(finalData);
       console.log(payload);
