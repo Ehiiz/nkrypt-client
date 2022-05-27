@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Link, useParams, useNavigate} from "react-router-dom"
 import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
+import ProfileSix from "../img/Rectangle 47.png";
 
 export default function Following(){
 
@@ -16,17 +17,23 @@ const [profollowing, setProfollowing] = useState([])
     Axios.get(`/following/${id}`)
     .then(res =>{
         console.log(res);
-        // setUserFollowing(res.data.following)
+        console.log(res.data.following.following);
+        console.log(res.data.profileFollowing.following)
+        setUserFollowing(res.data.following.following)
+        setProfollowing(res.data.profileFollowing.following)
+        setUser(res.data.following)
     })
 
 
 
    },[])
+
+   console.log(userfollowing)
    
     const navcolor = {
         home:"fill-secondary-900",
         notification:"fill-secondary-900",
-        profile:"fill-primary",
+        profile:"fill-secondary-900",
     }
 
     const following = "Following"
@@ -37,16 +44,18 @@ const [profollowing, setProfollowing] = useState([])
             title={following}
         />
         <div className="h-fit bg-secondary-600 mt-16">
-        {userfollowing.map(usefollow=>{
-            <div className="mt-8 pt-1 mb-4 pb-2 px-2 bg-secondary-600 flex justify-between"> 
-              <div className="flex flex-col">
-              <div className="w-16">
-              <img src={usefollow.image} />
-              </div>
-                  <p className="text-secondary-400">{usefollow.username}</p>
-              </div>
-              <p className="profi2">Follow</p>
-                 <hr />
+        {profollowing.map(usefollow=>{
+           return <div className="pt-1 flex items-center justify-between pb-2 w-full px-2 bg-secondary-600"> 
+                     <div>
+                         <div className="py-1">
+                         <img src={ProfileSix} alt="dp" className="w-12 rounded-full border-2 border-white" />
+                         </div>
+                         <p className="text-sm text-secondary-400">{usefollow.following.username}</p>
+                     </div>
+                     <div>
+                     <p className="profi3">Follow</p>
+                     </div>
+                    
                 </div>
         })}
       

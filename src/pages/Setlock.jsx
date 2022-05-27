@@ -44,7 +44,7 @@ export default function Setlock (){
 
 
     const navcolor = {
-        home:"fill-primary",
+        home:"fill-secondary-900",
         notification:"fill-secondary-900",
         profile:"fill-secondary-900",
     }

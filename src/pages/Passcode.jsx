@@ -86,9 +86,9 @@ const handleSubmit = () => {
 
     
 const navcolor = {
-        home:"fill-primary",
-        notification:"fill-secondary-900",
-        profile:"fill-secondary-900",
+    home:"fill-secondary-900",
+    notification:"fill-secondary-900",
+    profile:"fill-secondary-900",
 }
 
 console.log(passCell);
