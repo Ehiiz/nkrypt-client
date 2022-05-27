@@ -86,10 +86,24 @@ export default function Unlocked(){
             <h1 className="unlock-title">{kryptTitle}</h1>
             <p className="unlock-user">{kryptCreator}</p>
             </div>
-            <div className="px-5 flex flex-col">
+            <div className="px-5 flex items-center flex-col w-fit">
             
-            {kryptContent.map((krypt, index)=>{
-              return  <p className="text-white mb-4 block">{krypt}</p>
+            {kryptContent.map((krypt, index)=> {if (krypt.includes(".jpg")){
+                return   <div className="items-center py-2 rounded-xl">
+                         <img src={krypt} alt="kryptedimg" className="object-fit rounded-2xl"/>
+                        </div>
+            } else if (krypt.includes(".mp3")){
+
+                return  <div className="py-2">
+                <audio  src={krypt} controls autoPlay/>
+                    </div> 
+            } else {
+               return <div className="py-2">
+               <p className="text-secondary-700">{krypt}</p>
+               </div>
+             
+            }
+              
             })}
             {/* <ReactPlayer className="w-32" url='https://www.youtube.com/watch?v=-o-3Ymwx-9g'/> */}
 

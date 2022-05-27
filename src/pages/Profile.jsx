@@ -171,14 +171,14 @@ console.log(following)
         {following ? "following" : "follow" } </div> } 
          <p className="text-secondary-700 italic text-xs mt-1 mb-4">{follower ? "follows you" : ""} </p> 
          <div className="flex items-center mb-2">
-            <div className="mr-8 flex flex-col items-center">
-            <p className="text-white rounded-full px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-3xl">{followerCount}</p>
+            <Link to={`/followers/${id}`} className="mr-8 flex flex-col items-center">
+            <p className="text-white px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-3xl">{followerCount}</p>
             <p className="text-secondary-800 font-bold">taggers</p>
-            </div> 
-            <div className="flex flex-col items-center">
+            </Link> 
+            <Link to={`/following/${id}`} className="flex flex-col items-center">
             <p className="text-white px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-3xl">{followingCount}</p>
             <p className="text-secondary-800 font-bold">tagged</p>
-            </div>
+            </Link>
             
        </div>  
        {followBttn === false ?  <Link to="/settings" className="setin">

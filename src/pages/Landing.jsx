@@ -10,6 +10,7 @@ import {ReactComponent as Chat} from "../svg/Chat.svg"
 import {ReactComponent as Audio} from "../svg/Play.svg";
 import {ReactComponent as Photo} from "../svg/gallery.svg";
 import {ReactComponent as Text} from "../svg/Text File.svg"
+import {ReactComponent as Send} from "../svg/send.svg"
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -137,9 +138,9 @@ export default function Landing(){
            <div className="pt-4">
            <hr className="border-2 border-white rounded-sm w-48 mb-2"/>
            </div>
-           <div className="mt-1 px-4 py-2 rounded-2xl bg-secondary-600">
+           <div className="mt-1 px-4 py-2 rounded-2xl flex bg-secondary-600">
              <input type="text" placeholder="add a new comment" value={commentvalue} onChange={handleChange} className="bg-inherit border-b-2 border-secondary-700 placeholder:text-gray-500 placeholder:text-sm mr-3 placeholder:ml-2 text-white" />
-             <button className="text-secondary-600 font-bold bg-secondary-100 p-1 rounded-lg" onClick={handleClick}>send</button>
+             <div onClick={handleClick}><Send /></div>
            </div>
            <div className="w-full">
            <div className="mb-14">

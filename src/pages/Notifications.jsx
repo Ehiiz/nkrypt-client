@@ -22,9 +22,7 @@ export default function Notification(){
            if (response.data.status === "not signed in"){
                navigate("/")
            } else {
-           console.log(response)
            const newNotif = response.data.data.reverse();
-           console.log(newNotif)
            setNotifBox(newNotif)
            console.log(response.data.data)
             setUser({...response.data.loggeduser})
@@ -40,7 +38,7 @@ export default function Notification(){
 
     const notification = "Notification"
 
-    return(
+return(
         <div className="h-screen scrollbar-hide bg-secondary-600">
         <Header 
             title={notification}
