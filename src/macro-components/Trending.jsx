@@ -93,11 +93,11 @@ export default function Trending({profiles}){
 
 const boxstyle = "home-box"
 const imgstyle = "home-image"
-const textsize = "text-sm"
+const textsize = "text-xs"
 
 
     return(
-        <div className="bg-secondary-600 flex overflow-x-scroll scrollbar-hide mt-16 px-2 pb-4">
+        <div className="bg-secondary-600 flex overflow-x-scroll scrollbar-hide px-1 pt-3">
          {profiles.map(profile => <Kryptprofile
             image={ProfileOne}
             username={profile.username}

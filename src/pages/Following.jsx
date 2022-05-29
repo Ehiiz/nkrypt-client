@@ -10,6 +10,7 @@ export default function Following(){
 const {id} = useParams();
 const [user, setUser] = useState({})
 const [profollowing, setProfollowing] = useState([])
+const [newRender, setNewRender] = useState(false)
 
    useEffect(() => {
     Axios.get(`/following/${id}`)
@@ -39,12 +40,38 @@ const [profollowing, setProfollowing] = useState([])
         setProfollowing([...finalfollowing])
         setUser(res.data.following)
     })
+   },[newRender])
 
+const checkClick =(e)=>{
+    let proid = e.target.value;
+    let followstate = e.target.name;
+    const payload = {
+        proid
+    }
 
+    if(followstate === "true"){
+        Axios.post('/unfollow', payload)
+        .then((response) =>{
+            console.log(response)
+        })
+        .catch((err) =>{
+            console.log(err)
+        })
+        .then(()=>{})
+        setNewRender(!newRender)
 
-   },[])
-
-   console.log(profollowing)
+    } else if (followstate === "false") {
+        Axios.post('/follow', payload)
+        .then((response) =>{
+            console.log(response)
+        })
+        .catch((err) =>{
+            console.log(err)
+        })
+        .then(()=>{})
+        setNewRender(!newRender)
+    }
+}
    
     const navcolor = {
         home:"fill-secondary-900",
@@ -70,7 +97,7 @@ const [profollowing, setProfollowing] = useState([])
                         {usefollow.following.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                      </div>
                      <div>
-                     {usefollow.following.following_status ? <p className="profi4">Following</p> : <p className="profi3">Follow</p> }
+                     {usefollow.following.following_status ? <button value={`${usefollow.following._id}`} name={`${usefollow.following.following_status}`} onClick={checkClick} className="profi4">Following</button> : <button value={`${usefollow.following._id}`} name={`${usefollow.following.following_status}`} onClick={checkClick} className="profi3">Follow</button> }
                      
                      </div>
                     

@@ -20,7 +20,7 @@ export default function Timebox({username, title, date, time, success, failed, c
              </div>
             
             <div className="flex justify-between items-center pt-2">
-            <p className="text-3xl text-white mb-4 mt-2">{title}</p>    
+            <p className="text-lg px-2 text-white mb-4 mt-2 md:text-2xl lg:text-3xl">{title}</p>    
 
           <Boxicon />
 

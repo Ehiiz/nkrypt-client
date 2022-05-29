@@ -12,6 +12,7 @@ export default function Followers(){
 
 const [user, setUser] = useState({})
 const [profollowers, setProfollowers] = useState([])
+const [newRender, setNewRender] = useState(true)
 
    useEffect(() => {
     Axios.get(`/followers/${id}`)
@@ -29,7 +30,7 @@ const [profollowers, setProfollowers] = useState([])
                 return [...r, {follower:{...i.follower, following_status:false}}]
             }
         },[])
-        console.log(newarray)
+
     const finalfollowing = newarray.reduce((r,i)=>{
         console.log(i)
         if(usefollowersID.includes(i.follower._id)){
@@ -44,13 +45,44 @@ const [profollowers, setProfollowers] = useState([])
         setUser(res.data.following)
     })
  
+   },[newRender])
 
 
+const checkClick =(e)=>{
+    let proid = e.target.value;
+    let followstate = e.target.name;
+    
+    
+    const payload = {
+        proid
+    }
 
-   },[])
+    if(followstate === "true"){
+        Axios.post('/unfollow', payload)
+        .then((response) =>{
+            console.log(response)
+        })
+        .catch((err) =>{
+            console.log(err)
+        })
+        .then(()=>{})
+        setNewRender(!newRender)
 
-   console.log(profollowers)
+    } else if (followstate === "false") {
+        Axios.post('/follow', payload)
+        .then((response) =>{
+            console.log(response)
+        })
+        .catch((err) =>{
+            console.log(err)
+        })
+        .then(()=>{})
+        setNewRender(!newRender)
 
+    }
+    console.log(e.target.value)
+    console.log(e.target.name)
+}
    
     const navcolor = {
         home:"fill-secondary-900",
@@ -76,7 +108,7 @@ const [profollowers, setProfollowers] = useState([])
                          {usefollow.follower.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                      </div>
                      <div>
-                     {usefollow.follower.following_status ? <p value={usefollow.follower._id} onClick={e=> {console.log(e.target.value)}} className="profi4">Following</p> : <p className="profi3">Follow</p> }
+                     {usefollow.follower.following_status ? <button value={`${usefollow.follower._id}`} name={`${usefollow.follower.following_status}`} onClick={checkClick} className="profi4">Following</button> : <button value={`${usefollow.follower._id}`} name={`${usefollow.follower.following_status}`} onClick={checkClick} className="profi3">Follow</button> }
                      </div>
                     
                 </div>

@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import Userpic from "../modals/Userpic";
 
 
 
@@ -14,6 +15,7 @@ const navigate = useNavigate();
 const [homedata, setHomeData] = useState([]);
 const [user, setUser] = useState({});
 const [profiles, setProfiles] = useState([]);
+const [modalCase, setModalcase] = useState(true)
 
 useEffect(() => {
     Axios.get("/home")
@@ -46,19 +48,17 @@ const home = "Home"
 
     return(
         <div className="bg-secondary-600 h-screen">
+      {/*   {modalCase && <Userpic />} */}
             <Header 
                 title = {home}
             />
-
+{/* 
             <Trending
             profiles={profiles} />
+            */}
            
+            <div className="px-4 mb-18 pb-36 mt-16 h-fit bg-secondary-600">
            
-            <div className="px-4 mb-18 pb-36 h-fit bg-secondary-600">
-            <div className="flex justify-between mb-2">
-            <input type="text" value="" className="search-form"/>
-            <button className="text-white ml-4 px-2 py-2 bg-primary rounded-2xl font-bold">Search</button>
-            </div>
             {homedata.reverse().map(homedata=> <Timebox
                    title={homedata.title}
                 //    username={homedata.creator.username}
