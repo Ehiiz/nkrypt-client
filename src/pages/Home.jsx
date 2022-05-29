@@ -10,41 +10,39 @@ import {useNavigate} from "react-router-dom";
 
 
 export default function Home(){
-    const navigate = useNavigate();
+const navigate = useNavigate();
+const [homedata, setHomeData] = useState([]);
+const [user, setUser] = useState({});
+const [profiles, setProfiles] = useState([]);
 
-    const [homedata, setHomeData] = useState([]);
-    const [user, setUser] = useState({});
-    const [profiles, setProfiles] = useState([]);
-
-    useEffect(() => {
-        Axios.get("/home")
-        .then(function (response) {
-                console.log(response)
-                const newOrder = response.data.data.reverse();
-                setUser({...response.data.user})
-                setHomeData([...newOrder])
-                const profileOrder = response.data.profiles.reverse()
-                console.log(profileOrder)
-                setProfiles([...profileOrder])
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function(){
-
-        })
-    },[])
+useEffect(() => {
+    Axios.get("/home")
+    .then(function (response) {
+            console.log(response)
+            const newOrder = response.data.data.reverse();
+            setUser({...response.data.user})
+            setHomeData([...newOrder])
+            const profileOrder = response.data.profiles.reverse()
+            console.log(profileOrder)
+            setProfiles([...profileOrder])
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+    .then(function(){
+    })
+},[])
 
 
   
 
-    const navcolor = {
-        home:"fill-primary",
-        notification:"fill-secondary-900",
-        profile:"fill-secondary-900",
-    }
+const navcolor = {
+    home:"fill-primary",
+    notification:"fill-secondary-900",
+    profile:"fill-secondary-900",
+}
 
-    const home = "Home"
+const home = "Home"
 
     return(
         <div className="bg-secondary-600 h-screen">
@@ -54,8 +52,13 @@ export default function Home(){
 
             <Trending
             profiles={profiles} />
-            <div className="px-4 mb-18 pb-36 h-fit bg-secondary-600">
            
+           
+            <div className="px-4 mb-18 pb-36 h-fit bg-secondary-600">
+            <div className="flex justify-between mb-2">
+            <input type="text" value="" className="search-form"/>
+            <button className="text-white ml-4 px-2 py-2 bg-primary rounded-2xl font-bold">Search</button>
+            </div>
             {homedata.reverse().map(homedata=> <Timebox
                    title={homedata.title}
                 //    username={homedata.creator.username}

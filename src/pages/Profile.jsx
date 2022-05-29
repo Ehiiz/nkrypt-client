@@ -173,11 +173,11 @@ console.log(following)
          <div className="flex items-center mb-2">
             <Link to={`/followers/${id}`} className="mr-8 flex flex-col items-center">
             <p className="text-white px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-xl">{followerCount}</p>
-            <p className="text-secondary-800 font-bold">taggers</p>
+            <p className="text-secondary-800 font-bold">followers</p>
             </Link> 
             <Link to={`/following/${id}`} className="flex flex-col items-center">
             <p className="text-white px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-xl">{followingCount}</p>
-            <p className="text-secondary-800 font-bold">tagged</p>
+            <p className="text-secondary-800 font-bold">following</p>
             </Link>
             
        </div>  

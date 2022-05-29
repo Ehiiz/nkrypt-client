@@ -9,6 +9,11 @@
     @apply text-white border-secondary-700 block w-full bg-inherit rounded-sm border-b-2 border-x-0 border-t-0 placeholder:text-gray-500 placeholder:text-sm active:border-secondary-800 active:border-b-4;
 }
 
+.search-form{
+    @apply text-white shadow-inner border-hidden drop-shadow-2xl w-full bg-secondary-500 rounded-full placeholder:text-gray-500 placeholder:text-sm active:border-white active:border-2;
+
+}
+
 .dormant{
     @apply text-lg py-4 px-4 text-secondary-300 bg-secondary-200 rounded-md font-bold w-36 hover:bg-secondary-100 hover:text-white;
 }
@@ -174,6 +179,10 @@
 
 .profi3{
     @apply border-2 border-white text-white text-sm py-2 px-4 rounded-full shadow-md 
+}
+
+.profi4{
+    @apply flex bg-primary text-white text-sm py-2 px-4 rounded-full;
 }
 
 

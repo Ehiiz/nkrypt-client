@@ -8,8 +8,6 @@ import ProfileSix from "../img/Rectangle 47.png";
 export default function Following(){
 
 const {id} = useParams();
-   
-const [userfollowing, setUserFollowing] = useState([])
 const [user, setUser] = useState({})
 const [profollowing, setProfollowing] = useState([])
 
@@ -17,10 +15,28 @@ const [profollowing, setProfollowing] = useState([])
     Axios.get(`/following/${id}`)
     .then(res =>{
         console.log(res);
-        console.log(res.data.following.following);
-        console.log(res.data.profileFollowing.following)
-        setUserFollowing(res.data.following.following)
-        setProfollowing(res.data.profileFollowing.following)
+        const profollowing = res.data.profollowing;
+        const usefollowingID = res.data.usefollowingID;
+        const usefollowersID = res.data.usefollowersID;
+    const newarray =   profollowing.reduce((r,i)=>{
+            if(usefollowingID.includes(i.following._id)){
+                console.log("match")
+                return [...r, {following:{...i.following, following_status:true}}]
+            } else {
+                console.log("no match")
+                return [...r, {following:{...i.following, following_status:false}}]
+            }
+        },[])
+    const finalfollowing = newarray.reduce((r,i)=>{
+        if(usefollowersID.includes(i.following._id)){
+            console.log("follower match")
+            return [...r, {following:{...i.following, follower_status:true}}]
+        } else {
+            console.log("follower no match")
+            return [...r, {following:{...i.following, follower_status:false}}]
+        }
+    },[])
+        setProfollowing([...finalfollowing])
         setUser(res.data.following)
     })
 
@@ -28,7 +44,7 @@ const [profollowing, setProfollowing] = useState([])
 
    },[])
 
-   console.log(userfollowing)
+   console.log(profollowing)
    
     const navcolor = {
         home:"fill-secondary-900",
@@ -50,10 +66,12 @@ const [profollowing, setProfollowing] = useState([])
                          <div className="py-1">
                          <img src={ProfileSix} alt="dp" className="w-12 rounded-full border-2 border-white" />
                          </div>
-                         <p className="text-sm text-secondary-400">{usefollow.following.username}</p>
+                         <p className="text-sm text-secondary-400"><Link to={`/profile/${usefollow.following._id}`}>{usefollow.following.username}</Link></p>
+                        {usefollow.following.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                      </div>
                      <div>
-                     <p className="profi3">Follow</p>
+                     {usefollow.following.following_status ? <p className="profi4">Following</p> : <p className="profi3">Follow</p> }
+                     
                      </div>
                     
                 </div>
