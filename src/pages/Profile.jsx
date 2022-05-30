@@ -161,7 +161,7 @@ console.log(following)
             title = {profile}
          />
         <Kryptprofile
-        image = {ProfileNine}
+        image = {trueDetails.image}
         username = {trueDetails.username}
         imgstyle={imgstyle}
         boxstyle= {boxstyle}

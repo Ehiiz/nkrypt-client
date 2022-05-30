@@ -39,7 +39,7 @@ export default function Unlocked(){
             console.log(response.data.data.content)
             console.log(response.data.data.creator.username)
             let contentVal = Object.values(response.data.data.content)
-            setUser({...response.data.user})
+            setUser(response.data.user)
             console.log(contentVal)
             setKryptInfo({...response.data.data})
             setKryptContent([...contentVal])
@@ -54,8 +54,6 @@ export default function Unlocked(){
 
     },
     [])
-
-    console.log(kryptContent)
 
    const handleChange = e =>{
     const {value} = e.target
@@ -162,7 +160,7 @@ export default function Unlocked(){
                 home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile}
-                user={user._id}
+                user={user}
             />
         </div>
     )

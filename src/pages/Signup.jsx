@@ -3,13 +3,17 @@ import Socials from "../macro-components/Socials";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom"
+import Userpic from "../modals/Userpic";
 
 export default function Signup(){
 
     const navigate = useNavigate();
+    //Modal Management
+    const [modalCase, setModalcase] = useState(false)
 
     //Form State Management
     const [userDetail, setUserDetail] = useState({username:"", email:"", password:"", verify:""})
+
 
     //Email Validation States
     const [passEmail, setPassEmail] = useState(false);
@@ -35,22 +39,42 @@ export default function Signup(){
     
       
     //   Data Posting Function
-    useEffect(() => {
-        Axios.get("/signup")
-        .then(function (response) {
-            console.log(response)
+    // useEffect(() => {
+    //     Axios.get("/signup")
+    //     .then(function (response) {
+    //         console.log(response)
 
-            // setUsersDeets([...response.data])
+    //         // setUsersDeets([...response.data])
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     })
+    //     .then(function(){
+
+    //     })
+    // },[])
+
+    const createImage = (e)=>{
+        const {src} = e.target
+        console.log(src)
+        const payload = {src}
+        Axios.post('/setprofilepic', payload)
+        .then(res=>{
+            console.log(res)
+            const status = res.data.status
+            if(status === "success"){
+                navigate('/home')
+            } else if(status === "failure"){
+                alert("error setting profile image")
+                navigate('/home')
+            }
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch(err=>{
+            console.log(err)
         })
-        .then(function(){
-
-        })
-    },[])
-
-
+        .then(()=>{})
+        
+        }
 
     //Submit Function
 
@@ -80,10 +104,12 @@ export default function Signup(){
                                             console.log(res.data)
                                             console.log(status)
                                             if (status === "success"){
-                                                navigate('/home')
+                                                setModalcase(true)
+                                                // navigate('/home')
                                                 }
                                                 else{
-                                                    navigate('/signin')
+                                                    // navigate('/signin')
+                                                    window.location.reload()
                                                 }
                                         }).catch(error => {
                                             console.log(error);
@@ -124,8 +150,6 @@ export default function Signup(){
     }
 
   
-
-
     const handleChange = (e) =>{
         if(e.target.name === "username"){
             const trueUser = `@${e.target.value}`
@@ -244,6 +268,10 @@ export default function Signup(){
 
     return(
         <div className="signed">
+         {modalCase && <Userpic
+          createImage={createImage}
+          />}
+    
         <section className="mb-8 mt-8 self-left">
             <p className="text-xl text-white font-bold mb-0">Share</p>
             <p className="text-xl text-white font-bold mb-0 mt-0">Socialize</p>
@@ -286,7 +314,7 @@ export default function Signup(){
             onChange={handleChange}
             />
             <label className="text-sm block text-white" htmlFor="username">username</label>
-            {passError && <span className="text-xs block text-secondary-100">username is already taken</span>}
+            {/* {passError && <span className="text-xs block text-secondary-100">username is already taken</span>} */}
         </div>
         <div className="w-full mb-4">
             <input 

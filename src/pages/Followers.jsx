@@ -4,6 +4,7 @@ import {Link, useParams, useNavigate} from "react-router-dom"
 import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
 import ProfileSix from "../img/Rectangle 47.png";
+import FollowBttn from '../micro-components/FollowBttn';
 
 
 export default function Followers(){
@@ -66,7 +67,11 @@ const checkClick =(e)=>{
             console.log(err)
         })
         .then(()=>{})
-        setNewRender(!newRender)
+        if(newRender){
+            setNewRender(false)
+        } else {
+            setNewRender(true)
+        }
 
     } else if (followstate === "false") {
         Axios.post('/follow', payload)
@@ -77,7 +82,11 @@ const checkClick =(e)=>{
             console.log(err)
         })
         .then(()=>{})
-        setNewRender(!newRender)
+        if(newRender){
+            setNewRender(false)
+        } else {
+            setNewRender(true)
+        }
 
     }
     console.log(e.target.value)
@@ -93,11 +102,11 @@ const checkClick =(e)=>{
     const followers = "Followers"
     return (
         <div>
-            <div className="h-screen scrollbar-hide bg-secondary-600">
+        <div className="h-screen scrollbar-hide bg-secondary-600">
         <Header 
             title={followers}
         />
-        <div className="h-fit bg-secondary-600 mt-16 flex w-full flex-col items-center">
+        <div className="h-fit bg-secondary-600 pb-20 mt-16 flex w-full flex-col items-center">
         {profollowers.map(usefollow=>{
            return <div className="pt-1 flex items-center justify-between pb-2 w-full px-2 bg-secondary-600"> 
                      <div>
@@ -108,7 +117,11 @@ const checkClick =(e)=>{
                          {usefollow.follower.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                      </div>
                      <div>
-                     {usefollow.follower.following_status ? <button value={`${usefollow.follower._id}`} name={`${usefollow.follower.following_status}`} onClick={checkClick} className="profi4">Following</button> : <button value={`${usefollow.follower._id}`} name={`${usefollow.follower.following_status}`} onClick={checkClick} className="profi3">Follow</button> }
+                     <FollowBttn 
+                         following_status={usefollow.follower.following_status}
+                         id={usefollow.follower._id}
+                         checkClick={checkClick}
+                     />
                      </div>
                     
                 </div>

@@ -6,7 +6,6 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Axios from 'axios';
 import {useNavigate} from "react-router-dom";
-import Userpic from "../modals/Userpic";
 
 
 
@@ -15,7 +14,6 @@ const navigate = useNavigate();
 const [homedata, setHomeData] = useState([]);
 const [user, setUser] = useState({});
 const [profiles, setProfiles] = useState([]);
-const [modalCase, setModalcase] = useState(true)
 
 useEffect(() => {
     Axios.get("/home")
@@ -36,6 +34,8 @@ useEffect(() => {
 },[])
 
 
+
+
   
 
 const navcolor = {
@@ -48,7 +48,7 @@ const home = "Home"
 
     return(
         <div className="bg-secondary-600 h-screen">
-      {/*   {modalCase && <Userpic />} */}
+     
             <Header 
                 title = {home}
             />

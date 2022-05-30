@@ -20,6 +20,7 @@ import Answermulti from './pages/Answermulti';
 import Followers from './pages/Followers';
 import Following from './pages/Following';
 import Search from './pages/Search';
+import SearchResult from './pages/SearchResults';
 
 
 
@@ -51,6 +52,7 @@ function App() {
         <Route path="/followers/:id" exact element={<Followers />}/>
         <Route path="/following/:id" exact element={<Following />}/>
         <Route path="/search" exact element={<Search />}/>
+        <Route path="/search/:id" exact element={<SearchResult />}/>
        </Routes>
     </Router>
 

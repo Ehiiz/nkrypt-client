@@ -4,6 +4,7 @@ import {Link, useParams, useNavigate} from "react-router-dom"
 import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
 import ProfileSix from "../img/Rectangle 47.png";
+import FollowBttn from '../micro-components/FollowBttn';
 
 export default function Following(){
 
@@ -58,7 +59,11 @@ const checkClick =(e)=>{
             console.log(err)
         })
         .then(()=>{})
-        setNewRender(!newRender)
+        if(newRender){
+            setNewRender(false)
+        } else {
+            setNewRender(true)
+        }
 
     } else if (followstate === "false") {
         Axios.post('/follow', payload)
@@ -69,7 +74,12 @@ const checkClick =(e)=>{
             console.log(err)
         })
         .then(()=>{})
-        setNewRender(!newRender)
+        if(newRender){
+            setNewRender(false)
+        } else {
+            setNewRender(true)
+        }
+       
     }
 }
    
@@ -86,7 +96,7 @@ const checkClick =(e)=>{
         <Header 
             title={following}
         />
-        <div className="h-fit bg-secondary-600 mt-16">
+        <div className="h-fit bg-secondary-600 pb-20 mt-16">
         {profollowing.map(usefollow=>{
            return <div className="pt-1 flex items-center justify-between pb-2 w-full px-2 bg-secondary-600"> 
                      <div>
@@ -97,7 +107,12 @@ const checkClick =(e)=>{
                         {usefollow.following.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                      </div>
                      <div>
-                     {usefollow.following.following_status ? <button value={`${usefollow.following._id}`} name={`${usefollow.following.following_status}`} onClick={checkClick} className="profi4">Following</button> : <button value={`${usefollow.following._id}`} name={`${usefollow.following.following_status}`} onClick={checkClick} className="profi3">Follow</button> }
+                     <FollowBttn 
+                         following_status={usefollow.following.following_status}
+                         id={usefollow.following._id}
+                         checkClick={checkClick}
+                     />
+                     {/* {usefollow.following.following_status ? <button value={`${usefollow.following._id}`} name={`${usefollow.following.following_status}`} onClick={checkClick} className="profi4">Following</button> : <button value={`${usefollow.following._id}`} name={`${usefollow.following.following_status}`} onClick={checkClick} className="profi3">Follow</button> } */}
                      
                      </div>
                     

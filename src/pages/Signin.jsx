@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import Socials from "../macro-components/Socials";
 import Axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom"
 
 export default function Signin(){
@@ -9,6 +9,7 @@ export default function Signin(){
     const [signDetail, setSignDetail] = useState({email:"", password:""})
 
     const navigate = useNavigate();
+
     
 
     const handleChange = e =>{

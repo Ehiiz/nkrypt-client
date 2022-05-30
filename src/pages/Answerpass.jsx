@@ -48,6 +48,7 @@ export default function Answerpass(){
 
     const handleSubmit = () => {
         const payload = {userAnswer}
+        console.log(payload)
 
         Axios.post(`/p-unlock/${id}`, payload)
         .then(function (response) {
