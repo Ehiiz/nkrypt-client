@@ -16,11 +16,15 @@ const [user, setUser] = useState({});
 const [profiles, setProfiles] = useState([]);
 
 useEffect(() => {
-    const loggeduser = localStorage.getItem("jwt")
+     const loggeduser = localStorage.getItem("jwt")
     console.log(loggeduser)
     Axios.get("/home")
     .then(function (response) {
             console.log(response)
+            if(response.data.token){
+                const token = response.data.token
+            localStorage.setItem('jwt', token);
+            }
             const newOrder = response.data.data.reverse();
             setUser({...response.data.user})
             setHomeData([...newOrder])
