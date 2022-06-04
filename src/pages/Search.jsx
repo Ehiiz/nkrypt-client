@@ -56,7 +56,7 @@ console.log(payload)
         const usefollowingID = res.data.usefollowingID;
         const usefollowersID = res.data.usefollowersID;
         const userid = res.data.userid
-       navigate(`/search/${endPoint}`, {state:{searchUser,searchKrypt, usefollowingID,usefollowersID, userid}})
+       navigate(`/search/${endPoint}`, {state:{searchUser,searchKrypt, usefollowingID,usefollowersID, userid, searchValue}})
     })
     .catch(err=>{
         console.log(err)

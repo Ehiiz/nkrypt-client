@@ -89,7 +89,7 @@ const timeValue = ()=>{
   let month = newDate.getMonth();
     
    let kryptTime = `${hrs}:${mins}`
-   let kryptDate = `${month}, ${today}`
+   let kryptDate = `${today}, ${month}`
 
    return {kryptDate, kryptTime}
 

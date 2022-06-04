@@ -7,9 +7,20 @@ import {useNavigate} from "react-router-dom"
 export default function Signin(){
 
     const [signDetail, setSignDetail] = useState({email:"", password:""})
+    const [message, setMessage] = useState("")
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+    const loggeduser = localStorage.getItem("jwt")
+    console.log(loggeduser)
+        if(loggeduser){
+            navigate("/home")
+        } else {
+
+        }
+
+    },[])
     
 
     const handleChange = e =>{
@@ -34,14 +45,21 @@ export default function Signin(){
                 console.log(res.data.status)
                 const status = res.data.status;
                 if (status === "success"){
-                navigate('/home')
+                    const { token } = res.data;
+                    localStorage.setItem('jwt', token);
+                    navigate('/home')
                 }
                 else if (status === "failure"){
-                    window.location.reload();
-                   navigate('/signup')
+                   setSignDetail({email:"", password:""})
+                   setMessage("User does not exist")
+                    setTimeout(()=>{
+                        setMessage("")
+                    
+                    }, 5000) 
                 }
             }).catch(error => {
                 console.log(error);
+
             })
     
 
@@ -76,6 +94,7 @@ export default function Signin(){
             name="email" 
             placeholder="Jaycass50@gmail.com" 
             onChange={handleChange}
+            value={signDetail.email}
             />
             <label className="text-sm block text-white" htmlFor="">email</label>
         </div>
@@ -86,10 +105,12 @@ export default function Signin(){
             type="password" 
             placeholder="********" 
             onChange={handleChange}
+            value={signDetail.password}
             />
             <label className="text-sm block text-white" htmlFor="">password</label>
         </div>
         </form>
+        <p className="self-center text-secondary-700 text-xl">{message}</p>
 
        <button onClick={handleSubmit} className="landing-bttn self-center mt-4 mb-16">
         Login

@@ -16,6 +16,8 @@ const [user, setUser] = useState({});
 const [profiles, setProfiles] = useState([]);
 
 useEffect(() => {
+    const loggeduser = localStorage.getItem("jwt")
+    console.log(loggeduser)
     Axios.get("/home")
     .then(function (response) {
             console.log(response)

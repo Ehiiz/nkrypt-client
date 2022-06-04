@@ -26,7 +26,7 @@ export default function Unlocked(){
     const [user, setUser] = useState("")
     const [kryptInfo, setKryptInfo] = useState({})
     const [commentvalue, setCommentValue] = useState("")
-
+    const [newRender, setNewRender] = useState(false)
     useEffect(()=>{
         Axios.get(`/unlock/${id}`)
         .then(response => {
@@ -53,7 +53,7 @@ export default function Unlocked(){
         .then(()=>{})
 
     },
-    [])
+    [newRender])
 
    const handleChange = e =>{
     const {value} = e.target
@@ -66,6 +66,8 @@ export default function Unlocked(){
         Axios.post("/comment", payload)
         .then((res)=>{
             console.log(res)
+            setCommentValue("")
+            setNewRender(!newRender)
         })
         .catch((err)=>{
             console.log(err)

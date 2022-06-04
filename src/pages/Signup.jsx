@@ -38,21 +38,17 @@ export default function Signup(){
 
     
       
-    //   Data Posting Function
-    // useEffect(() => {
-    //     Axios.get("/signup")
-    //     .then(function (response) {
-    //         console.log(response)
-
-    //         // setUsersDeets([...response.data])
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     })
-    //     .then(function(){
-
-    //     })
-    // },[])
+     //Data Posting Function
+     useEffect(() => {
+        const loggeduser = localStorage.getItem("jwt")
+        console.log(loggeduser) 
+        if(loggeduser){
+                navigate("/home")
+            } else {
+                
+            }
+    
+        },[])
 
     const createImage = (e)=>{
         const {src} = e.target
@@ -102,17 +98,23 @@ export default function Signup(){
                                             console.log(res);
                                             const status = res.data.status;
                                             console.log(res.data)
+                                           
                                             console.log(status)
                                             if (status === "success"){
+                                                const { token } = res.data;
+                                                localStorage.setItem('jwt', token);
                                                 setModalcase(true)
                                                 // navigate('/home')
                                                 }
                                                 else{
                                                     // navigate('/signin')
+                                                    alert("Error creating account. Try again")
                                                     window.location.reload()
                                                 }
                                         }).catch(error => {
                                             console.log(error);
+                                            alert("Error creating account. Try again")
+                                            window.location.reload()
                                         })
                                                  } 
                                              } 

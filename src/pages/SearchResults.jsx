@@ -32,7 +32,9 @@ useEffect(() => {
         const usefollowersID = location.state.usefollowersID;
         const searchUser = location.state.searchUser;
         const userid = location.state.userid;
+        const searchValue = location.state.searchValue;
         setUser(userid)
+        setSearchValue(searchValue)
         const kryptSearch = location.state.searchKrypt
         if(kryptSearch.length === 0){
             setEmptyKrypt("No krypts found")
@@ -68,10 +70,64 @@ useEffect(() => {
     
     }
     else {
+        const payload = {searchValue}
+        console.log(payload)
+    
+        // const endPoint = searchValue.toLowerCase()
+        // console.log(payload)
+        //  Axios.post("/search", payload)
+        //  .then(res=>{
+        //      console.log(res)
+        //      const searchUser = res.data.searchUser;
+        //      const usefollowingID = res.data.usefollowingID;
+        //      const usefollowersID = res.data.usefollowersID;
+        //      const userid = res.data.userid
+        //      setUser(userid)
+        //      setSearchValue(searchValue)
+        //      setKryptResults([...res.data.searchKrypt])
+        //      const kryptSearch = res.data.searchKrypt
+        //      if(kryptSearch.length === 0){
+        //          setEmptyKrypt("No krypts found")
+        //      } else {
+        //          setEmptyKrypt("")
+        //      }
+        //      const newarray =  searchUser.reduce((r,i)=>{
+        //          if(usefollowingID.includes(i._id)){
+        //              console.log("match")
+        //              return [...r, {...i, following_status:true}]
+        //          } else {
+        //              console.log("no match")
+        //              return [...r, {...i, following_status:false}]
+        //          }
+        //      },[])
+         
+        //      const finalfollowing = newarray.reduce((r,i)=>{
+        //          if(usefollowersID.includes(i._id)){
+        //              console.log("follower match")
+        //              return [...r, {...i, follower_status:true}]
+        //          } else {
+        //              console.log("follower no match")
+        //              return [...r, {...i, follower_status:false}]
+        //          }
+        //      },[])
+        //      if(finalfollowing.length < 1) {
+        //          setEmptyMessage("No user found")
+        //      } else {
+        //          setEmptyMessage("")
+        //      }
+         
+        //      setUserResults([...finalfollowing])
+         
+
+        //  })
+        //  .catch(err=>{
+        //      console.log(err)
+        //  })
+        //  .then(()=>{})
         
     }
 
-},[])
+},[newRender])
 
 console.log(userResults)
 console.log(kryptResults)
@@ -80,6 +136,8 @@ console.log(searchValue)
 const checkClick =(e)=>{
     let proid = e.target.value;
     let followstate = e.target.name;
+    
+    
     const payload = {
         proid
     }
@@ -93,7 +151,11 @@ const checkClick =(e)=>{
             console.log(err)
         })
         .then(()=>{})
-      setNewRender(!newRender)
+        if(newRender){
+            setNewRender(false)
+        } else {
+            setNewRender(true)
+        }
 
     } else if (followstate === "false") {
         Axios.post('/follow', payload)
@@ -104,9 +166,17 @@ const checkClick =(e)=>{
             console.log(err)
         })
         .then(()=>{})
-        setNewRender(!newRender)
+        if(newRender){
+            setNewRender(false)
+        } else {
+            setNewRender(true)
+        }
+
     }
+    console.log(e.target.value)
+    console.log(e.target.name)
 }
+
 
 
 const handleSubmit = (e) =>{
@@ -215,12 +285,13 @@ return(
                     {userResult.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                  </div>
                  <div>
+                 <button  className={userResult.following_status ? "profi4" : "profi3"} value={`${userResult.id}`} name={`${userResult.following_status}`} onClick={checkClick}>{userResult.following_status ? "following" : "follow"}</button>
                 
-                 <FollowBttn 
+                 {/* <FollowBttn 
                          following_status={userResult.following_status}
                          id={userResult._id}
                          checkClick={checkClick}
-                     />
+                     /> */}
                  </div>
                 
             </div>
