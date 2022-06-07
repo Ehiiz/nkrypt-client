@@ -33,19 +33,21 @@ export default function Profile(){
 useEffect(() => {
     console.log(proid)
     if (id === "undefined") {
-        navigate('/')
+        navigate('/');
     } else {
         Axios.get(`/profile/${id}`)
         .then(function(res){
             console.log(res)
             const loggeduser = res.data.loggeduser;
             const profileuser = res.data.profileuser;
+            const kryptdata = res.data.kryptdata.reverse()
+            const dekryptdata = res.data.dekryptdata.reverse()
             console.log(profileuser._id)
             console.log(loggeduser)
-            setProfileData([...res.data.kryptdata]);
+            setProfileData([...kryptdata]);
             setProfileDetails({...loggeduser})
             setTrueDetails({...profileuser})
-            setDekryptData([...res.data.dekryptdata])
+            setDekryptData([...dekryptdata])
             setFollowingCount(res.data.followingcount);
             setFollowerCount(res.data.followercount)
             console.log(loggeduser.following)

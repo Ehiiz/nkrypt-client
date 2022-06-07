@@ -38,7 +38,8 @@ const [newRender, setNewRender] = useState(false)
             return [...r, {following:{...i.following, follower_status:false}}]
         }
     },[])
-        setProfollowing([...finalfollowing])
+     const finalFollowing = finalfollowing.reverse()
+        setProfollowing([...finalFollowing])
         setUser(res.data.following)
     })
    },[newRender])

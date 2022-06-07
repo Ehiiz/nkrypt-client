@@ -21,6 +21,7 @@ import Followers from './pages/Followers';
 import Following from './pages/Following';
 import Search from './pages/Search';
 import SearchResult from './pages/SearchResults';
+import Reset from './pages/Reset';
 
 
 
@@ -56,6 +57,7 @@ function App() {
         <Route path="/following/:id" exact element={<Following />}/>
         <Route path="/search" exact element={<Search />}/>
         <Route path="/search/:id" exact element={<SearchResult />}/>
+        <Route path="/:id/resetpassword" exact element={<Reset />}/>
        </Routes>
     </Router>
 

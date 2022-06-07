@@ -13,19 +13,23 @@ export default function Socials(){
 
     
     const facebook = ()=>{
-        window.open(`http://localhost:4000/auth/facebook`, "_blank")  
+        window.open(`http://localhost:4000/auth/facebook`, "_self")  
+      }
+
+      const twitter = ()=>{
+        window.open(`http://localhost:4000/auth/twitter`, "_self")  
       }
 
     return(
         <div className="flex text-white items-center">
             <p className="mr-4">Login with</p>
-            <div className="mr-4">
+            <div onClick={twitter} className="cursor-pointer mr-4">
            <Twitter />
             </div>
-            <div onClick={facebook} className="mr-4">
+            <div onClick={facebook} className="cursor-pointer mr-4">
            <Facebook />
             </div>
-            <div className="mr-4">
+            <div className="cursor-pointer mr-4">
             <div onClick={google}>
             <Google />
             </div>

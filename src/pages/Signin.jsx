@@ -3,11 +3,13 @@ import Socials from "../macro-components/Socials";
 import Axios from "axios";
 import { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom"
+import Forgot from "../modals/Forgot";
 
 export default function Signin(){
 
     const [signDetail, setSignDetail] = useState({email:"", password:""})
     const [message, setMessage] = useState("")
+    const [modalCase, setModalCase] = useState(false)
 
     const navigate = useNavigate();
 
@@ -66,10 +68,19 @@ export default function Signin(){
 
     }                  
   
-    console.log(signDetail)
+    const forgotPassword = ()=>{
+        setModalCase(!modalCase)
+    }
+
+    const closeModal = () => {
+        setModalCase(false)
+      }
 
     return(
         <div className="signed">
+         {modalCase && <Forgot 
+             closeModal={closeModal}
+         />}
         <section className="mb-8 mt-8 self-left">
             <p className="text-xl text-white font-bold mb-0">Share</p>
             <p className="text-xl text-white font-bold mb-0 mt-0">Socialize</p>
@@ -110,6 +121,7 @@ export default function Signin(){
             />
             <label className="text-sm block text-white" htmlFor="">password</label>
         </div>
+        <p className="text-sm block cursor-pointer text-secondary-700" onClick={forgotPassword}>Forgot Password</p>
         </form>
         <p className="self-center text-secondary-700 text-xl">{message}</p>
 

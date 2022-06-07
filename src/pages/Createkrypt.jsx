@@ -82,7 +82,7 @@ const timeValue = ()=>{
   let newDate = new Date();
    let hrs = newDate.getHours();
    let mins = newDate.getMinutes();
-   if (mins < 9){
+   if (mins <= 9){
      mins = "0" + mins;
    }
   let today = newDate.getDate();

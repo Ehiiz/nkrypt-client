@@ -49,7 +49,7 @@ return(
                 return <div className="mt-8 pt-1 mb-4 pb-2 px-2 bg-secondary-600"> 
                 <div className="flex text-white items-center my-2">
        
-                <img className="notif-image" src="" alt="" />
+                <img className="notif-image" src={notif.user.image} alt="" />
                 <p className="ml-2 text-xs"><span className="text-secondary-400"><Link to={`/profile/${notif.user._id}`}>{notif.user.username}</Link></span> created a krypt <span className="text-secondary-400"><Link to={`/krypt/${notif.krypt._id}`}>{notif.krypt.title}</Link></span></p>
                 </div>
                  <hr />
@@ -58,7 +58,7 @@ return(
                 return <div className="mt-8 pt-1 mb-4 pb-2 px-2 bg-secondary-600"> 
                 <div className="flex text-white items-center my-2">
        
-                <img className="notif-image" src="" alt="" />
+                <img className="notif-image" src={notif.user.image} alt="" />
                 <p className="ml-2 text-xs"><span className="text-secondary-400"><Link to={`/profile/${notif.user._id}`}>{notif.user.username}</Link></span> just dekrypted <span className="text-secondary-400"><Link to={`/krypt/${notif.krypt._id}`}>{notif.krypt.title}</Link></span></p>
                 </div>
                  <hr />
@@ -67,7 +67,7 @@ return(
                 return <div className="mt-8 pt-1 mb-4 pb-2 px-2 bg-secondary-600"> 
                 <div className="flex text-white items-center my-2">
        
-                <img className="notif-image" src="" alt="" />
+                <img className="notif-image" src={notif.user.image} alt="" />
                 <p className="ml-2 text-xs"><span className="text-secondary-400"><Link to={`/profile/${notif.user._id}`}>{notif.user.username}</Link></span> commented on a krypt <span className="text-secondary-400"><Link to={`/krypt/${notif.krypt._id}`}>{notif.krypt.title}</Link></span></p>
                 </div>
                  <hr />

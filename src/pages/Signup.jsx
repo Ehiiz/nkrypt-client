@@ -40,7 +40,24 @@ export default function Signup(){
       
      //Data Posting Function
      useEffect(() => {
-        const loggeduser = localStorage.getItem("jwt")
+        const get = (keyName) => {
+            const data = localStorage.getItem(keyName);
+            if (!data) {     // if no value exists associated with the key, return null
+                return null;
+            }
+         
+            const item = JSON.parse(data);
+         
+            // If TTL has expired, remove the item from localStorage and return null
+            if (Date.now() > item.ttl) {
+                localStorage.removeItem(keyName);
+                return null;
+            }
+         
+            // return data if not expired
+            return item.value;
+        };
+        const loggeduser = get("jwt")
         console.log(loggeduser) 
         if(loggeduser){
                 navigate("/home")

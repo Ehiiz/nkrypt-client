@@ -9,11 +9,13 @@ import {useNavigate} from "react-router-dom";
 
 
 
+
 export default function Home(){
 const navigate = useNavigate();
 const [homedata, setHomeData] = useState([]);
 const [user, setUser] = useState({});
 const [profiles, setProfiles] = useState([]);
+const [modalCase, setModalcase] = useState(false)
 
 useEffect(() => {
      const loggeduser = localStorage.getItem("jwt")
@@ -22,7 +24,7 @@ useEffect(() => {
     .then(function (response) {
             console.log(response)
             if(response.data.token){
-                const token = response.data.token
+            const token = response.data.token
             localStorage.setItem('jwt', token);
             }
             const newOrder = response.data.data.reverse();
@@ -54,6 +56,7 @@ const home = "Home"
 
     return(
         <div className="bg-secondary-600 h-screen">
+      
      
             <Header 
                 title = {home}
@@ -67,7 +70,7 @@ const home = "Home"
            
             {homedata.reverse().map(homedata=> <Timebox
                    title={homedata.title}
-                //    username={homedata.creator.username}
+               //  username={homedata.creator.username}
                    date={homedata.date}
                    time={homedata.time}
                    success={homedata.success}

@@ -117,6 +117,18 @@ export default function Settings(){
         setUserName(value)
     }
 
+    const logOut = ()=>{
+       
+        Axios.get("/logout").then((res) =>{
+                console.log(res.data.status)
+                const status = res.data.status
+                if (status === "success"){
+                    localStorage.removeItem("jwt")
+                    navigate('/')
+                }
+        })
+    }
+
     const settings = "Settings"
 
     const navcolor = {
@@ -154,6 +166,7 @@ export default function Settings(){
                 </div>
                 } 
              <div className="text-white text-xl mt-12" onClick={handlePasswordChange}>Reset Password</div>
+             <button className="text-white rounded-2xl py-2 px-2 bg-primary text-xl mt-10" onClick={logOut}> Logout</button>
          </section>
 
 
