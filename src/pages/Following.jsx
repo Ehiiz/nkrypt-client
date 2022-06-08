@@ -103,7 +103,7 @@ const checkClick =(e)=>{
            return <div className="pt-1 flex items-center justify-between pb-2 w-full px-2 bg-secondary-600"> 
                      <div>
                          <div className="py-1">
-                         <img src={ProfileSix} alt="dp" className="w-12 rounded-full border-2 border-white" />
+                         <img src={usefollow.following.image} alt="dp" className="w-12 rounded-full border-2 border-white" />
                          </div>
                          <p className="text-sm text-secondary-400"><Link to={`/profile/${usefollow.following._id}`}>{usefollow.following.username}</Link></p>
                         {usefollow.following.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 

@@ -148,6 +148,7 @@ export default function Landing(){
            {usercomment.map((com)=>{ return <Comments
            comment={com.comment}
            username={com.user.username}
+           image={com.user.image}
             />
 
           })}

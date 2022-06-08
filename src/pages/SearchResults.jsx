@@ -147,35 +147,24 @@ const checkClick =(e)=>{
         Axios.post('/unfollow', payload)
         .then((response) =>{
             console.log(response)
+            setNewRender(!newRender)
         })
         .catch((err) =>{
             console.log(err)
         })
         .then(()=>{})
-        if(newRender){
-            alert("unfollowed")
-            setNewRender(false)
-        } else {
-            setNewRender(true)
-        }
-
+       
     } else if (followstate === "false") {
         Axios.post('/follow', payload)
         .then((response) =>{
             console.log(response)
+            setNewRender(!newRender)
         })
         .catch((err) =>{
             console.log(err)
         })
         .then(()=>{})
-        if(newRender){
-            alert("followed")
-            setNewRender(false)
-        } else {
-            alert("followed ....")
-            setNewRender(true)
-        }
-
+        
     }
     console.log(e.target.value)
     console.log(e.target.name)
@@ -234,7 +223,7 @@ return(
        return <div className="pt-1 flex items-center justify-between pb-2 w-full px-4 bg-secondary-600">
                  <div>
                      <div className="py-1">
-                     <img src={ProfileSix} alt="dp" className="w-12 rounded-full border-2 border-white" />
+                     <img src={userResult.image} alt="dp" className="w-12 rounded-full border-2 border-white" />
                      </div>
                      <p className="text-sm text-secondary-400"><Link to={`/profile/${userResult._id}`}>{userResult.username}</Link></p>
                     {userResult.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 

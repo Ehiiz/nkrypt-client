@@ -85,7 +85,7 @@ export default function Unlocked(){
             <section className="unlock-sec">
             <div className="flex w-full justify-between mb-4">
             <h1 className="unlock-title">{kryptTitle}</h1>
-            <p className="unlock-user">{kryptCreator}</p>
+            <p className="unlock-user"><span className="text-sm text-secondary-700">by </span>@{kryptCreator}</p>
             </div>
             <div className="px-5 flex items-center flex-col w-fit">
             

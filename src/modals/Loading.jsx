@@ -6,7 +6,8 @@ export default function Loading ({success}){
 
     return (
         <div className="modal-base">
-        <div className="modal-block bg-primary">  {success ? <> <Done /> <span className="ml-4 py-2"> file uploaded </span> </> : <> <Loader/>  <span className="ml-4 py-2"> uploading...</span></>} </div>
+        <div className="modal-block bg-primary">  {success ? <> <Done /> <span className="ml-4 py-2"> file uploaded </span> </> : <> <div className="w-16 h-16 animate-bounce rounded-full bg-white"> </div>  <span className="ml-4 py-2"> uploading...</span></>} </div>
         </div>
     )
 }
+{/* <Loader/> */}
