@@ -16,7 +16,7 @@ export default function Timebox({username, title, date, time, success, failed, c
              date={date}
              time={time}
             />
-             <p className="text-xs text-secondary-700">{username}</p>
+             <p className="text-xs text-secondary-700">@{username}</p>
              </div>
             
             <div className="flex justify-between items-center pt-2">

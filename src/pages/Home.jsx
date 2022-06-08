@@ -71,7 +71,7 @@ const home = "Home"
            
             {homedata.reverse().map(homedata=> <Timebox
                    title={homedata.title}
-               //  username={homedata.creator.username}
+               username={homedata.creator.username}
                    date={homedata.date}
                    time={homedata.time}
                    success={homedata.success}
