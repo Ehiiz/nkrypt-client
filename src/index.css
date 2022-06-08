@@ -158,7 +158,7 @@
 }
 
 .create-title {
-    @apply self-center rounded-2xl bg-secondary-500 placeholder:pl-4 h-10 w-64 shadow-md mb-3;
+    @apply self-center rounded-2xl bg-secondary-500 placeholder:pl-4 h-10 w-64 shadow-md;
 }
 
 .create-area{
@@ -242,3 +242,10 @@
     @apply absolute top-1/4 left-2/4 opacity-100 -translate-x-2/4 -translate-y-4 z-50 text-white drop-shadow-2xl justify-center self-center flex flex-col items-center rounded-2xl w-48 h-36 py-4 px-4 font-bold
 }
 
+.active-m-button{
+    @apply text-white text-xl bg-primary py-2 px-6 font-semibold rounded-xl w-fit mt-4;
+}
+
+.dormant-m-button{
+    @apply text-white text-xl bg-secondary-300 py-2 px-6 font-semibold rounded-xl w-fit mt-4;
+}

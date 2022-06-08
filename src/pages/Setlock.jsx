@@ -24,6 +24,23 @@ export default function Setlock (){
 
     console.log(lockValue)
 
+    const timeValue = ()=>{
+        let newDate = new Date();
+         let hrs = newDate.getHours();
+         let mins = newDate.getMinutes();
+         if (mins <= 9){
+           mins = "0" + mins;
+         }
+        let today = newDate.getDate();
+        let month = newDate.getMonth();
+          
+         let kryptTime = `${hrs}:${mins}`
+         let kryptDate = `${today}, ${month}`
+      
+         return {kryptDate, kryptTime}
+      
+      }
+
     useEffect(() => {
         Axios.get(`/setlock/${id}`)
         .then((response) => {
@@ -47,6 +64,7 @@ export default function Setlock (){
         home:"fill-secondary-900",
         notification:"fill-secondary-900",
         profile:"fill-secondary-900",
+        search:"fill-secondary-900"
     }
 
   //Data Posting Function
@@ -54,8 +72,10 @@ export default function Setlock (){
    
 // }, [finalValue]);
 
-    const handleSubmit = e => {   
-        const payload = {lockValue}
+    const handleSubmit = e => { 
+        const date = timeValue().kryptDate  
+        const time = timeValue().kryptTime
+        const payload = {lockValue, date, time}
         console.log(payload);
         Axios.post(`/setlock/${id}`, payload)
         .then(res => {
@@ -128,6 +148,7 @@ export default function Setlock (){
              home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile} 
+                search={navcolor.search}
                 user={user._id}
                 />
         </div>

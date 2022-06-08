@@ -162,6 +162,7 @@ const handleSubmit = () =>{
               home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile}
+                search={navcolor.search}
                 user={user._id}
         />
        

@@ -4,15 +4,30 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom"
 import Userpic from "../modals/Userpic";
+import Username from "../modals/Username";
+import Userbio from "../modals/Userbio";
+
 
 export default function Signup(){
 
     const navigate = useNavigate();
     //Modal Management
     const [modalCase, setModalcase] = useState(false)
+    const [nameCase, setNameCase] = useState(false)
+    const [bioCase, setBioCase] = useState(false)
 
     //Form State Management
     const [userDetail, setUserDetail] = useState({username:"", email:"", password:"", verify:""})
+
+    //Username State Management
+    const [userAdd, setUserAdd] = useState("")
+    const [message, setMessage] = useState("")
+    const [bttnLive, setBttnLive] = useState(false)
+
+    //Userbio State Management
+    const [userbio, setUserBio] = useState("")
+    const [biomessage, setBioMessage] = useState("")
+    const [bttnLive2, setBttnLive2] = useState(false)
 
 
     //Email Validation States
@@ -30,34 +45,22 @@ export default function Signup(){
     const [errorMessage, setErrorMessage] = useState(false);
 
 
-    const [usersDeets, setUsersDeets] = useState([]);
-
     //Button Validation
     const [popError, setPopError] = useState("")
 
 
+    function truncateString(string, limit) {
+        if (string.length > limit) {
+          return string.substring(0, limit)
+        } else {
+          return string
+        }
+      }
     
       
      //Data Posting Function
      useEffect(() => {
-        const get = (keyName) => {
-            const data = localStorage.getItem(keyName);
-            if (!data) {     // if no value exists associated with the key, return null
-                return null;
-            }
-         
-            const item = JSON.parse(data);
-         
-            // If TTL has expired, remove the item from localStorage and return null
-            if (Date.now() > item.ttl) {
-                localStorage.removeItem(keyName);
-                return null;
-            }
-         
-            // return data if not expired
-            return item.value;
-        };
-        const loggeduser = get("jwt")
+        const loggeduser = localStorage.getItem("jwt")
         console.log(loggeduser) 
         if(loggeduser){
                 navigate("/home")
@@ -76,10 +79,9 @@ export default function Signup(){
             console.log(res)
             const status = res.data.status
             if(status === "success"){
-                navigate('/home')
+                setNameCase(true)
             } else if(status === "failure"){
                 alert("error setting profile image")
-                navigate('/home')
             }
         })
         .catch(err=>{
@@ -90,10 +92,9 @@ export default function Signup(){
         }
 
     //Submit Function
-
     const handleSubmit = e => {
-        const {username, password, email, verify} = userDetail;
-        if (username !== ""){
+        const { password, email, verify} = userDetail;
+     
             if(password !== ""){
                 if(email !== ""){
                     if(verify !== ""){
@@ -107,7 +108,7 @@ export default function Signup(){
                                                  if(errorMessage === false){
                                                      console.log("Baba na master")  
                                     const payload = {
-                                        userData: {email, username, password}
+                                        userData: {email, password}
                                     }
                                     //Data Posting Function
                                     Axios.post('/signup', payload)
@@ -153,9 +154,7 @@ export default function Signup(){
                 setPopError("Kindly fill your details")
             }
 
-        }else{
-            setPopError("Kindly fill in your details")
-        }
+        
 
 
   
@@ -167,15 +166,10 @@ export default function Signup(){
 
 
     }
-
-  
+    
     const handleChange = (e) =>{
-        if(e.target.name === "username"){
-            const trueUser = `@${e.target.value}`
-            setUserDetail({...userDetail, [e.target.name] : trueUser})
-        } else{
             setUserDetail({...userDetail, [e.target.name]: e.target.value})         
-        }
+        
       
         
         if(e.target.name === "verify"){
@@ -188,14 +182,14 @@ export default function Signup(){
         }
         
         if(e.target.name === "email"){
-            usersDeets.map(userDeet =>{
-                if (userDeet.email === e.target.value){
-                    setEmailExist(true)
-                }
-                else {
-                    setEmailExist(false)
-                }
-            })
+            // usersDeets.map(userDeet =>{
+            //     if (userDeet.email === e.target.value){
+            //         setEmailExist(true)
+            //     }
+            //     else {
+            //         setEmailExist(false)
+            //     }
+            // })
 
             const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
             const emailValidator = regex.test(e.target.value)
@@ -280,8 +274,76 @@ export default function Signup(){
 
     }
 
-    console.log(userDetail);
+
+    //Functions for Username Modal
+    const usernameSubmit =()=>{
+        const payload = {userAdd}
+        Axios.post("/setusername", payload)
+        .then(res=>{
+            console.log(res)
+            const status = res.data.status
+            if (status === "success"){
+                setBioCase(true)
+                setNameCase(false)            } 
+                else {
+                setMessage("error creating username")
+            }
+        })
+    
+    }
+
+    const userCheck =(data)=>{
+        const payload = {data}
+        console.log(payload)
+        Axios.post("/checkuser", payload)
+        .then(res=>{
+            console.log(res)
+            const status = res.data.status
+            if(status === "success"){
+                setBttnLive(true)
+                setMessage("username available")
+            } else {
+                setMessage("username already taken")
+                setBttnLive(false)
+            }
+        })
+    
+    }
+
+    const nameChange = (e)=>{
+
+        setUserAdd(truncateString(e.target.value, 12))
+        if (e.target.value === 12){
+            setMessage("username cannot exceed 15 characters")
+        }
+        if (e.target.value.length < 4){
+            setMessage("username must be more than 4 characters")
+        } else {
+            setMessage("")
+            const username = e.target.value
+            console.log(username)
+            userCheck(username)
+        }
+    }
+
+    //Functions for Userbio Modals
+    const userbioSubmit = ()=>{
+        const payload = {userbio}
+        Axios.post("/setuserbio", payload)
+        .then(res=>{
+            console.log(res)
+            const status = res.data.status
+            if (status === "success"){
+        navigate("/home")
+            } else {
+                setBioMessage("error creating username")
+            }
+        })
+    }
   
+    const bioChange = (e)=>{
+        setUserBio(e.target.value)
+    }
 
 
 
@@ -290,6 +352,21 @@ export default function Signup(){
          {modalCase && <Userpic
           createImage={createImage}
           />}
+           {bioCase && <Userbio
+           userbioSubmit={userbioSubmit}
+           bioChange= {bioChange}
+           userbio={userbio}
+           bttnLive2=  {bttnLive2}
+           biomessage={biomessage}
+            />}
+          {nameCase && <Username
+          bttnLive= {bttnLive}
+          usernameSubmit= {usernameSubmit}
+          userAdd={userAdd}
+          nameChange={nameChange}
+          message={message}
+           />}
+         
     
         <section className="mb-8 mt-8 self-left">
             <p className="text-xl text-white font-bold mb-0">Share</p>
@@ -323,17 +400,6 @@ export default function Signup(){
             <label className="text-sm block text-white" htmlFor="">email</label>
             {emailExist && <span className="text-xs block text-secondary-100">email already exists</span>}
             {passEmail && <span className="text-xs block text-secondary-100">enter a valid email</span>}
-        </div>
-        <div className="w-full mb-4">
-            <input 
-            className="form" 
-            name="username" 
-            type="text" 
-            placeholder="@ahm_ehiz" 
-            onChange={handleChange}
-            />
-            <label className="text-sm block text-white" htmlFor="username">username</label>
-            {/* {passError && <span className="text-xs block text-secondary-100">username is already taken</span>} */}
         </div>
         <div className="w-full mb-4">
             <input 

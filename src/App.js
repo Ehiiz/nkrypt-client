@@ -22,6 +22,7 @@ import Following from './pages/Following';
 import Search from './pages/Search';
 import SearchResult from './pages/SearchResults';
 import Reset from './pages/Reset';
+import EditDraft from './pages/EditDraft';
 
 
 
@@ -58,6 +59,7 @@ function App() {
         <Route path="/search" exact element={<Search />}/>
         <Route path="/search/:id" exact element={<SearchResult />}/>
         <Route path="/:id/resetpassword" exact element={<Reset />}/>
+        <Route path="/drafts" exact element={<EditDraft />} />
        </Routes>
     </Router>
 

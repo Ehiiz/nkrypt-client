@@ -24,6 +24,7 @@ export default function Createkrypt(){
   const [kryptData, setKryptData] = useState()
   const [kryptTitle, setKryptTitle] = useState("")
   const [finalData, setFinalData] = useState({title:"", content:[]})
+  const [message, setMessage]= useState("")
  
 
   //Preview Source States
@@ -76,6 +77,15 @@ useEffect(() => {
   }
 
 },[newImage, newAudio])
+
+
+function truncateString(string, limit) {
+  if (string.length > limit) {
+    return string.substring(0, limit)
+  } else {
+    return string
+  }
+}
 
 //Time creation function
 const timeValue = ()=>{
@@ -191,6 +201,14 @@ setKrypt([...krypt, "audio"])
 }
 }
  
+const titleChange = (e)=>{
+  setKryptTitle(truncateString(e.target.value, 15))
+  if(kryptTitle.length === 15){
+    setMessage("title cannot be more than 15 characters")
+  } else {
+    setMessage("")
+  }
+}
 
   //Onchange Function for Inputs
 const updateKryptData = async(e) => {
@@ -237,6 +255,7 @@ const onFileChange = (e) =>{
       home:"fill-secondary-900",
       notification:"fill-secondary-900",
       profile:"fill-secondary-900",
+      search:"fill-secondary-900"
   }
 
   
@@ -256,7 +275,8 @@ const onFileChange = (e) =>{
       <Header />
      <section className="create">
            <div className="w-full flex flex-col">
-                <input className="self-left create-title text-white" type="text" placeholder="Title" value={kryptTitle} name="title" onChange={e=>setKryptTitle(e.target.value)} />
+                <input className="self-left create-title text-white" type="text" placeholder="Title" value={kryptTitle} name="title" onChange={titleChange} />
+                <p className="text-secondary-700 text-xs self-center mb-3 py-1">{message}</p>
                 <textarea className="create-area" name="text0"   id="standardtext" cols="30" rows="5" placeholder="Start typing" onChange={updateKryptData}/>
               
                  
@@ -307,6 +327,7 @@ const onFileChange = (e) =>{
                 home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile}
+                search={navcolor.search}
                 user={user._id}
             />
 

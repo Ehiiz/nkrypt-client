@@ -34,6 +34,7 @@ export default function Landing(){
         home:"fill-secondary-900",
         notification:"fill-secondary-900",
         profile:"fill-secondary-900",
+        search:"fill-secondary-900"
     }
   
 
@@ -174,6 +175,7 @@ export default function Landing(){
            home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile}
+                search={navcolor.search}
                 user={user._id}
          />
         </div>

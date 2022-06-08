@@ -7,7 +7,7 @@ export default function Kryptprofile({image, id, username, imgstyle, boxstyle, t
         <div className={`${boxstyle}`}>
         <img className={`${imgstyle}`} src={image} alt="user-profile"/>
         </div>
-        <p className={`${textsize} text-secondary-400` }>{username}</p>
+        <p className={`${textsize} text-secondary-400` }>@{username}</p>
         </Link>
       
     )

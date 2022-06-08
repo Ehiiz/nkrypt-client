@@ -16,6 +16,7 @@ export default function Unlocked(){
         home:"fill-secondary-900",
         notification:"fill-secondary-900",
         profile:"fill-secondary-900",
+        search:"fill-secondary-900"
     }
 
     const navigate = useNavigate();
@@ -162,6 +163,7 @@ export default function Unlocked(){
                 home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile}
+                search={navcolor.search}
                 user={user}
             />
         </div>

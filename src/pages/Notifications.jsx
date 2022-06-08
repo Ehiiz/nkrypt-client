@@ -11,6 +11,7 @@ export default function Notification(){
         home:"fill-secondary-900",
         notification:"fill-primary",
         profile:"fill-secondary-900",
+        search:"fill-secondary-900"
     }
 
     const [notifBox, setNotifBox] = useState([])
@@ -83,6 +84,7 @@ return(
             home={navcolor.home}
             notification={navcolor.notification}
             profile={navcolor.profile}
+            search={navcolor.search}
             user={user._id}
         />
 

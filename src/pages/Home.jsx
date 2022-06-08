@@ -50,6 +50,7 @@ const navcolor = {
     home:"fill-primary",
     notification:"fill-secondary-900",
     profile:"fill-secondary-900",
+    search:"fill-secondary-900"
 }
 
 const home = "Home"
@@ -97,6 +98,7 @@ const home = "Home"
                 home={navcolor.home}
                 notification={navcolor.notification}
                 profile={navcolor.profile}
+                search={navcolor.search}
                 user={user._id}
             />
         </div>

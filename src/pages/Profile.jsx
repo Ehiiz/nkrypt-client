@@ -101,6 +101,7 @@ console.log(following)
         home:"fill-secondary-900",
         notification:"fill-secondary-900",
         profile:"fill-primary",
+        search:"fill-secondary-900"
     }
 
     const handleClick = (e) => {
@@ -154,6 +155,8 @@ console.log(following)
         }
     }
 
+    console.log(trueDetails.bio)
+
     const profile = "Profile"
 
 
@@ -169,6 +172,8 @@ console.log(following)
         boxstyle= {boxstyle}
         textsize= {textsize}
          />
+        <div className="text-secondary-700 text-sm px-4 w-72 text-center py-4  mt-2 rounded-xl bg-secondary-500">{trueDetails.bio === undefined ? "Nothing to see here" : trueDetails.bio }</div>
+
          {followBttn && <div className={following ? "profi" : "profi2" } onClick={handleFollow}>
         {following ? "following" : "follow" } </div> } 
          <p className="text-secondary-700 italic text-xs mt-1 mb-4">{follower ? "follows you" : ""} </p> 
@@ -181,12 +186,14 @@ console.log(following)
             <p className="text-white px-3 py-1 border-2 border-white rounded-full bg-secondary-800 font-bold text-xl">{followingCount}</p>
             <p className="text-secondary-800 font-bold">following</p>
             </Link>
-            
        </div>  
-       {followBttn === false ?  <Link to="/settings" className="setin">
+       {followBttn === false ?  <p className="text-secondary-700 text-xs py-2">{trueDetails.bio === undefined ? "Go to settings and edit your bio" : "" }</p> : null}
+       {followBttn === false ? 
+        <Link to="/settings" className="setin">
         <Settings />
            <p className="ml-2">Settings</p>
         </Link> : null}
+        
         <div className="w-full mb-28">
         <section className="flex w-full justify-center">
             <button className={ bttnLive ? "pro-bttn rounded-tl-2xl" : "pro-bttn-dormant rounded-tl-2xl"} name="bttn1" onClick={handleClick}>dekrypts</button>
@@ -215,6 +222,7 @@ console.log(following)
              home={navcolor.home}
              notification={navcolor.notification}
              profile={navcolor.profile}
+             search={navcolor.search}
              user={profileDetails._id}
         /> 
         </div>
