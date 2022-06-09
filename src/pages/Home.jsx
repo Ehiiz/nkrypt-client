@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import {ReactComponent as Ghost} from "../svg/Spooky Stickers Ghost.svg"
 
 
 
@@ -28,6 +29,9 @@ useEffect(() => {
             localStorage.setItem('jwt', token);
             }
             const newOrder = response.data.data.reverse();
+            if (newOrder.length === 0){
+                setModalcase(true)
+            }
             setUser({...response.data.user})
             setHomeData([...newOrder])
             const profileOrder = response.data.profiles.reverse()
@@ -81,6 +85,11 @@ const home = "Home"
           />
 
           )}
+          {/* {modalCase && <div>
+          <Ghost />
+            
+              <p>No krypts yet, create a krypt to get started</p>
+          </div>} */}
 
            
             </div>

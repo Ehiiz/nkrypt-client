@@ -116,7 +116,7 @@ export default function Landing(){
             </div>
             <div className="w-full px-4 mt-3">
             <p className="text-white">{krypt.details}</p>
-            <p className="text-secondary-400">{krypt.creator.username}</p>
+            <p className="text-secondary-400">@{krypt.creator.username}</p>
 
             </div>
             <section className="flex justify-between mt-3 px-4">

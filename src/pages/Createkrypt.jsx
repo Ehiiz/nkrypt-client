@@ -8,6 +8,8 @@ import {Link, useNavigate} from "react-router-dom";
 import Axios from "axios"
 import useCreatePost from "../custom-hooks/useCreatePost"
 import Loading from "../modals/Loading";
+import {ReactComponent as Close} from "../svg/close.svg"
+import {sha1} from 'crypto-hash';
 
 
 
@@ -30,8 +32,8 @@ export default function Createkrypt(){
   //Preview Source States
   const [imagePreview, setImagePreview] = useState()
   const [audioPreview, setAudioPreview] = useState()
-  const [newAudio, setNewAudio] = useState()
-  const [newImage, setNewImage] = useState()
+  const [newAudio, setNewAudio] = useState({public_id:"", url:""})
+  const [newImage, setNewImage] = useState({})
 
   //Modal State Management
   const [loading, setLoading] = useState(false)
@@ -56,22 +58,22 @@ useEffect(() => {
   })
   .then(() =>{})
 
-  if (newImage) {
+  if (newImage.file) {
     const reader = new FileReader()
     reader.onloadend = () =>{
       setImagePreview(reader.result)
     };
-    reader.readAsDataURL(newImage)
+    reader.readAsDataURL(newImage.file)
   } else {
     setImagePreview(null)
   }
 
-  if (newAudio) {
+  if (newAudio.file) {
     const reader = new FileReader()
     reader.onloadend = () =>{
       setAudioPreview(reader.result)
     };
-    reader.readAsDataURL(newAudio)
+    reader.readAsDataURL(newAudio.file)
   } else {
     setAudioPreview(null)
   }
@@ -107,19 +109,21 @@ const timeValue = ()=>{
 
 //File Uploading Function
 const sendFile = (data, name,file)=>{
+  
   Axios.post("https://api.cloudinary.com/v1_1/djnkzrito/raw/upload", data)
     .then(res=>{
       console.log(res);
       console.log(res.status)
       const url = res.data.url
+      const public_id = res.data.public_id
       setSuccess(true)
      setTimeout(()=>{
       setSuccess(false) 
       setLoading(false)}, 1000) 
       if (name === "audio"){
-        setNewAudio(file)
+        setNewAudio({file, url, public_id})
       } else if (name === "image"){
-        setNewImage(file)
+        setNewImage({file, url, public_id})
       }
       setKryptData({...kryptData, [name]: url})
       setFinalData({
@@ -131,11 +135,15 @@ const sendFile = (data, name,file)=>{
     })
     .catch(err=>{
       console.log(err)
+      setNewImage()
+      setLoading(false)
+      alert("error uploading file")
     })
     .then(() =>{})
    
 }
 
+console.log(newImage)
 //Data Posting Function
 const sendData = () => {
       const payload = {finalData, kryptTitle, kryptData}
@@ -150,10 +158,11 @@ const sendData = () => {
                 navigate(`/setlock/${id}`)
                 }
                 else{
-                    navigate('/create')
+                    alert("Error creating krypt")
                 }
         }).catch(error => {
             console.log(error);
+           
         })
   }
 
@@ -226,20 +235,32 @@ const {name, value} = e.target;
 const onFileChange = (e) =>{
       const fileType = e.target.name.substr(0,5)
       if (fileType === "audio"){
-        console.log(e.target.files[0])
-        let formData = new FormData();
-        formData.append('file', e.target.files[0] )
-        formData.append('upload_preset', "gh7pirve")
-        setLoading(true)
-        sendFile(formData, e.target.name,e.target.files[0])
+        if(e.target.files[0]){
+          console.log(e.target.files[0])
+          let formData = new FormData();
+          formData.append('file', e.target.files[0] )
+          formData.append('upload_preset', "gh7pirve")
+          setLoading(true)
+          sendFile(formData, e.target.name,e.target.files[0])
+        } else {
+          const newKrypt  = krypt.filter((kry)=> kry !== "audio")
+          setKrypt(newKrypt)
+        }
+       
       }
       else if(fileType === "image") {
-        console.log(e.target.files[0])
-        let formData = new FormData();
-        formData.append('file', e.target.files[0] )
-        formData.append('upload_preset', "gh7pirve")
-        setLoading(true)
-        sendFile(formData, e.target.name, e.target.files[0])
+        if(e.target.files[0]){
+          console.log(e.target.files[0])
+          let formData = new FormData();
+          formData.append('file', e.target.files[0] )
+          formData.append('upload_preset', "gh7pirve")
+          setLoading(true)
+          sendFile(formData, e.target.name, e.target.files[0])
+        } else {
+          const newKrypt  = krypt.filter((kry)=> kry !== "image")
+          setKrypt(newKrypt)
+        }
+       
       }
       
 }
@@ -249,6 +270,62 @@ const onFileChange = (e) =>{
     sendData()
   }
 
+  const handleDelete = (e) =>{
+    console.log(e.target.name)
+    const name = e.target.name
+    const url = e.target.id
+    console.log(url)
+
+    const public_id = e.target.value
+   
+   const payload = {public_id}
+  
+    console.log(name)
+    Axios.post("/destroy", payload)
+    .then(res=>{
+      console.log(res);
+      console.log(res.status)
+      if(res.data.status === "success"){
+        if (name === "audio"){
+
+          // Remove Audio from krypt array 
+         const newKrypt  = krypt.filter((kry)=> kry !== "audio")
+         const asArray = Object.entries(kryptData)
+         const filtered = asArray.filter(([key, value])=> value !== url)
+          const newKryptData = Object.fromEntries(filtered)
+         setKryptData(newKryptData)
+         setKrypt(newKrypt)
+          setNewAudio({file:null, public_id:""})
+
+        } else if (name === "image"){
+
+        // Remove Image from krypt array in order to remove image preview
+
+        const newKrypt  = krypt.filter((kry)=> kry !== "image")
+        const asArray = Object.entries(kryptData)
+        const filtered = asArray.filter(([key, value])=> value !== url)
+        const newKryptData = Object.fromEntries(filtered)
+         setKryptData(newKryptData)
+        setKrypt(newKrypt)
+        setNewImage({file:null, public_id:""})
+
+        }
+       
+        setFinalData({
+          title: kryptTitle,
+          content: kryptData,
+          time: timeValue().kryptTime,
+          date: timeValue().kryptDate
+        })
+      }
+    
+    })
+    .catch(err=>{
+      console.log(err)
+   
+    })
+    .then(() =>{})
+  }
 
   //Navigation Colors
     const navcolor = {
@@ -274,19 +351,21 @@ const onFileChange = (e) =>{
       />}
       <Header />
      <section className="create">
-           <div className="w-full flex flex-col">
+           <div className="w-full flex h-max-screen flex-col">
                 <input className="self-left create-title text-white" type="text" placeholder="Title" value={kryptTitle} name="title" onChange={titleChange} />
                 <p className="text-secondary-700 text-xs self-center mb-3 py-1">{message}</p>
                 <textarea className="create-area" name="text0"   id="standardtext" cols="30" rows="5" placeholder="Start typing" onChange={updateKryptData}/>
               
-                 
-                 {krypt.map((kry,index)=>{if(kry.includes("image")){
-                  return  <div className="flex self-center items-center mt-2">
+                <div className="h-min-screen bg-secondary-600 flex-col flex items-center mt-2">
+                {krypt.map((kry,index)=>{if(kry.includes("image")){
+                  return  <div className="flex self-center items-center mt-4 relative">
+                  <button value={newImage.public_id} name="image" id={newImage.url} onClick={handleDelete} className="text-xl py-2 px-2 shadow-xl self-end rounded-full bg-secondary-100 text-secondary-500 absolute -left-4 -top-4"><Close /></button>
                    <img src={imagePreview} alt="img-prev" />
                     </div>
                      }
                  else if(kry.includes("audio")){
-                   return  <div className="flex self-center items-center  mt-2 w-fit">
+                   return  <div className="flex self-center items-center mt-4 px-2 mb-3 w-fit relative">
+                   <button value={newAudio.public_id} name="audio" id={newAudio.url} onClick={handleDelete} className="text-xl z-50 py-2 px-2 shadow-2xl self-end rounded-full bg-secondary-100 text-secondary-500 absolute -left-4 -top-4"><Close /></button>
                    <audio  src={audioPreview} controls autoPlay/>
                   </div>
                  }
@@ -295,6 +374,9 @@ const onFileChange = (e) =>{
                  }
 
                  })}
+
+                </div> 
+                
            </div>
 
            

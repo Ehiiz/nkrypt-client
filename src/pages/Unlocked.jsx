@@ -39,7 +39,7 @@ export default function Unlocked(){
                 console.log(response)
             console.log(response.data.data.content)
             console.log(response.data.data.creator.username)
-            let contentVal = Object.values(response.data.data.content)
+            let contentVal = response.data.content
             setUser(response.data.user)
             console.log(contentVal)
             setKryptInfo({...response.data.data})
@@ -78,6 +78,8 @@ export default function Unlocked(){
         
     }
 
+    console.log(kryptCreator)
+
     return(
       
         <div className="page">
@@ -89,7 +91,7 @@ export default function Unlocked(){
             </div>
             <div className="px-5 flex items-center flex-col w-fit">
             
-            {kryptContent.map((krypt, index)=> {if (krypt.includes(".jpg")){
+            {kryptContent.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
                 return   <div className="items-center py-2 rounded-xl">
                          <img src={krypt} alt="kryptedimg" className="object-fit rounded-2xl"/>
                         </div>

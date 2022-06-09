@@ -88,10 +88,8 @@ useEffect(() => {
    
 },[newRender])
 
-console.log(following)
 
-
-
+console.log(dekryptData)
    
     const boxstyle = "profile-box"
     const imgstyle = "profile-image"
@@ -173,7 +171,7 @@ console.log(following)
         textsize= {textsize}
          />
         <div className="text-secondary-700 text-sm px-4 w-72 text-center py-4  mt-2 rounded-xl bg-secondary-500">{trueDetails.bio === undefined ? "Nothing to see here" : trueDetails.bio }</div>
-
+        {followBttn === false ?  <p className="text-secondary-700 text-xs py-2">{trueDetails.bio === undefined ? "Go to settings and edit your bio" : "" }</p> : null}
          {followBttn && <div className={following ? "profi" : "profi2" } onClick={handleFollow}>
         {following ? "following" : "follow" } </div> } 
          <p className="text-secondary-700 italic text-xs mt-1 mb-4">{follower ? "follows you" : ""} </p> 
@@ -187,7 +185,7 @@ console.log(following)
             <p className="text-secondary-800 font-bold">following</p>
             </Link>
        </div>  
-       {followBttn === false ?  <p className="text-secondary-700 text-xs py-2">{trueDetails.bio === undefined ? "Go to settings and edit your bio" : "" }</p> : null}
+    
        {followBttn === false ? 
         <Link to="/settings" className="setin">
         <Settings />
