@@ -1,7 +1,7 @@
 import {ReactComponent as Chat} from "../svg/Chat.svg"
 import ProfileSix from "../img/Rectangle 47.png";
 
-export default function Comments({username, comment, image}){
+export default function Comments({username, comment, image, time}){
 
 return(
     <div className="w-full mt-4 px-3">
@@ -15,7 +15,7 @@ return(
          </div>
     </div>
     <div className="flex justify-between text-secondary-900">
-      <p>11:48</p>
+      <p>{time}</p>
       <div className="flex items-center invisible">
       <Chat />
        <p className="text-xs ml-1 ">reply</p>

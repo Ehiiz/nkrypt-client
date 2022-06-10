@@ -7,61 +7,44 @@ import Axios from 'axios';
 import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
 import {ReactComponent as Achievement} from "../svg/Achievement.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
+import useSWR from "swr";
 
 
 export default function Unlocked(){
 
-    const navcolor = {
-        home:"fill-secondary-900",
-        notification:"fill-secondary-900",
-        profile:"fill-secondary-900",
-        search:"fill-secondary-900"
-    }
+  
 
-    const navigate = useNavigate();
-    const {id} = useParams();
-    const [kryptContent, setKryptContent] = useState([])
-    const [kryptTitle, setKryptTitle] = useState("");
-    const [kryptCreator, setKryptCreator] = useState("")
-    const [user, setUser] = useState("")
-    const [kryptInfo, setKryptInfo] = useState({})
-    const [commentvalue, setCommentValue] = useState("")
-    const [newRender, setNewRender] = useState(false)
+const navigate = useNavigate();
+const {id} = useParams();
+
+const [commentvalue, setCommentValue] = useState("")
+const [newRender, setNewRender] = useState(false)
+
     useEffect(()=>{
-        Axios.get(`/unlock/${id}`)
-        .then(response => {
-            if (response.data.status === "not signed in"){
+        if(data){
+            if (data.data.status === "not signed in"){
                 navigate("/")
-            } else if (response.data.status === "failure") {
+            } else if (data.data.status === "failure") {
                  navigate("/home")
-            } else if (response.data.status === "success"){
-                console.log(response)
-            console.log(response.data.data.content)
-            console.log(response.data.data.creator.username)
-            let contentVal = response.data.content
-            setUser(response.data.user)
-            console.log(contentVal)
-            setKryptInfo({...response.data.data})
-            setKryptContent([...contentVal])
-            setKryptCreator(response.data.data.creator.username)
-            setKryptTitle(response.data.data.title)
-            }
-        })
-        .catch(error=>{
-            console.log(error)
-        })
-        .then(()=>{})
-
+            } 
+        }
     },
     [newRender])
 
-   const handleChange = e =>{
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR(`/unlock/${id}`, fetcher)
+console.log(data)
+
+if (error) return <div>failed to load</div>
+if (!data) return <div>loading...</div>
+
+const handleChange = e =>{
     const {value} = e.target
     setCommentValue(value)
-    }
+}
 
-    const handleSubmit = (e) =>{
+const handleSubmit = (e) =>{
         e.preventDefault()
      const payload = {commentvalue, id}
         Axios.post("/comment", payload)
@@ -76,9 +59,16 @@ export default function Unlocked(){
         .then(()=>{})
         
         
-    }
+}
 
-    console.log(kryptCreator)
+const navcolor = {
+        home:"fill-secondary-900",
+        notification:"fill-secondary-900",
+        profile:"fill-secondary-900",
+        search:"fill-secondary-900"
+}
+
+ 
 
     return(
       
@@ -86,12 +76,12 @@ export default function Unlocked(){
             <Header />
             <section className="unlock-sec">
             <div className="flex w-full justify-between mb-4">
-            <h1 className="unlock-title">{kryptTitle}</h1>
-            <p className="unlock-user"><span className="text-sm text-secondary-700">by </span>@{kryptCreator}</p>
+            <h1 className="unlock-title">{data.data.title}</h1>
+            <p className="unlock-user"><span className="text-sm text-secondary-700">by </span>@{data.data.creator.username}</p>
             </div>
             <div className="px-5 flex items-center flex-col w-fit">
             
-            {kryptContent.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
+            {data.content.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
                 return   <div className="items-center py-2 rounded-xl">
                          <img src={krypt} alt="kryptedimg" className="object-fit rounded-2xl"/>
                         </div>
@@ -115,15 +105,15 @@ export default function Unlocked(){
             <section className="flex w-full justify-between px-6 mt-8">
                      <div className="land-con">
                     <Exclaim />
-                     {kryptInfo.failure}
+                     {data.data.failure}
                      </div>
                      <div className="land-con">
                        <Achievement />
-                    {kryptInfo.success}    
+                    {data.data.success}    
                      </div>
                      <div className="land-con">
                    <Comment />
-                     {kryptInfo.comment}
+                     {data.data.comment}
                      </div>
                  </section>
             
@@ -153,7 +143,7 @@ export default function Unlocked(){
            </div>
            <Link className="unlock-bttn" to="/home">
             <button className=""> 
-          Home
+             Home
            </button>
            </Link>
             </section>
@@ -166,7 +156,7 @@ export default function Unlocked(){
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user}
+                user={data.user}
             />
         </div>
     )

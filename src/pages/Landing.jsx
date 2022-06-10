@@ -14,91 +14,97 @@ import {ReactComponent as Send} from "../svg/send.svg"
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
-import ProfileFive from "../img/Rectangle 46.png";
-import ProfileSix from "../img/Rectangle 47.png";
+import useSWR from "swr"
 
 
 
 export default function Landing(){
 
-    const navigate = useNavigate();
+const navigate = useNavigate();
 
-    const [krypt, setKrypt] = useState({title : "", success : "", failure : "", comment : "", content:"", details:"", creator :{username:""}})
-    const [kryptbase, setKryptBase] = useState("")
-    const [user, setUser] = useState({})
-    const [usercomment, setComment] = useState([])
-    const [commentvalue, setCommentValue] = useState("")
-    const [refresh, setRefresh] = useState(false)
+const {id} = useParams();
 
-    const navcolor = {
-        home:"fill-secondary-900",
-        notification:"fill-secondary-900",
-        profile:"fill-secondary-900",
-        search:"fill-secondary-900"
-    }
   
+const [commentvalue, setCommentValue] = useState("")
+const [refresh, setRefresh] = useState(false)
+const [comments, setComments] = useState([])
 
-    const {id} = useParams();
+useEffect(() => {
+console.log("christ")
 
-    useEffect(() => {
-                console.log(id)
-                Axios.get(`/krypt/${id}`)
-                .then(function (response) {
-                  console.log(response)
-                  const kryptcom = response.data.comment.reverse()
-                  setKrypt({...response.data.data})
-                  setUser({...response.data.user})
-                  setKryptBase(response.data.kryptstate)
-                  setComment([...kryptcom])
-                })
-                .catch(function (error) {
-                  // handle error
-                  console.log(error + "This did not get anything");
-                })
-                .then(function () {
-                  // always executed
-                });       
-        }, [refresh]);
+},[refresh])
+  
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-        const handleSubmit = () =>{
-          if(kryptbase === "dekrypted"){
+const { data, error } = useSWR(`/krypt/${id}`, fetcher)
+console.log(data)
+
+if (error) return <div>failed to load</div>
+if (!data) return <div>loading...</div>
+
+
+const timeValue = ()=>{
+          let newDate = new Date();
+           let hrs = newDate.getHours();
+           let mins = newDate.getMinutes();
+           if (mins <= 9){
+             mins = "0" + mins;
+           }
+          let today = newDate.getDate();
+          let month = newDate.getMonth();
+            
+           let kryptTime = `${hrs}:${mins}`
+           let kryptDate = `${today}, ${month}`
+        
+           return {kryptDate, kryptTime}
+}
+
+const handleSubmit = () =>{
+          if(data.kryptstate === "dekrypted"){
             navigate(`/unlock/${id}`)
-
-          } else if (kryptbase === "created by you"){
+          } else if (data.kryptstate === "created by you"){
             navigate(`/unlock/${id}`)
           } else {
-            if (krypt.type === 'quiz'){
+            if (data.data.type === 'quiz'){
               navigate(`/q-unlock/${id}`)
             }
-           else if (krypt.type === 'multiple'){
+           else if (data.data.type === 'multiple'){
              navigate(`/m-unlock/${id}`)
-           } else if (krypt.type === 'passcode'){
+           } else if (data.data.type === 'passcode'){
              navigate(`/p-unlock/${id}`)
            }
           }
-        }
+}
 
-        const handleChange = e =>{
+const handleChange = e =>{
           const {value} = e.target
           setCommentValue(value)
-          }
+}
       
-      const handleClick = (e) =>{
+const handleClick = (e) =>{
               e.preventDefault()
-           const payload = {commentvalue, id}
+              const time = timeValue().kryptTime
+              setCommentValue("")
+           const payload = {commentvalue, time, id}
               Axios.post("/comment", payload)
               .then((res)=>{
                   console.log(res)
+                 
               })
               .catch((err)=>{
                   console.log(err)
               })
-              .then(()=>{})
+              .then(()=>{})  
               setRefresh(!refresh)
-              setCommentValue("")
-              
-              
-          }
+             
+}
+
+const navcolor = {
+            home:"fill-secondary-900",
+            notification:"fill-secondary-900",
+            profile:"fill-secondary-900",
+            search:"fill-secondary-900"
+}
         
 
     return(
@@ -107,7 +113,7 @@ export default function Landing(){
             <section className="mt-16 w-full">
             <section className="fixed w-full bg-secondary-600">
             <div className="flex justify-between w-full px-4">
-            <p className="text-secondary-900 self-start">{krypt.title}<span className="text-secondary-800 text-xs"> {kryptbase}</span> </p>
+            <p className="text-secondary-900 self-start">{data.data.title}<span className="text-secondary-800 text-xs"> {data.kryptstate}</span> </p>
                <div className="flex justify-self-end">
                         <Audio />
                        <Text />
@@ -115,22 +121,22 @@ export default function Landing(){
                     </div>
             </div>
             <div className="w-full px-4 mt-3">
-            <p className="text-white">{krypt.details}</p>
-            <p className="text-secondary-400">@{krypt.creator.username}</p>
+            <p className="text-white">{data.data.details}</p>
+            <p className="text-secondary-400">@{data.data.creator.username}</p>
 
             </div>
             <section className="flex justify-between mt-3 px-4">
                      <div className="land-con">
                     <Exclaim />
-                     {krypt.failure}
+                     {data.data.failure}
                      </div>
                      <div className="land-con">
                        <Achievement />
-                    {krypt.success}    
+                    {data.data.success}    
                      </div>
                      <div className="land-con">
                    <Comment />
-                     {krypt.comment}
+                     {data.data.comment}
                      </div>
             </section>
             </section>
@@ -145,10 +151,11 @@ export default function Landing(){
            </div>
            <div className="w-full">
            <div className="mb-14">
-           {usercomment.map((com)=>{ return <Comments
+           {data.comment.map((com)=>{ return <Comments
            comment={com.comment}
            username={com.user.username}
            image={com.user.image}
+           time={com.time}
             />
 
           })}
@@ -177,7 +184,7 @@ export default function Landing(){
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+               user={data.user._id}
          />
         </div>
     )

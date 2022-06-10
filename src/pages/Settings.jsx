@@ -24,6 +24,7 @@ export default function Settings(){
 //Function for bio update
     const [userbio, setUserBio] = useState("")
     const [biomessage, setBioMessage] = useState("")
+    
 
     useEffect(()=>{
         Axios.get('/settings')

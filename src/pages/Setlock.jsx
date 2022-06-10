@@ -7,24 +7,21 @@ import {ReactComponent as Quiz} from "../svg/healthicons_i-exam-multiple-choice.
 import {useState, useEffect} from 'react';
 import Axios from "axios"
 import {useParams} from 'react-router-dom';
+import useSWR from "swr";
 
 
 
 export default function Setlock (){
 
-    const {id} = useParams();
-    const navigate = useNavigate();
+const {id} = useParams();
+const navigate = useNavigate();
+const [lockValue, setLockValue] = useState("")
+const [quizLive, setQuizLive] = useState(true);
+const [choiceLive, setChoiceLive] = useState(true);
+const [passLive, setPassLive] = useState(true);
 
-    const [lockValue, setLockValue] = useState("")
-    const [finalValue, setFinalValue] = useState()
-    const [quizLive, setQuizLive] = useState(true);
-    const [choiceLive, setChoiceLive] = useState(true);
-    const [passLive, setPassLive] = useState(true);
-    const [user, setUser] = useState({});
 
-    console.log(lockValue)
-
-    const timeValue = ()=>{
+const timeValue = ()=>{
         let newDate = new Date();
          let hrs = newDate.getHours();
          let mins = newDate.getMinutes();
@@ -39,79 +36,74 @@ export default function Setlock (){
       
          return {kryptDate, kryptTime}
       
-      }
+}
 
-    useEffect(() => {
-        Axios.get(`/setlock/${id}`)
-        .then((response) => {
-            if (response.data.status === "not signed in") {
+
+useEffect(() => { 
+        if(data){
+            if(data.status === "not signed in"){
                 navigate("/")
-            } else {
-                setUser({...response.data.user})
             }
-           
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-        .then(()=>{})
+        }
+},[])    
 
+    
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR(`/setlock/${id}`, fetcher)
+console.log(data)
 
-    },[])    
+if (error) return <div>failed to load</div>
+if (!data) return <div>loading...</div>
 
+const handleSubmit = e => { 
+    const date = timeValue().kryptDate  
+    const time = timeValue().kryptTime
+    const payload = {lockValue, date, time}
+    console.log(payload);
+    Axios.post(`/setlock/${id}`, payload)
+    .then(res => {
+        console.log(res);
+        const next = res.data.lockkrypt.type;
+        if(next === "quiz"){
+            navigate(`/quiz/${id}`)
+        } else if (next === "passcode") {
+            navigate(`/passcode/${id}`)
+        } else if (next === "multiple"){
+            navigate(`/choice/${id}`)
+        }
+      }).catch(error => {
+          console.log(error);
+      })
 
-    const navcolor = {
+}
+
+const handleClick = e => {
+  setLockValue(e.target.value)
+  if (e.target.value === "quiz"){
+     setQuizLive(false)
+     setPassLive(true)
+     setChoiceLive(true)
+  } else if (e.target.value === "passcode"){
+    setQuizLive(true)
+    setPassLive(false)
+    setChoiceLive(true)
+ }
+ else if (e.target.value === "multiple"){
+    setQuizLive(true)
+    setPassLive(true)
+    setChoiceLive(false)   
+ }
+
+}
+
+const navcolor = {
         home:"fill-secondary-900",
         notification:"fill-secondary-900",
         profile:"fill-secondary-900",
         search:"fill-secondary-900"
-    }
+}
 
-  //Data Posting Function
-//   useEffect(() => {
-   
-// }, [finalValue]);
-
-    const handleSubmit = e => { 
-        const date = timeValue().kryptDate  
-        const time = timeValue().kryptTime
-        const payload = {lockValue, date, time}
-        console.log(payload);
-        Axios.post(`/setlock/${id}`, payload)
-        .then(res => {
-            console.log(res);
-            const next = res.data.lockkrypt.type;
-            if(next === "quiz"){
-                navigate(`/quiz/${id}`)
-            } else if (next === "passcode") {
-                navigate(`/passcode/${id}`)
-            } else if (next === "multiple"){
-                navigate(`/choice/${id}`)
-            }
-          }).catch(error => {
-              console.log(error);
-          })
-    
-    }
-
-   const handleClick = e => {
-      setLockValue(e.target.value)
-      if (e.target.value === "quiz"){
-         setQuizLive(false)
-         setPassLive(true)
-         setChoiceLive(true)
-      } else if (e.target.value === "passcode"){
-        setQuizLive(true)
-        setPassLive(false)
-        setChoiceLive(true)
-     }
-     else if (e.target.value === "multiple"){
-        setQuizLive(true)
-        setPassLive(true)
-        setChoiceLive(false)   
-     }
-
-    }
+  
 
     
     return (
@@ -149,7 +141,7 @@ export default function Setlock (){
                 notification={navcolor.notification}
                 profile={navcolor.profile} 
                 search={navcolor.search}
-                user={user._id}
+                user={data.user._id}
                 />
         </div>
     )

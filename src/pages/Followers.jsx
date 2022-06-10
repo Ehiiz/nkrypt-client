@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import {Link, useParams, useNavigate} from "react-router-dom"
 import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
-import ProfileSix from "../img/Rectangle 47.png";
 import FollowBttn from '../micro-components/FollowBttn';
 import {ReactComponent as Cupcake} from "../svg/Spooky Stickers Poison Cupcake.svg"
 
@@ -120,7 +119,7 @@ const checkClick =(e)=>{
             {emptyCase && <div className="flex items-center pt-24 flex-col mt-12">
           <Cupcake />
             
-              <p className="text-secondary-700 mt-4 italic">a pastry a day</p>
+              <p className="text-secondary-700 mt-4 italic">a pastry a s</p>
               <p className="text-secondary-700 italic">brings followers your way</p>
 
           </div>}

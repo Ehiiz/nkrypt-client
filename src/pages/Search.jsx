@@ -5,38 +5,27 @@ import Trending from "../macro-components/Trending";
 import {useEffect, useState} from "react"
 import Axios from "axios"
 import {useNavigate} from "react-router-dom"
+import useSWR from "swr"
+import Loading from "../modals/Loading"
 
 export default function Search(){
 const [topKrypt, setTopKrypt] = useState([])
 const [profiles, setProfiles] = useState([])
 const [searchValue, setSearchValue] = useState("")
-const [user, setUser]= useState("")
 
 
 const navigate = useNavigate()
 
-useEffect(() => {
-Axios.get('/search')
-.then(res=>{
-    console.log(res)
-    setProfiles([...res.data.topKrypters])
-    setTopKrypt([...res.data.topKrypts])
-    setUser(res.data.user)
-})
-.catch(err=>{
-    console.log(err)
-})
-.then(()=>{})
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+
+const { data, error } = useSWR('/search', fetcher)
+console.log(data)
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div><Loading /></div>
 
 
-
-},[searchValue])
-
-
-
-// if (title){
-// <p></p>
-//}
 
 console.log(topKrypt)
 console.log(searchValue)
@@ -79,20 +68,19 @@ const navcolor = {
 
            <form onSubmit={handleSubmit} className="flex justify-between w-full px-4 mb-2 h-8 fixed top-14">
             <input type="text" onChange={(e)=>setSearchValue(e.target.value)} value={searchValue} className="text-white shadow-inner border-hidden drop-shadow-2xl w-full bg-secondary-500 rounded-full placeholder:text-gray-500 placeholder:text-sm placeholder:px-2 active:border-white active:border-2;" placeholder="search username or krypt"/>
-            {/* <button className="text-white ml-4 px-2 py-2 bg-primary rounded-2xl font-bold">Search</button> */}
             </form>
             <div className="mt-24 bg-secondary-600 w-full">
             <p className="text-secondary-700 px-4">Top Dekrypters</p>
             <Trending 
-                profiles={profiles}
+                profiles={data.topKrypters}
             />
             </div>
          
              <div className="w-full px-2 mt-2 pb-16 bg-secondary-600">
                 <p className="text-secondary-700 px-4 py-2">Top Krypts</p>
-                {topKrypt.reverse().map(homedata=> <Timebox
+                {data.topKrypts.reverse().map(homedata=> <Timebox
                    title={homedata.title}
-                //    username={homedata.creator.username}
+                username={homedata.creator.username}
                    date={homedata.date}
                    time={homedata.time}
                    success={homedata.success}
@@ -110,7 +98,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user}
+                user={data.user}
         />
         </div>
     )

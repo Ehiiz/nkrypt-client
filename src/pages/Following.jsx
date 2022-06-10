@@ -46,10 +46,13 @@ const [emptyCase, setEmptyCase] = useState(false)
      } else {
         setEmptyCase(false)
      }
+     console.log(finalFollowing)
         setProfollowing([...finalFollowing])
         setUser(res.data.following)
     })
    },[newRender])
+
+
 
 const checkClick =(e)=>{
     let proid = e.target.value;

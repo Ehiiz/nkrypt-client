@@ -5,6 +5,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import Axios from "axios"
 import {ReactComponent as Ghost} from "../svg/Spooky Stickers Ghost.svg"
 import {ReactComponent as Delete} from "../svg/Delete.svg"
+import useSWR from "swr";
 
 
 
@@ -20,11 +21,6 @@ export default function EditDraft(){
   const [kryptData, setKryptData] = useState([])
   const [newRender, setNewRender] = useState(false)
   const [emptyCase, setEmptyCase] = useState(false)
-
- 
-
-
-
 
 
 useEffect(() => {

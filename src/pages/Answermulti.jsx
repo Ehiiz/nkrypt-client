@@ -75,9 +75,6 @@ export default function Answermulti(){
           } else if (status === "failure"){
            window.location.reload();
           }
-        
-
-
         })
         .catch( function(error){
           console.log(error);

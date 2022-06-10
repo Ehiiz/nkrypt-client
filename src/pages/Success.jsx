@@ -4,31 +4,23 @@ import Share from "../macro-components/Share";
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect,  useState} from "react"
 import Axios from 'axios';
+import useSWR from "swr"
 
 
 export default function Success(){
     const navigate = useNavigate();
     const {id} = useParams();
-    const [user, setUser] = useState({});
 
-    useEffect(() => {
-        Axios.get(`/share/${id}`)
-        .then((response) =>{
-            if (response.data.status === "not signed in") {
-                navigate("/")
-            } else {
-                setUser({...response.data.user})
-            }
-          
-        })
-        .catch((error) =>{
-            console.log(error);
-        })
-        .then(()=>{   })
+    const fetcher = (...args) => fetch(...args).then(res => res.json())
+
+  const { data, error } = useSWR(`/share/${id}`, fetcher)
+console.log(data)
 
 
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+  
 
-    },[])
    
  
     const navcolor = {
@@ -62,7 +54,7 @@ export default function Success(){
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+                user={data.user._id}
             />
         </div>
     )

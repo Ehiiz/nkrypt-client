@@ -6,7 +6,7 @@ import Profilebox from "../macro-components/Profilebox";
 import {ReactComponent as Settings} from "../svg/Setting.svg"
 import Axios from 'axios';
 import {useState, useEffect} from 'react';
-import ProfileNine from "../img/Rectangle 50.png";
+
 
 export default function Profile(){
 
@@ -89,8 +89,7 @@ useEffect(() => {
 },[newRender])
 
 
-console.log(dekryptData)
-   
+
     const boxstyle = "profile-box"
     const imgstyle = "profile-image"
     const textsize = "text-sm"

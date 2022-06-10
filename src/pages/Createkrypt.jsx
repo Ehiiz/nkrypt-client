@@ -6,10 +6,10 @@ import Audio from "../bttns/Audio";
 import Photo from "../bttns/Photo";
 import {Link, useNavigate} from "react-router-dom";
 import Axios from "axios"
-import useCreatePost from "../custom-hooks/useCreatePost"
 import Loading from "../modals/Loading";
 import {ReactComponent as Close} from "../svg/close.svg"
 import {sha1} from 'crypto-hash';
+import useSWR from "swr";
 
 
 
@@ -43,21 +43,11 @@ export default function Createkrypt(){
 
 
 useEffect(() => {
-  Axios.get('/create')
-  .then((res)=>{
-    if (res.data.status === "not signed in"){
+  if(data){
+    if (data.status === "not signed in"){
       navigate("/")
-    } else {
-      console.log(res)
-      setUser({...res.data.user})
     }
-   
-  })
-  .catch(err=>{
-    console.log(err)
-  })
-  .then(() =>{})
-
+  }
   if (newImage.file) {
     const reader = new FileReader()
     reader.onloadend = () =>{
@@ -79,6 +69,13 @@ useEffect(() => {
   }
 
 },[newImage, newAudio])
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR('/create', fetcher)
+console.log(data)
+
+if (error) return <div>failed to load</div>
+if (!data) return <div>loading...</div>
 
 
 function truncateString(string, limit) {
@@ -137,7 +134,8 @@ const sendFile = (data, name,file)=>{
       console.log(err)
       setNewImage()
       setLoading(false)
-      alert("error uploading file")
+      alert("error uploading file");
+      window.location.reload()
     })
     .then(() =>{})
    
@@ -266,11 +264,11 @@ const onFileChange = (e) =>{
 }
 
 //Submit Function for Content Submission
-  const handleSubmit = () =>{
+const handleSubmit = () =>{
     sendData()
-  }
+}
 
-  const handleDelete = (e) =>{
+const handleDelete = (e) =>{
     console.log(e.target.name)
     const name = e.target.name
     const url = e.target.id
@@ -325,7 +323,7 @@ const onFileChange = (e) =>{
    
     })
     .then(() =>{})
-  }
+}
 
   //Navigation Colors
     const navcolor = {
@@ -334,14 +332,6 @@ const onFileChange = (e) =>{
       profile:"fill-secondary-900",
       search:"fill-secondary-900"
   }
-
-  
-  console.log(finalData)
-  console.log(kryptTitle);
-  console.log(kryptData)
-
-
-
 
     return(
      
@@ -410,7 +400,7 @@ const onFileChange = (e) =>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+                user={data.user._id}
             />
 
       </div>

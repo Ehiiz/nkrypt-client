@@ -7,43 +7,43 @@ import {useEffect, useState} from "react";
 import Axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import {ReactComponent as Ghost} from "../svg/Spooky Stickers Ghost.svg"
+import useSWR from "swr";
+import Loading from "../modals/Loading"
 
 
 
 
 export default function Home(){
 const navigate = useNavigate();
-const [homedata, setHomeData] = useState([]);
-const [user, setUser] = useState({});
-const [profiles, setProfiles] = useState([]);
 const [modalCase, setModalcase] = useState(false)
 
+
+
+
 useEffect(() => {
-     const loggeduser = localStorage.getItem("jwt")
-    console.log(loggeduser)
-    Axios.get("/home")
-    .then(function (response) {
-            console.log(response)
-            if(response.data.token){
-            const token = response.data.token
-            localStorage.setItem('jwt', token);
-            }
-            const newOrder = response.data.data.reverse();
-            if (newOrder.length === 0){
+    console.log("christ")
+    
+    if(data){
+        console.log(data.data.length)
+        const token = data.data.token
+        localStorage.setItem('jwt', token);
+        if(data.data.length === 0){
                 setModalcase(true)
             }
-            setUser({...response.data.user})
-            setHomeData([...newOrder])
-            const profileOrder = response.data.profiles.reverse()
-            console.log(profileOrder)
-            setProfiles([...profileOrder])
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-    .then(function(){
-    })
+}
+
+
 },[])
+
+console.log(modalCase)
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR('/home', fetcher)
+//console.log(data)
+
+if (error) return <div>failed to load</div>
+if (!data) return <div><Loading /></div>
+
 
 
 
@@ -61,19 +61,17 @@ const home = "Home"
 
     return(
         <div className="bg-secondary-600 h-screen">
+  
       
      
             <Header 
                 title = {home}
             />
-{/* 
-            <Trending
-            profiles={profiles} />
-            */}
+
            
-            <div className="px-4 mb-18 pb-36 mt-16 h-fit bg-secondary-600">
+             <div className="px-4 mb-18 pb-36 mt-16 h-fit bg-secondary-600">
            
-            {homedata.reverse().map(homedata=> <Timebox
+            {data.data.reverse().map(homedata=> <Timebox
                    title={homedata.title}
                username={homedata.creator.username}
                    date={homedata.date}
@@ -84,15 +82,15 @@ const home = "Home"
                    id={homedata._id}
           />
 
-          )}
-          {/* {modalCase && <div>
-          <Ghost />
+          )} 
+          {modalCase && <div>
+                 <Ghost />
             
               <p>No krypts yet, create a krypt to get started</p>
-          </div>} */}
+          </div>} 
 
            
-            </div>
+             </div>
             <Link to="/create">
             <button className="fixed bottom-20  right-6 shadow border-4 def-bttn flex"> 
            <svg className="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,8 +106,8 @@ const home = "Home"
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
-            />
+                user={data.user._id}
+            />  
         </div>
     )
 }

@@ -4,39 +4,33 @@ import {Link, useParams, useNavigate} from "react-router-dom";
 import {ReactComponent as Key} from "../svg/carbon_password.svg"
 import {useEffect, useState} from 'react';
 import Axios from "axios";
+import useSWR from "swr";
 
 export default function Answerpass(){
-
-    const [answerPass, setAnswerPass] = useState()
-    const [title, setTitle] = useState()
+   
     const [userAnswer, setUserAnswer] = useState([{answer:""}])
-    const [user, setUser] = useState({})
   
     const {id} = useParams();
 
     const navigate = useNavigate();
 
-    useEffect(() =>{
-        Axios.get(`/p-unlock/${id}`)
-        .then(function(response){
-            if (response.data.status === "not signed in"){
+useEffect(() =>{
+       
+        if(data){
+            if (data.data.status === "not signed in"){
                 navigate("/")
-            } else {
-                console.log(response);
-                const newtitle = response.data.data.kryptDeets.title
-                setTitle(newtitle)
-                setUser({...response.data.data.user})
-            }  
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error + "This did not get anything");
-          })
-          .then(function () {
-            // always executed
-          });    
+            } 
+        }
 
     },[])
+
+    const fetcher = (...args) => fetch(...args).then(res => res.json())
+    const { data, error } = useSWR(`/p-unlock/${id}`, fetcher)
+    console.log(data)
+    
+    if (error) return <div>failed to load</div>
+    if (!data) return <div>loading...</div>
+    
 
     const handleChange = e => {
         const {name, value} = e.target
@@ -44,7 +38,6 @@ export default function Answerpass(){
         setUserAnswer([{[name]: value}])
     }
 
-    console.log(userAnswer)
 
     const handleSubmit = () => {
         const payload = {userAnswer}
@@ -84,7 +77,7 @@ export default function Answerpass(){
     <div className="page">
     <Header />
     <section className="flex flex-col px-4 py-4 mt-12 fixed top-0 mb-8 w-full bg-secondary-600 h-full">
-     <h2 className="self-end font-bold text-secondary-900 text-2xl"><span className="text-md font-bold">unlock</span> {title}</h2> 
+     <h2 className="self-end font-bold text-secondary-900 text-2xl"><span className="text-md font-bold">unlock</span>{data.data.kryptDeets.title}</h2> 
 
     <section className="text-white rounded-t-2xl flex flex-col bg-secondary-500 w-full mt-1 pt-4 px-4 pb-8 h-full">
         <div className="flex flex-col">
@@ -107,7 +100,7 @@ export default function Answerpass(){
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+                user={data.data.user._id}
          />
 
     </div>
