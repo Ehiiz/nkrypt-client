@@ -5,6 +5,7 @@ import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
 import ProfileSix from "../img/Rectangle 47.png";
 import FollowBttn from '../micro-components/FollowBttn';
+import {ReactComponent as Cupcake} from "../svg/Spooky Stickers Poison Cupcake.svg"
 
 
 export default function Followers(){
@@ -14,6 +15,8 @@ export default function Followers(){
 const [user, setUser] = useState({})
 const [profollowers, setProfollowers] = useState([])
 const [newRender, setNewRender] = useState(true)
+const [emptyCase, setEmptyCase] = useState(false)
+
 
    useEffect(() => {
     Axios.get(`/followers/${id}`)
@@ -44,6 +47,11 @@ const [newRender, setNewRender] = useState(true)
     },[])
 
         const finalFollowing = finalfollowing.reverse()
+        if(finalFollowing.length === 0){
+            setEmptyCase(true)
+        } else {
+            setEmptyCase(false)
+        }
         setProfollowers([...finalFollowing])
         setUser(res.data.following)
     })
@@ -109,6 +117,13 @@ const checkClick =(e)=>{
         <Header 
             title={followers}
         />
+            {emptyCase && <div className="flex items-center pt-24 flex-col mt-12">
+          <Cupcake />
+            
+              <p className="text-secondary-700 mt-4 italic">a pastry a day</p>
+              <p className="text-secondary-700 italic">brings followers your way</p>
+
+          </div>}
         <div className="h-fit bg-secondary-600 pb-20 mt-16 flex w-full flex-col items-center">
         {profollowers.map(usefollow=>{
            return <div className="pt-1 flex items-center justify-between pb-2 w-full px-2 bg-secondary-600"> 

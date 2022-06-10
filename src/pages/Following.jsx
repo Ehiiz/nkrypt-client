@@ -5,6 +5,7 @@ import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
 import ProfileSix from "../img/Rectangle 47.png";
 import FollowBttn from '../micro-components/FollowBttn';
+import {ReactComponent as Pizza} from "../svg/Wavy Buddies Pizza.svg"
 
 export default function Following(){
 
@@ -12,6 +13,7 @@ const {id} = useParams();
 const [user, setUser] = useState({})
 const [profollowing, setProfollowing] = useState([])
 const [newRender, setNewRender] = useState(false)
+const [emptyCase, setEmptyCase] = useState(false)
 
    useEffect(() => {
     Axios.get(`/following/${id}`)
@@ -39,6 +41,11 @@ const [newRender, setNewRender] = useState(false)
         }
     },[])
      const finalFollowing = finalfollowing.reverse()
+     if(finalFollowing.length === 0){
+        setEmptyCase(true)
+     } else {
+        setEmptyCase(false)
+     }
         setProfollowing([...finalFollowing])
         setUser(res.data.following)
     })
@@ -98,6 +105,13 @@ const checkClick =(e)=>{
         <Header 
             title={following}
         />
+            {emptyCase && <div className="flex items-center pt-24 flex-col mt-12">
+          <Pizza />
+            
+              <p className="text-secondary-700 mt-4 italic">share a pizza with your friends</p>
+              <p className="text-secondary-700 italic">you have got none.. yet</p>
+
+          </div>}
         <div className="h-fit bg-secondary-600 pb-20 mt-16">
         {profollowing.map(usefollow=>{
            return <div className="pt-1 flex items-center justify-between pb-2 w-full px-2 bg-secondary-600"> 

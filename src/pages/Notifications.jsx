@@ -3,6 +3,7 @@ import Nav from "../core-components/Nav";
 import {useEffect, useState} from 'react'
 import Axios from "axios";
 import {Link, useNavigate} from "react-router-dom"
+import {ReactComponent as Ufo} from "../svg/Cityscapes UFO and Alien.svg"
 
 export default function Notification(){
      
@@ -16,6 +17,7 @@ export default function Notification(){
 
     const [notifBox, setNotifBox] = useState([])
     const [user, setUser] = useState({})
+    const [emptyCase, setEmptyCase] = useState(false)
 
     useEffect(() => {
        Axios.get("/notifications")
@@ -24,6 +26,11 @@ export default function Notification(){
                navigate("/")
            } else {
            const newNotif = response.data.data.reverse();
+           if(newNotif.length === 0){
+            setEmptyCase(true)
+           }  else {
+            setEmptyCase(false)
+          }
            setNotifBox(newNotif)
            console.log(response.data.data)
             setUser({...response.data.loggeduser})
@@ -37,6 +44,8 @@ export default function Notification(){
 
     }, [])
 
+    console.log(user)
+
     const notification = "Notification"
 
 return(
@@ -44,6 +53,13 @@ return(
         <Header 
             title={notification}
         />
+          {emptyCase && <div className="flex items-center flex-col justify-center pt-24 mt-12">
+          
+            <Ufo />
+              <p className="text-secondary-700 italic">no krypt activity detected</p>
+              <p className="text-secondary-700 italic">abduction imminent</p>
+
+          </div>}
         <div className="h-fit bg-secondary-600 mt-16">
         {notifBox.map(notif=>{
             if(notif.type === "create"){
