@@ -27,7 +27,7 @@
     "eject": "react-scripts eject",
     "build-css": "tailwindcss build -i src/index.css -o src/App.css"
   },
-  "proxy": "https://sleepy-escarpment-55626.herokuapp.com/",
+  "proxy": "https://sleepy-escarpment-55626.herokuapp.com",
   "eslintConfig": {
     "extends": [
       "react-app",
