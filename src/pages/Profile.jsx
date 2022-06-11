@@ -35,7 +35,7 @@ useEffect(() => {
     if (id === "undefined") {
         navigate('/');
     } else {
-        Axios.get(`/profile/${id}`)
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com//profile/${id}`)
         .then(function(res){
             console.log(res)
             const loggeduser = res.data.loggeduser;
