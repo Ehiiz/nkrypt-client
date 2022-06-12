@@ -18,7 +18,7 @@ export default function AnswerQuiz(){
     const navigate = useNavigate();
 
     useEffect(() =>{
-        Axios.get(`/q-unlock/${id}`)
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/q-unlock/${id}`)
         .then(function(response){
           if (response.data.status === "not signed in"){
             navigate("/")
@@ -63,7 +63,7 @@ export default function AnswerQuiz(){
 
         const payload = {userQuiz}
         console.log(payload);
-        Axios.post(`/q-unlock/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/q-unlock/${id}`, payload)
         .then(function (response){
           console.log(response);
           let status = response.data.status
