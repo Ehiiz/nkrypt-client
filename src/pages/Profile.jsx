@@ -126,7 +126,7 @@ useEffect(() => {
             const payload = {
                 proid
             }
-            Axios.post('/unfollow', payload)
+            Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
             .then((response) =>{
                 console.log(response)
                 setFollowing(false)
@@ -139,7 +139,7 @@ useEffect(() => {
             .then(()=>{})
         } else {
             const payload = { proid}
-            Axios.post("/follow", payload)
+            Axios.post("https://sleepy-escarpment-55626.herokuapp.com/follow", payload)
             .then((response) => {
                 console.log(response)
                 setFollowing(true)
