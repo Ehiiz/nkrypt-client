@@ -74,7 +74,7 @@ export default function Signup(){
         const {src} = e.target
         console.log(src)
         const payload = {src}
-        Axios.post('/setprofilepic', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/setprofilepic', payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -111,7 +111,7 @@ export default function Signup(){
                                         userData: {email, password}
                                     }
                                     //Data Posting Function
-                                    Axios.post('/signup', payload)
+                                    Axios.post('https://sleepy-escarpment-55626.herokuapp.com/signup', payload)
                                     .then(res => {
                                             console.log(res);
                                             const status = res.data.status;
@@ -278,7 +278,7 @@ export default function Signup(){
     //Functions for Username Modal
     const usernameSubmit =()=>{
         const payload = {userAdd}
-        Axios.post("/setusername", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -329,7 +329,7 @@ export default function Signup(){
     //Functions for Userbio Modals
     const userbioSubmit = ()=>{
         const payload = {userbio}
-        Axios.post("/setuserbio", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
