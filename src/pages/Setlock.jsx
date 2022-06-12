@@ -49,7 +49,7 @@ useEffect(() => {
 
     
 const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR(`/setlock/${id}`, fetcher)
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/setlock/${id}`, fetcher)
 console.log(data)
 
 if (error) return <div>failed to load</div>
@@ -60,7 +60,7 @@ const handleSubmit = e => {
     const time = timeValue().kryptTime
     const payload = {lockValue, date, time}
     console.log(payload);
-    Axios.post(`/setlock/${id}`, payload)
+    Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/setlock/${id}`, payload)
     .then(res => {
         console.log(res);
         const next = res.data.lockkrypt.type;
