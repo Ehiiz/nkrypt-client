@@ -39,32 +39,32 @@ export default function Signin(){
         }
         console.log(payload)
     
-    const res = await axios.post("https://sleepy-escarpment-55626.herokuapp.com" , payload)
-   console.log(res)
+//     const res = await axios.post("/" , payload)
+//    console.log(res)
         //Data Posting Function
-//         axios.post('https://sleepy-escarpment-55626.herokuapp.com', {payload})
-//             .then(res => {
-//                 console.log(res)
-//                 console.log(res.data);
-//                 console.log(res.data.status)
-//                 const status = res.data.status;
-//                 if (status === "success"){
-//                     const { token } = res.data;
-//                     localStorage.setItem('jwt', token);
-//                     navigate('/home')
-//                 }
-//                 else if (status === "failure"){
-//                    setSignDetail({email:"", password:""})
-//                    setMessage("User does not exist")
-//                     setTimeout(()=>{
-//                         setMessage("")
+        axios.post('https://sleepy-escarpment-55626.herokuapp.com', payload)
+            .then(res => {
+                console.log(res)
+                console.log(res.data);
+                console.log(res.data.status)
+                const status = res.data.status;
+                if (status === "success"){
+                    const { token } = res.data;
+                    localStorage.setItem('jwt', token);
+                    navigate('/home')
+                }
+                else if (status === "failure"){
+                   setSignDetail({email:"", password:""})
+                   setMessage("User does not exist")
+                    setTimeout(()=>{
+                        setMessage("")
                     
-//                     }, 5000) 
-//                 }
-//             }).catch(error => {
-//                 console.log(error);
+                    }, 5000) 
+                }
+            }).catch(error => {
+                console.log(error);
 
-//             })
+            })
     
 
     }                  
