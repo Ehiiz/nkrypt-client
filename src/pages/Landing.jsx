@@ -36,7 +36,7 @@ console.log("christ")
   
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-const { data, error } = useSWR(`/krypt/${id}`, fetcher)
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, fetcher)
 console.log(data)
 
 if (error) return <div>failed to load</div>
