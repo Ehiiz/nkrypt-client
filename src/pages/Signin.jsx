@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import Socials from "../macro-components/Socials";
-import Axios from "axios";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom"
 import Forgot from "../modals/Forgot";
@@ -41,7 +41,7 @@ export default function Signin(){
     
     
         //Data Posting Function
-        Axios.post('https://sleepy-escarpment-55626.herokuapp.com', {payload})
+        axios.post('https://sleepy-escarpment-55626.herokuapp.com', {payload})
             .then(res => {
                 console.log(res)
                 console.log(res.data);
