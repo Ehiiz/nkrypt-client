@@ -18,7 +18,7 @@ const [emptyCase, setEmptyCase] = useState(false)
 
 
    useEffect(() => {
-    Axios.get(`/followers/${id}`)
+    Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/followers/${id}`)
     .then(res =>{
         console.log(res);
         const profollowers = res.data.profollowers;
@@ -68,7 +68,7 @@ const checkClick =(e)=>{
     }
 
     if(followstate === "true"){
-        Axios.post('/unfollow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
         .then((response) =>{
             console.log(response)
         })
@@ -83,7 +83,7 @@ const checkClick =(e)=>{
         }
 
     } else if (followstate === "false") {
-        Axios.post('/follow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/follow', payload)
         .then((response) =>{
             console.log(response)
         })
