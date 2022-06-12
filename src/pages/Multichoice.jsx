@@ -20,7 +20,7 @@ const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
-  Axios.get(`/choice/${id}`)
+  Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/choice/${id}`)
   .then((res)=>{
     if (res.data.status === "not signed in"){
       navigate("/")
