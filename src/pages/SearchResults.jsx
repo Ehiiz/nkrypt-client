@@ -75,7 +75,7 @@ useEffect(() => {
         console.log(payload)    
         const endPoint = searchValue.toLowerCase()
         console.log(payload)
-         Axios.post("/search", payload)
+         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/search", payload)
          .then(res=>{
              console.log(res)
              const searchUser = res.data.searchUser;
@@ -144,7 +144,7 @@ const checkClick =(e)=>{
     console.log(followstate)
 
     if(followstate === "true"){
-        Axios.post('/unfollow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
         .then((response) =>{
             console.log(response)
             setNewRender(!newRender)
@@ -155,7 +155,7 @@ const checkClick =(e)=>{
         .then(()=>{})
        
     } else if (followstate === "false") {
-        Axios.post('/follow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/follow', payload)
         .then((response) =>{
             console.log(response)
             setNewRender(!newRender)
