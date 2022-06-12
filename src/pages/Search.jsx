@@ -37,7 +37,7 @@ const handleSubmit = (e) =>{
     
    const endPoint = searchValue.toLowerCase()
 console.log(payload)
-    Axios.post("/search", payload)
+    Axios.post("https://sleepy-escarpment-55626.herokuapp.com/search", payload)
     .then(res=>{
         console.log(res)
         const searchKrypt = res.data.searchKrypt
