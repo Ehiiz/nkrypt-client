@@ -21,7 +21,7 @@ const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
-  Axios.get(`/quiz/${id}`)
+  Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/quiz/${id}`)
   .then((res)=>{
     if (res.data.status === "not signed in") {
       navigate("/")
@@ -79,7 +79,7 @@ const sendData = () => {
   const payload = {questionBox, kryptbio}
   console.log(questionBox);
   console.log(payload);
-  Axios.post(`/quiz/${id}`, payload)
+  Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/quiz/${id}`, payload)
 .then(res => {
         console.log(res);
         const status = res.data.status;
