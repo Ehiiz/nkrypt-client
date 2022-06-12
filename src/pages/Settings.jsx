@@ -27,7 +27,7 @@ export default function Settings(){
     
 
     useEffect(()=>{
-        Axios.get('/settings')
+        Axios.get('https://sleepy-escarpment-55626.herokuapp.com/settings')
         .then(function(res){
             if (res.data.status === "not signed in"){
                     navigate("/")
@@ -79,7 +79,7 @@ export default function Settings(){
         const payload = {
             newPassword
         }
-       Axios.post("/checkpassword", payload)
+       Axios.post("https://sleepy-escarpment-55626.herokuapp.com/checkpassword", payload)
        .then((res) => {
            console.log(res)
            const status = res.data.status
@@ -96,7 +96,7 @@ export default function Settings(){
         const payload = {
             nextPassword
         }
-       Axios.post("/changepassword", payload)
+       Axios.post("https://sleepy-escarpment-55626.herokuapp.com/changepassword", payload)
        .then((res) => {
            console.log(res)
            const status = res.data.status
@@ -114,7 +114,7 @@ export default function Settings(){
 
     const handleUserSubmit = e =>{
          const payload = {userAdd}
-        Axios.post("/setusername", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then((response) => {
             console.log(response)
             const status = response.data.status;
@@ -139,7 +139,7 @@ export default function Settings(){
     const userCheck =(data)=>{
         const payload = {data}
         console.log(payload)
-        Axios.post("/checkuser", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/checkuser", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -173,7 +173,7 @@ export default function Settings(){
     //Function for Userbio Starts
     const userbioSubmit = ()=>{
         const payload = {userbio}
-        Axios.post("/setuserbio", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -203,7 +203,7 @@ export default function Settings(){
 //Logout Function
     const logOut = ()=>{
        
-        Axios.get("/logout").then((res) =>{
+        Axios.get("https://sleepy-escarpment-55626.herokuapp.com/logout").then((res) =>{
                 console.log(res.data.status)
                 const status = res.data.status
                 if (status === "success"){
