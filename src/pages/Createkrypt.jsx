@@ -71,7 +71,7 @@ useEffect(() => {
 },[newImage, newAudio])
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR('/create', fetcher)
+const { data, error } = useSWR('https://sleepy-escarpment-55626.herokuapp.com/create', fetcher)
 console.log(data)
 
 if (error) return <div>failed to load</div>
@@ -147,7 +147,7 @@ const sendData = () => {
       const payload = {finalData, kryptTitle, kryptData}
       console.log(finalData);
       console.log(payload);
-      Axios.post('/create', payload)
+      Axios.post('https://sleepy-escarpment-55626.herokuapp.com/create', payload)
     .then(res => {
             console.log(res);
             const status = res.data.status;
@@ -279,7 +279,7 @@ const handleDelete = (e) =>{
    const payload = {public_id}
   
     console.log(name)
-    Axios.post("/destroy", payload)
+    Axios.post("https://sleepy-escarpment-55626.herokuapp.com/destroy", payload)
     .then(res=>{
       console.log(res);
       console.log(res.status)
