@@ -24,7 +24,7 @@ export default function EditDraft(){
 
 
 useEffect(() => {
-  Axios.get("/drafts")
+  Axios.get("https://sleepy-escarpment-55626.herokuapp.com/drafts")
   .then((res)=>{
     console.log(res)
     const data = res.data.data.reverse()
@@ -50,7 +50,7 @@ const handleDelete = (e)=>{
   console.log(deleteId)
  
   const payload = {deleteId}
-  Axios.post("/deletekrypt", payload)
+  Axios.post("https://sleepy-escarpment-55626.herokuapp.com/deletekrypt", payload)
   .then(res=>{
     console.log(res)
     const status = res.data.status;
