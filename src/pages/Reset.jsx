@@ -15,7 +15,7 @@ const handleSubmit = ()=>{
 
 const payload = {newPassword}
 console.log(payload)
-Axios.post(`/${id}/resetpassword`, payload)
+Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/${id}/resetpassword`, payload)
 .then(response =>{
     console.log(response)
     const status = response.data.status
