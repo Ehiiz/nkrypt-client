@@ -22,7 +22,7 @@ const updatePass = (e) => {
 } 
 
 useEffect(() => {
-        Axios.get(`/passcode/${id}`)
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/passcode/${id}`)
         .then((res)=>{
             if (res.data.status === "not signed in"){
                navigate("/") 
@@ -68,7 +68,7 @@ const sendData = () => {
               console.log(res);
               const status = res.data.status;
               if (status === "success"){
-                  navigate(`/share/${id}`)
+                  navigate(`https://sleepy-escarpment-55626.herokuapp.com/share/${id}`)
                   }
                   else{
                      window.location.reload();
