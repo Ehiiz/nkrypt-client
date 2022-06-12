@@ -43,7 +43,7 @@ useEffect(() =>{
         const payload = {userAnswer}
         console.log(payload)
 
-        Axios.post(`/p-unlock/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/p-unlock/${id}`, payload)
         .then(function (response) {
             console.log(response.data);
             const status = response.data.status
