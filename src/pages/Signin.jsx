@@ -41,7 +41,7 @@ export default function Signin(){
     
     
         //Data Posting Function
-        Axios.post('https://sleepy-escarpment-55626.herokuapp.com', payload)
+        Axios.post('/', payload)
             .then(res => {
                 console.log(res)
                 console.log(res.data);

@@ -111,7 +111,7 @@ export default function Signup(){
                                         userData: {email, password}
                                     }
                                     //Data Posting Function
-                                    Axios.post('https://sleepy-escarpment-55626.herokuapp.com/signup', payload)
+                                    Axios.post('/signup', payload)
                                     .then(res => {
                                             console.log(res);
                                             const status = res.data.status;
