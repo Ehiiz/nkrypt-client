@@ -20,7 +20,7 @@ export default function Notification(){
     const [emptyCase, setEmptyCase] = useState(false)
 
     useEffect(() => {
-       Axios.get("/notifications")
+       Axios.get("https://sleepy-escarpment-55626.herokuapp.com/notifications")
        .then((response)=>{
            if (response.data.status === "not signed in"){
                navigate("/")
