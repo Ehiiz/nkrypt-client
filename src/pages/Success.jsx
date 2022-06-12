@@ -13,7 +13,7 @@ export default function Success(){
 
     const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-  const { data, error } = useSWR(`/share/${id}`, fetcher)
+  const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/share/${id}`, fetcher)
 console.log(data)
 
 
