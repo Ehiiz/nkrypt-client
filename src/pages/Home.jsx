@@ -106,7 +106,7 @@ const home = "Home"
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.user._id}
+                user={undefined}
             />  
         </div>
     )
