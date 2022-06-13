@@ -146,7 +146,7 @@ const navcolor = {
            <hr className="border-2 border-white rounded-sm w-48 mb-2"/>
            </div>
            <div className="mt-1 px-4 py-2 w-full rounded-2xl flex bg-secondary-600">
-             <input type="text" placeholder="add a new comment" value={commentvalue} onChange={handleChange} className="bg-inherit border-b-2 border-secondary-700 placeholder:text-gray-500 placeholder:text-sm mr-3 placeholder:ml-2 text-white" />
+             <input type="text" placeholder="add a new comment" value={commentvalue} onChange={handleChange} className="bg-inherit w-full border-b-2 border-secondary-700 placeholder:text-gray-500 placeholder:text-sm mr-3 placeholder:ml-2 text-white" />
              <div onClick={handleClick}><Send /></div>
            </div>
            <div className="w-full">
