@@ -121,6 +121,7 @@ export default function Signup(){
                                             if (status === "success"){
                                                 const { token } = res.data;
                                                 localStorage.setItem('jwt', token);
+                                                document.cookie = token
                                                 setModalcase(true)
                                                 // navigate('/home')
                                                 }
