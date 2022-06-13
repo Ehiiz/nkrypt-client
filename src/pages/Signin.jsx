@@ -51,6 +51,7 @@ export default function Signin(){
                 if (status === "success"){
                     const { token } = res.data;
                     localStorage.setItem('jwt', token);
+                    cookies.set('jwt',token);
                     navigate('/home')
                 }
                 else if (status === "failure"){
