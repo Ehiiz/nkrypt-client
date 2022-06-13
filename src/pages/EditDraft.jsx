@@ -116,7 +116,7 @@ const handleDelete = (e)=>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user}
+                user={"62a374fcafcbd93ed7956d44"}
             />
 
       </div>
