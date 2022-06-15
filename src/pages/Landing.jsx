@@ -31,6 +31,7 @@ const [comments, setComments] = useState([])
 const [user, setUser]= useState(undefined)
 const [kryptdata, setKryptData] = useState({})
 const [kryptstate, setKryptState] = useState("")
+const [creator, setCreator] = useState("")
 
 
 useEffect(() => {
@@ -44,6 +45,7 @@ useEffect(() => {
     setComments([...response.data.comment])
     setKryptData({...response.data.data})
     setKryptState(response.data.kryptstate)
+    setCreator(response.data.data.creator.username)
 
   })
   .catch(error =>{
@@ -136,7 +138,7 @@ const navcolor = {
             </div>
             <div className="w-full px-4 mt-3">
             <p className="text-white">{kryptdata.details}</p>
-            <p className="text-secondary-400">@{kryptdata.creator.username}</p>
+            <p className="text-secondary-400">@{creator}</p>
 
             </div>
             <section className="flex justify-between mt-3 px-4">
