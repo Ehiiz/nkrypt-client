@@ -46,7 +46,7 @@ export default function Success(){
             <section className="flex flex-col items-center mt-48">
             <div className="suc-box">
             <p className="text-white text-sm mb-4">You have successfully created a Krypt, share to get your friends to engage</p>
-        <p className="text-secondary-400 italic underline font-light text-xs">{`https://nkrypt.vercel.app/krypt/${id}`}</p>
+        <p className="text-secondary-400 w-fit italic underline font-light text-xs">{`https://nkrypt.vercel.app/krypt/${id}`}</p>
          <div className="mt-8">
          <Share />
 

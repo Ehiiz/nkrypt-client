@@ -131,7 +131,7 @@ export default function Signin(){
       
     
         <section className="self-center mb-4">
-        <Socials />
+        {/* <Socials /> */}
         </section>
     
         </div>

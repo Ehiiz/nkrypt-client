@@ -462,7 +462,7 @@ export default function Signup(){
         
     
         <section className="self-center mb-4">
-        <Socials />
+        {/* <Socials /> */}
         </section>
     
         </div>
