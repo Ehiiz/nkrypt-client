@@ -62,7 +62,6 @@ navigate("/")
             setEmptyCase(false)
         }
         setProfollowers([...finalFollowing])
-        setUser(res.data.following)
     })
  
 

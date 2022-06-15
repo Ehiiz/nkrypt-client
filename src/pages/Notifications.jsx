@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import Axios from "axios";
 import {Link, useNavigate} from "react-router-dom"
 import {ReactComponent as Ufo} from "../svg/Cityscapes UFO and Alien.svg"
+import Fetching from "../modals/Fetching";
 
 export default function Notification(){
      
@@ -19,7 +20,10 @@ export default function Notification(){
     const [user, setUser] = useState({})
     const [emptyCase, setEmptyCase] = useState(false)
 
+    const [modalCase, setModalCase] = useState(false)
+
 useEffect(() => {
+    setModalCase(true)
 const token = localStorage.getItem("jwt")
 const userid = localStorage.getItem("user")
 setUser(userid)
@@ -39,6 +43,7 @@ if (!token){
        }
         setNotifBox(newNotif)
         console.log(response.data.data)
+        setModalCase(false)
     })
     .catch((error)=>{
         console.log(error)
@@ -59,6 +64,7 @@ return(
         <Header 
             title={notification}
         />
+        {modalCase && <Fetching />}
           {emptyCase && <div className="flex items-center flex-col justify-center pt-24 mt-12">
           
             <Ufo />

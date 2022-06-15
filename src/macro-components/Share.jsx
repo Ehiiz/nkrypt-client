@@ -11,22 +11,22 @@ export default function Share(){
 
     return(
         <div className="flex text-white items-center italic w-full">
-        <a href={`https://twitter.com/intent/tweet?text=${message}%20localhost:3000/krypt/${id}`} target="_blank" rel="noreferrer" className="mr-4 text-xs font-light flex flex-col items-center">
+        <a href={`https://twitter.com/intent/tweet?text=${message}%20https://nkrypt-client.vercel.app/krypt/${id}`} target="_blank" rel="noreferrer" className="mr-4 text-xs font-light flex flex-col items-center">
        <Twitter />
         <p>share</p>
         <p>twitter</p>
         </a>
-        <a href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com`} target="_blank" rel="noreferrer" className="share-sec">
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnkrypt-client.vercel.app%2Fkrypt%2F${id}`} target="_blank" rel="noreferrer" className="share-sec">
        <Facebook />
         <p>share</p>
         <p>facebook</p>
         </a>
-        <a href={`whatsapp://send?text=${message}%20localhost:3000/krypt/${id}`} target="_blank" rel="noreferrer" className="share-sec">
+        <a href={`whatsapp://send?text=${message}%20https://nkrypt-client.vercel.app/krypt/${id}`} target="_blank" rel="noreferrer" className="share-sec">
        <Whatsapp />
         <p>share</p>
         <p>whatsapp</p>
         </a>
-        <div onClick={() => navigator.clipboard.writeText(`localhost:3000/krypt/${id}`)} className="share-sec">
+        <div onClick={() => navigator.clipboard.writeText(`https://nkrypt-client.vercel.app/krypt/${id}`)} className="share-sec">
         <Copy />
         <p>copy</p>
         <p>link</p>

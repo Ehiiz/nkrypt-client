@@ -27,13 +27,12 @@ export default function EditDraft(){
 
 useEffect(() => {
   const token = localStorage.getItem("jwt")
-
+  const userid = localStorage.getItem("user")
+  setUser(userid)
   if (!token){
     navigate("/")
-
   } else {
     const userid = localStorage.getItem("user")
-    setUser(userid)
     const payload = {userid}
     Axios.post("https://sleepy-escarpment-55626.herokuapp.com/drafts", payload)
     .then((res)=>{

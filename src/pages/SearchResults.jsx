@@ -6,6 +6,7 @@ import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
 import {ReactComponent as Achievement} from "../svg/Achievement.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
 import Axios from "axios"
+import Fetching from "../modals/Fetching"
 
 
 
@@ -22,12 +23,15 @@ const [emptyKrypt, setEmptyKrypt] = useState("")
 const [user, setUser] = useState(undefined)
 const count = useRef(0)
 
+const [modalCase, setModalCase] = useState(false)
+
 const location = useLocation();
 const navigate = useNavigate();
 
 
 
 useEffect(() => {
+    setModalCase(true)
   const token = localStorage.getItem("jwt")
   const userid = localStorage.getItem("user")
   setUser(userid)
@@ -78,6 +82,7 @@ useEffect(() => {
     
     }
     else {
+        console.log("reloaded")
         const payload = {searchValue}
         console.log(payload)    
         const endPoint = searchValue.toLowerCase()
@@ -133,6 +138,7 @@ useEffect(() => {
          .then(()=>{})
         
     }
+    setModalCase(false)
 
 },[newRender])
 
@@ -141,6 +147,10 @@ console.log(kryptResults)
 console.log(searchValue)
 
 const checkClick =(e)=>{
+  const token = localStorage.getItem("jwt")
+    if(!token){
+        navigate("/")
+    }
     let proid = e.target.value;
     let followstate = e.target.name;
     count.current = count.current + 1
@@ -179,8 +189,64 @@ const checkClick =(e)=>{
 
 const handleSubmit = (e) =>{
    e.preventDefault()
+   const userid = localStorage.getItem("user")
    count.current = count.current + 1
-     setNewRender(!newRender)
+// setNewRender(!newRender)
+const payload = {searchValue, userid}
+console.log(payload)    
+const endPoint = searchValue.toLowerCase()
+console.log(payload)
+ Axios.post("https://sleepy-escarpment-55626.herokuapp.com/search", payload)
+ .then(res=>{
+     console.log(res)
+     const searchUser = res.data.searchUser;
+     const usefollowingID = res.data.usefollowingID;
+     const usefollowersID = res.data.usefollowersID;
+     const userid = res.data.userid
+     setUser(userid)
+     setSearchValue(searchValue)
+     setKryptResults([...res.data.searchKrypt])
+     const kryptSearch = res.data.searchKrypt
+     if(kryptSearch.length === 0){
+         setEmptyKrypt("No krypts found")
+     } else {
+         setEmptyKrypt("")
+     }
+     const newarray =  searchUser.reduce((r,i)=>{
+         if(usefollowingID.includes(i._id)){
+             console.log("match")
+             return [...r, {...i, following_status:true}]
+         } else {
+             console.log("no match")
+             return [...r, {...i, following_status:false}]
+         }
+     },[])
+ 
+     const finalfollowing = newarray.reduce((r,i)=>{
+         if(usefollowersID.includes(i._id)){
+             console.log("follower match")
+             return [...r, {...i, follower_status:true}]
+         } else {
+             console.log("follower no match")
+             return [...r, {...i, follower_status:false}]
+         }
+     },[])
+     if(finalfollowing.length < 1) {
+         setEmptyMessage("No user found")
+     } else {
+         setEmptyMessage("")
+     }
+ 
+     setUserResults([...finalfollowing])
+ 
+
+ })
+ .catch(err=>{
+     console.log(err)
+ })
+ .then(()=>{})
+ setNewRender(!newRender)
+
 }
 
 const handleClick =(e)=>{
@@ -213,6 +279,8 @@ const navcolor = {
 return(
         <div className="h-screen scrollbar-hide bg-secondary-600">
     <Header/>
+    
+    {modalCase && <Fetching />}
    {/* <p className="text-sm text-white pt-28">{location.state.datas}</p> */}
     <form onSubmit={handleSubmit} className="flex justify-between w-full px-4 mb-2 h-8 fixed top-14">
             <input type="text" onChange={(e)=>setSearchValue(e.target.value)} value={searchValue} className="text-white shadow-inner border-hidden drop-shadow-2xl w-full bg-secondary-500 rounded-full placeholder:text-gray-500 placeholder:text-sm placeholder:px-2 active:border-white active:border-2;" placeholder="search username or krypt"/>

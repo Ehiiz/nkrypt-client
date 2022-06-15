@@ -30,12 +30,13 @@ const [krypt, setKrypt] = useState({})
 
 
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/unlock/${id}`, fetcher)
+// const fetcher = (...args) => fetch(...args).then(res => res.json())
+// const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/unlock/${id}`, fetcher)
 
 
 useEffect(()=>{
     const token = localStorage.getItem("jwt")
+    console.log(token)
     if (!token){
         navigate("/")
     } else {
@@ -44,14 +45,16 @@ useEffect(()=>{
         const payload = {userid}
         Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/unlock/${id}`, payload)
         .then((response) => {
-            setUserName(response.data.creator.username)
-            setTitle(response.data.title)
+            console.log(response)
+            console.log(response.data)
+            setUserName(response.data.data.creator.username)
+            setTitle(response.data.data.title)
             setContent([...response.data.content])
             setKrypt(response.data)
         })
         .catch(err=>{
             console.log(err)
-            navigate("/")
+            //navigate("/")
         })
     }
       
@@ -59,8 +62,8 @@ useEffect(()=>{
 [newRender])
 
 
-if (!data) return <Fetching />;
-if (error) return <div>failed to load</div>
+// if (!data) return <Fetching />;
+// if (error) return <div>failed to load</div>
 
 const timeValue = ()=>{
     let newDate = new Date();
@@ -124,16 +127,16 @@ const navcolor = {
             <div className="px-5 flex items-center flex-col w-fit">
             
             {content.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
-                return   <div className="items-center py-2 rounded-xl">
+                return   <div key={index} className="items-center py-2 rounded-xl">
                          <img src={krypt} alt="kryptedimg" className="object-fit rounded-2xl"/>
                         </div>
             } else if (krypt.includes(".mp3")){
 
-                return  <div className="py-2">
+                return  <div key={index}  className="py-2">
                 <audio  src={krypt} controls autoPlay/>
                     </div> 
             } else {
-               return <div className="py-2">
+               return <div key={index}  className="py-2">
                <p className="text-secondary-700">{krypt}</p>
                </div>
              

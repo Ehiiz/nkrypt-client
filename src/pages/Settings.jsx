@@ -236,7 +236,10 @@ export default function Settings(){
          <section className="flex flex-col bg-secondary-600 pt-36 w-full items-center px-8 pb-24">
          <Link to="/drafts" className="text-secondary-700 text-lg self-start">Drafts</Link>
          <div className="flex justify-between pt-12 w-full">
+         <div className="flex justify-start">
+         <p className="text-secondary-700">@</p>
              <input onChange={nameChange} className="text-secondary-400 bg-inherit rounded-sm border-x-0 border-t-0 placeholder:text-gray-500 placeholder:text-sm active:border-secondary-800 active:border-y-0" value={userAdd}/>
+         </div>
          
             <span onClick={handleUserValue}>
             <Edit />

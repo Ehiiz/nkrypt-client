@@ -21,6 +21,8 @@ const [choiceLive, setChoiceLive] = useState(true);
 const [passLive, setPassLive] = useState(true);
 const [user, setUser] = useState(undefined);
 
+const [modalCase, setModalCase] = useState(false)
+
 
 const timeValue = ()=>{
         let newDate = new Date();
@@ -39,8 +41,6 @@ const timeValue = ()=>{
       
 }
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/setlock/${id}`, fetcher)
 
 useEffect(() => { 
        const token = localStorage.getItem("jwt")
@@ -51,11 +51,11 @@ useEffect(() => {
        } else {
         const userid = localStorage.getItem("user")
         setUser(userid)
+
        }
 },[])    
 
-if (error) return <div>failed to load</div>
-if (!data) return <div>loading...</div>
+
 
 const handleSubmit = e => { 
     const date = timeValue().kryptDate  

@@ -6,7 +6,7 @@ import {useEffect, useState} from "react"
 import Axios from "axios"
 import {useNavigate} from "react-router-dom"
 import useSWR from "swr"
-import Loading from "../modals/Loading"
+import Fetching from "../modals/Fetching"
 
 export default function Search(){
 const [topKrypt, setTopKrypt] = useState([])
@@ -32,7 +32,7 @@ setUser(userid)
 },[])
 
   if (error) return <div>failed to load</div>
-  if (!data) return <div><Loading /></div>
+  if (!data) return <Fetching />
 
 
 const handleSubmit = (e) =>{

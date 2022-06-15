@@ -18,6 +18,8 @@ const navigate = useNavigate();
 
 useEffect(() => {
 const token = localStorage.getItem("jwt")
+const userid = localStorage.getItem("user")
+    setUser(userid)
 if (!token){
     navigate("/")
 } else {
@@ -55,7 +57,6 @@ if (!token){
      }
      console.log(finalFollowing)
         setProfollowing([...finalFollowing])
-        setUser(res.data.following)
     })
 
 }

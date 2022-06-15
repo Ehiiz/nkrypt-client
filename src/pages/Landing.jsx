@@ -14,6 +14,7 @@ import {ReactComponent as Send} from "../svg/send.svg"
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
+import Fetching from "../modals/Fetching";
 
 
 
@@ -33,8 +34,11 @@ const [kryptdata, setKryptData] = useState({})
 const [kryptstate, setKryptState] = useState("")
 const [creator, setCreator] = useState("")
 
+const [modalCase, setModalCase] = useState(false)
+
 
 useEffect(() => {
+  setModalCase(true)
   const token = localStorage.getItem("jwt")
   const userid = localStorage.getItem("user")
   setUser(userid)
@@ -46,6 +50,7 @@ useEffect(() => {
     setKryptData({...response.data.data})
     setKryptState(response.data.kryptstate)
     setCreator(response.data.data.creator.username)
+    setModalCase(false)
 
   })
   .catch(error =>{
@@ -126,6 +131,7 @@ const navcolor = {
     return(
         <div className="page">
             <Header />
+            {modalCase && <Fetching />}
             <section className="mt-16 w-full">
             <section className="fixed w-full bg-secondary-600">
             <div className="flex justify-between w-full px-4">

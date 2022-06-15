@@ -6,6 +6,7 @@ import Profilebox from "../macro-components/Profilebox";
 import {ReactComponent as Settings} from "../svg/Setting.svg"
 import Axios from 'axios';
 import {useState, useEffect} from 'react';
+import Fetching from "../modals/Fetching";
 
 
 export default function Profile(){
@@ -30,13 +31,16 @@ export default function Profile(){
     const [followingCount, setFollowingCount] = useState()
     const [newRender, setNewRender] = useState()
 
+    const [modalCase, setModalCase] = useState(false)
+
    
 
 useEffect(() => {
+    setModalCase(true)
     console.log(proid)
     const userid = localStorage.getItem("user")
     setUser(userid)
-    if (id === "undefined") {
+    if (!id) {
         navigate('/');
     } else {
         const userid = localStorage.getItem("user")
@@ -82,7 +86,7 @@ useEffect(() => {
               setFollower(isGot)
             }
     
-          
+          setModalCase(false)
         })
         .catch(function(error){
             console.log(error);
@@ -129,9 +133,10 @@ useEffect(() => {
 
    
     const handleFollow = () =>{
+        const userid = localStorage.getItem("user")
         if(following){
             const payload = {
-                proid
+                proid, userid
             }
             Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
             .then((response) =>{
@@ -145,7 +150,7 @@ useEffect(() => {
             })
             .then(()=>{})
         } else {
-            const payload = { proid}
+            const payload = {proid, userid}
             Axios.post("https://sleepy-escarpment-55626.herokuapp.com/follow", payload)
             .then((response) => {
                 console.log(response)
@@ -169,6 +174,7 @@ useEffect(() => {
         <Header
             title = {profile}
          />
+         {modalCase && <Fetching />}
         <Kryptprofile
         image = {trueDetails.image}
         username = {trueDetails.username}
