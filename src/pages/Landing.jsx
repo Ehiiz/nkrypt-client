@@ -104,8 +104,12 @@ const handleChange = e =>{
       
 const handleClick = (e) =>{
               e.preventDefault()
+            const token = localStorage.getItem("jwt")
               const userid = localStorage.getItem("user")
               const time = timeValue().kryptTime
+              if(!token){
+                navigate("/")
+              }
               setCommentValue("")
            const payload = {commentvalue, time, id, userid}
               Axios.post("https://sleepy-escarpment-55626.herokuapp.com/comment", payload)
@@ -175,8 +179,8 @@ const navcolor = {
            <div className="mb-14">
            {comments.map((com)=>{ return <Comments
            comment={com.comment}
-           username={com.user.username}
-           image={com.user.image}
+       // username={com.user.username === null ? "not defined" : com.user.username }
+        //  image={com.user.image === null ?  "not defined" :com.user.image}
            time={com.time}
             />
 
