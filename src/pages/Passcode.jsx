@@ -61,7 +61,7 @@ const sendData = () => {
               console.log(res);
               const status = res.data.status;
               if (status === "success"){
-                  navigate(`https://sleepy-escarpment-55626.herokuapp.com/share/${id}`)
+                  navigate(`/share/${id}`)
                   }
                   else{
                      window.location.reload();

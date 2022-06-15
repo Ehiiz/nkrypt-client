@@ -40,8 +40,9 @@ useEffect(() => {
   const payload = {userid}
   Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, payload)
   .then(response =>{
+    console.log(response)
     setComments([...response.data.comment])
-    setKryptData(response.data.data)
+    setKryptData({...response.data.data})
     setKryptState(response.data.kryptstate)
 
   })
@@ -135,7 +136,7 @@ const navcolor = {
             </div>
             <div className="w-full px-4 mt-3">
             <p className="text-white">{kryptdata.details}</p>
-            <p className="text-secondary-400">@{kryptdata.creator.username}</p>
+            <p className="text-secondary-400">{kryptdata.creator.username}</p>
 
             </div>
             <section className="flex justify-between mt-3 px-4">

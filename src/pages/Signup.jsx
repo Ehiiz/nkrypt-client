@@ -281,8 +281,8 @@ export default function Signup(){
 
     //Functions for Username Modal
     const usernameSubmit =()=>{
-        const id = localStorage.getItem("user")
-        const payload = {userAdd, id}
+        const userid = localStorage.getItem("user")
+        const payload = {userAdd, userid}
 
         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then(res=>{
