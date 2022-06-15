@@ -292,7 +292,7 @@ return(
         </section>
     <div className="h-fit bg-secondary-600 mt-2 px-4 pb-24">
     {bttnLive &&  userResults.map(userResult=>{
-       return <div className="pt-1 flex items-center justify-between pb-2 w-full px-4 bg-secondary-600">
+       return <div className="pt-1 flex items-center justify-start pb-2 w-full px-4 bg-secondary-600">
                  <div>
                      <div className="py-1">
                      <img src={userResult.image} alt="dp" className="w-12 rounded-full border-2 border-white" />
@@ -301,8 +301,8 @@ return(
                     {userResult.follower_status && <p className="text-xs text-secondary-700 ml-1 pt-1">follows you</p>} 
                  </div>
                  <div>
-                 <button  className={userResult.following_status ? "profi4" : "profi3"} value={`${userResult._id}`} name={`${userResult.following_status}`} onClick={checkClick}>{userResult.following_status ? "following" : "follow"}</button>
-                 </div>
+                 {/* <button  className={userResult.following_status ? "profi4" : "profi3"} value={`${userResult._id}`} name={`${userResult.following_status}`} onClick={checkClick}>{userResult.following_status ? "following" : "follow"}</button> */}
+                  </div>
                 
             </div>
     })}
