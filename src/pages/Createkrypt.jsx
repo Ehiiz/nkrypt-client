@@ -74,14 +74,6 @@ useEffect(() => {
 
 },[newImage, newAudio])
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR('https://sleepy-escarpment-55626.herokuapp.com/create', fetcher)
-console.log(data)
-
-if (error) return <div>failed to load</div>
-if (!data) return <div>loading...</div>
-
-
 function truncateString(string, limit) {
   if (string.length > limit) {
     return string.substring(0, limit)
