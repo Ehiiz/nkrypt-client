@@ -40,7 +40,8 @@ useEffect(() => {
     console.log(proid)
     const userid = localStorage.getItem("user")
     setUser(userid)
-    if (!id) {
+    if (id === "null") {
+        console.log("neptune")
         navigate('/');
     } else {
         const userid = localStorage.getItem("user")
@@ -86,7 +87,7 @@ useEffect(() => {
               setFollower(isGot)
             }
     
-          setModalCase(false)
+        
         })
         .catch(function(error){
             console.log(error);
@@ -94,7 +95,7 @@ useEffect(() => {
         .then(function(){
     
         })
-
+        setModalCase(false)
     }
    
 },[newRender])
