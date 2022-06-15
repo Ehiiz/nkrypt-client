@@ -21,16 +21,16 @@ export default function Notification(){
 
 useEffect(() => {
 const token = localStorage.getItem("jwt")
+const userid = localStorage.getItem("user")
+setUser(userid)
 if (!token){
     navigate("/")
 } else {
     const userid = localStorage.getItem("user")
     setUser(userid)
-    Axios.get("https://sleepy-escarpment-55626.herokuapp.com/notifications")
-    .then((response)=>{
-        if (response.data.status === "not signed in"){
-            navigate("/")
-        } else {
+    const payload = {userid}
+    Axios.post("https://sleepy-escarpment-55626.herokuapp.com/notifications", payload)
+    .then(response =>{
         const newNotif = response.data.data.reverse();
         if(newNotif.length === 0){
          setEmptyCase(true)
@@ -39,8 +39,6 @@ if (!token){
        }
         setNotifBox(newNotif)
         console.log(response.data.data)
-         setUser({...response.data.loggeduser})
-        }
     })
     .catch((error)=>{
         console.log(error)

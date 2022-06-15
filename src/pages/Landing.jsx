@@ -14,8 +14,7 @@ import {ReactComponent as Send} from "../svg/send.svg"
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
-import useSWR from "swr"
-import Fetching from "../modals/Fetching";
+
 
 
 
@@ -33,10 +32,6 @@ const [user, setUser]= useState(undefined)
 const [kryptdata, setKryptData] = useState({})
 const [kryptstate, setKryptState] = useState("")
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-
-const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, fetcher)
-console.log(data)
 
 useEffect(() => {
   const token = localStorage.getItem("jwt")
@@ -59,9 +54,6 @@ useEffect(() => {
 },[refresh])
   
 
-if (!data) return <Fetching />
-if (error) return <div>failed to load</div>
-
 
 
 const timeValue = ()=>{
@@ -81,17 +73,17 @@ const timeValue = ()=>{
 }
 
 const handleSubmit = () =>{
-          if(data.kryptstate === "dekrypted"){
+          if(kryptstate === "dekrypted"){
             navigate(`/unlock/${id}`)
-          } else if (data.kryptstate === "created by you"){
+          } else if (kryptstate === "created by you"){
             navigate(`/unlock/${id}`)
           } else {
-            if (data.data.type === 'quiz'){
+            if (kryptdata.type === 'quiz'){
               navigate(`/q-unlock/${id}`)
             }
-           else if (data.data.type === 'multiple'){
+           else if (kryptdata.type === 'multiple'){
              navigate(`/m-unlock/${id}`)
-           } else if (data.data.type === 'passcode'){
+           } else if (kryptdata.type === 'passcode'){
              navigate(`/p-unlock/${id}`)
            }
           }
