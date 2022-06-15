@@ -30,7 +30,7 @@ export default function Signin(){
     }
 
     const handleSubmit = async(e) =>{
-        const {email, password} = signDetail
+        const {email, password} = signDetail  
         
         const payload = {                         
             signinData: {email, password}
