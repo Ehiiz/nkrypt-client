@@ -22,6 +22,7 @@ export default function Settings(){
     const [user, setUser] = useState(undefined)
     const [updatebio, setUpdatebio] = useState(false)
     const [newRender, setNewRender] = useState(false)
+    const [modalCase, setModalCase] = useState(false)
 
 //Function for bio update
     const [userbio, setUserBio] = useState("")
@@ -31,6 +32,7 @@ export default function Settings(){
     useEffect(()=>{
         const token = localStorage.getItem("jwt")
         const userid = localStorage.getItem("user")
+        setModalCase(true)
         setUser(userid)
         if (!token){
             navigate("/")
@@ -39,6 +41,7 @@ export default function Settings(){
           Axios.post("https://sleepy-escarpment-55626.herokuapp.com/settings", payload)
           .then(response =>{
             setUserAdd(response.data.data.username)
+            setModalCase(false)
           })
         }
     },[newRender])
@@ -223,6 +226,7 @@ export default function Settings(){
          <Header 
              title = {settings}
          />
+         {modalCase && <Fetching />}
          
          
          {updatebio && <Updatebio

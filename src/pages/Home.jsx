@@ -97,11 +97,7 @@ const home = "Home"
           />
 
           )} 
-          {modalCase && <div>
-                 <Ghost />
-            
-              <p>No krypts yet, create a krypt to get started</p>
-          </div>} 
+        
 
            
              </div>

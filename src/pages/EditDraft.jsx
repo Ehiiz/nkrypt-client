@@ -6,6 +6,7 @@ import Axios from "axios"
 import {ReactComponent as Ghost} from "../svg/Spooky Stickers Ghost.svg"
 import {ReactComponent as Delete} from "../svg/Delete.svg"
 import useSWR from "swr";
+import Fetching from "../modals/Fetching";
 
 
 
@@ -23,11 +24,13 @@ export default function EditDraft(){
   const [kryptData, setKryptData] = useState([])
   const [newRender, setNewRender] = useState(false)
   const [emptyCase, setEmptyCase] = useState(false)
+  const [modalCase, setModalCase] = useState(false)
 
 
 useEffect(() => {
   const token = localStorage.getItem("jwt")
   const userid = localStorage.getItem("user")
+  setModalCase(true)
   setUser(userid)
   if (!token){
     navigate("/")
@@ -45,7 +48,7 @@ useEffect(() => {
       }
       setKryptData([...data])
       setUser(res.data.user)
-  
+  setModalCase(false)
     })
     .catch(err => {
       console.log(err)
@@ -103,6 +106,7 @@ const handleDelete = (e)=>{
       <Header 
         title={drafts}
       />
+      {modalCase && <Fetching />}
       <div className="h-fit bg-secondary-600 mt-16 w-full px-4 pb-48">
       {kryptData.map(kryptResult=><div onClick={handleDelete} value={kryptResult._id} name="blaze" className="mb-2 flex items-center justify-between py-4 w-full px-4 bg-secondary-500 rounded-xl"> 
                       <Link to={`/setlock/${kryptResult._id}`} className="text-white w-full">{kryptResult.title}</Link>
@@ -128,7 +132,7 @@ const handleDelete = (e)=>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={"62a374fcafcbd93ed7956d44"}
+                user={user}
             />
 
       </div>

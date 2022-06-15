@@ -7,6 +7,7 @@ import Userpic from "../modals/Userpic";
 import Username from "../modals/Username";
 import Userbio from "../modals/Userbio";
 import { useCookies } from 'react-cookie';
+import Fetching from "../modals/Fetching";
 
 
 export default function Signup(){
@@ -16,7 +17,7 @@ export default function Signup(){
     const [modalCase, setModalcase] = useState(false)
     const [nameCase, setNameCase] = useState(false)
     const [bioCase, setBioCase] = useState(false)
-
+    const [loader, setLoader] = useState(false)
     //Form State Management
     const [userDetail, setUserDetail] = useState({username:"", email:"", password:"", verify:""})
 
@@ -115,6 +116,7 @@ export default function Signup(){
                                         userData: {email, password}
                                     }
                                     //Data Posting Function
+                                    setLoader(true)
                                     Axios.post('https://sleepy-escarpment-55626.herokuapp.com/signup', payload)
                                     .then(res => {
                                             console.log(res);
@@ -127,6 +129,7 @@ export default function Signup(){
                                                 console.log("Never")
                                                 localStorage.setItem('jwt', token);
                                                 localStorage.setItem('user', res.data.id)
+                                                setLoader(false)
                                                 setModalcase(true)
                                                 }
                                                 else{
@@ -281,6 +284,7 @@ export default function Signup(){
 
     //Functions for Username Modal
     const usernameSubmit =()=>{
+        setLoader(true)
         const userid = localStorage.getItem("user")
         const payload = {userAdd, userid}
 
@@ -288,6 +292,7 @@ export default function Signup(){
         .then(res=>{
             console.log(res)
             const status = res.data.status
+            setLoader(false)
             if (status === "success"){
                 setBioCase(true)
                 setNameCase(false)            } 
@@ -335,12 +340,13 @@ export default function Signup(){
 
     //Functions for Userbio Modals
     const userbioSubmit = ()=>{
-
-        const id = localStorage.getItem("user")
-        const payload = {userbio, id}
+        setLoader(true)
+        const userid = localStorage.getItem("user")
+        const payload = {userbio, userid}
         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)
+            setLoader(false)
             const status = res.data.status
             if (status === "success"){
          navigate("/home")
@@ -358,6 +364,7 @@ export default function Signup(){
 
     return(
         <div className="signed">
+        {loader && <Fetching />}
          {modalCase && <Userpic
           createImage={createImage}
           />}

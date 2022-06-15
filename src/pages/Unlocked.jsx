@@ -126,7 +126,7 @@ const navcolor = {
             </div>
             <div className="px-5 flex items-center flex-col w-fit">
             
-            {content.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
+            {content.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif") || krypt.includes(".webp")){
                 return   <div key={index} className="items-center py-2 rounded-xl">
                          <img src={krypt} alt="kryptedimg" className="object-fit rounded-2xl"/>
                         </div>
