@@ -14,7 +14,6 @@ const [profollowing, setProfollowing] = useState([])
 const [newRender, setNewRender] = useState(false)
 const [emptyCase, setEmptyCase] = useState(false)
 
-<<<<<<< HEAD
 const navigate = useNavigate();
 
 useEffect(() => {
@@ -26,10 +25,6 @@ if (!token){
     setUser(userid)
     const payload = {userid}
     Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/following/${id}`, payload)
-=======
-   useEffect(() => {
-    Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/following/${id}`)
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
     .then(res =>{
         const profollowing = res.data.profollowing;
         const usefollowingID = res.data.usefollowingID;
@@ -164,11 +159,7 @@ const checkClick =(e)=>{
             notification={navcolor.notification}
             profile={navcolor.profile}
             search={navcolor.search}
-<<<<<<< HEAD
             user={user}
-=======
-            user={"62a374fcafcbd93ed7956d44"}
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         />
 
 

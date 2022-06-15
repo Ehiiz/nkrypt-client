@@ -120,11 +120,7 @@ const home = "Home"
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-<<<<<<< HEAD
                 user={user}
-=======
-                user={"62a374fcafcbd93ed7956d44"}
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
             />  
         </div>
     )

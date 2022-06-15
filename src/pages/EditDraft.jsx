@@ -26,7 +26,6 @@ export default function EditDraft(){
 
 
 useEffect(() => {
-<<<<<<< HEAD
   const token = localStorage.getItem("jwt")
 
   if (!token){
@@ -55,21 +54,6 @@ useEffect(() => {
     .then(()=>{})
 
   }
-
-=======
-  Axios.get("https://sleepy-escarpment-55626.herokuapp.com/drafts")
-  .then((res)=>{
-    console.log(res)
-    const data = res.data.data.reverse()
-    if (data.length === 0){
-      setEmptyCase(true)
-    } else {
-      setEmptyCase(false)
-    }
-    setKryptData([...data])
-    setUser(res.data.user)
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
-
 },[newRender])
 
 

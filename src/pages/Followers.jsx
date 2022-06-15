@@ -10,6 +10,7 @@ import {ReactComponent as Cupcake} from "../svg/Spooky Stickers Poison Cupcake.s
 export default function Followers(){
 
  const {id} = useParams();
+ const navigate = useNavigate();
 
 const [user, setUser] = useState(undefined)
 const [profollowers, setProfollowers] = useState([])
@@ -18,18 +19,16 @@ const [emptyCase, setEmptyCase] = useState(false)
 
 
    useEffect(() => {
-<<<<<<< HEAD
     const token = localStorage.getItem("jwt")
+    const userid = localStorage.getItem("user")
+    setUser(userid)
     if (!token){
-
+navigate("/")
     } else {
         const userid = localStorage.getItem("user")
         setUser(userid)
         const payload = {userid}
         Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/followers/${id}`, payload)
-=======
-    Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/followers/${id}`)
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
     .then(res =>{
         console.log(res);
         const profollowers = res.data.profollowers;
@@ -168,11 +167,7 @@ const checkClick =(e)=>{
             notification={navcolor.notification}
             profile={navcolor.profile}
             search={navcolor.search}
-<<<<<<< HEAD
             user={user}
-=======
-            user={"62a374fcafcbd93ed7956d44"}
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         />
 
 

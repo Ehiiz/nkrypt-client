@@ -36,7 +36,6 @@ setUser(userid)
 
 
 const handleSubmit = (e) =>{
-<<<<<<< HEAD
     const token = localStorage.getItem("jwt")
     e.preventDefault()
     if (!token){
@@ -61,27 +60,6 @@ const handleSubmit = (e) =>{
     }
 
  
-=======
-   e.preventDefault()
-    const payload = {searchValue}
-    
-   const endPoint = searchValue.toLowerCase()
-console.log(payload)
-    Axios.post("https://sleepy-escarpment-55626.herokuapp.com/search", payload)
-    .then(res=>{
-        console.log(res)
-        const searchKrypt = res.data.searchKrypt
-        const searchUser = res.data.searchUser;
-        const usefollowingID = res.data.usefollowingID;
-        const usefollowersID = res.data.usefollowersID;
-        const userid = res.data.userid
-       navigate(`/search/${endPoint}`, {state:{searchUser,searchKrypt, usefollowingID,usefollowersID, userid, searchValue}})
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-    .then(()=>{})
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 }
 
 const navcolor = {

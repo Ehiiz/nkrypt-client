@@ -29,7 +29,9 @@ const {id} = useParams();
 const [commentvalue, setCommentValue] = useState("")
 const [refresh, setRefresh] = useState(false)
 const [comments, setComments] = useState([])
-const [user, setUser]= useState("")
+const [user, setUser]= useState(undefined)
+const [kryptdata, setKryptData] = useState({})
+const [kryptstate, setKryptState] = useState("")
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
@@ -40,17 +42,22 @@ useEffect(() => {
   const token = localStorage.getItem("jwt")
   const userid = localStorage.getItem("user")
   setUser(userid)
+  const payload = {userid}
+  Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, payload)
+  .then(response =>{
+    setComments([...response.data.comment])
+    setKryptData(response.data.data)
+    setKryptState(response.data.kryptstate)
+
+  })
+  .catch(error =>{
+    console.log(error)
+    navigate("/")
+  })
 
 
 },[refresh])
   
-<<<<<<< HEAD
-=======
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-
-const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, fetcher)
-console.log(data)
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 if (!data) return <Fetching />
 if (error) return <div>failed to load</div>
@@ -127,7 +134,7 @@ const navcolor = {
             <section className="mt-16 w-full">
             <section className="fixed w-full bg-secondary-600">
             <div className="flex justify-between w-full px-4">
-            <p className="text-secondary-900 self-start">{data.data.title}<span className="text-secondary-800 text-xs"> {data.kryptstate}</span> </p>
+            <p className="text-secondary-900 self-start">{kryptdata.title}<span className="text-secondary-800 text-xs"> {kryptstate}</span> </p>
                <div className="flex justify-self-end">
                         <Audio />
                        <Text />
@@ -135,22 +142,22 @@ const navcolor = {
                     </div>
             </div>
             <div className="w-full px-4 mt-3">
-            <p className="text-white">{data.data.details}</p>
-            <p className="text-secondary-400">@{data.data.creator.username}</p>
+            <p className="text-white">{kryptdata.details}</p>
+            <p className="text-secondary-400">@{kryptdata.creator.username}</p>
 
             </div>
             <section className="flex justify-between mt-3 px-4">
                      <div className="land-con">
                     <Exclaim />
-                     {data.data.failure}
+                     {kryptdata.failure}
                      </div>
                      <div className="land-con">
                        <Achievement />
-                    {data.data.success}    
+                    {kryptdata.success}    
                      </div>
                      <div className="land-con">
                    <Comment />
-                     {data.data.comment}
+                     {kryptdata.comment}
                      </div>
             </section>
             </section>
@@ -165,7 +172,7 @@ const navcolor = {
            </div>
            <div className="w-full">
            <div className="mb-14">
-           {data.comment.map((com)=>{ return <Comments
+           {comments.map((com)=>{ return <Comments
            comment={com.comment}
            username={com.user.username}
            image={com.user.image}
@@ -198,11 +205,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-<<<<<<< HEAD
                user={user}
-=======
-               user={"62a374fcafcbd93ed7956d44"}
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
          />
         </div>
     )

@@ -2,8 +2,7 @@ import {ReactComponent as Facebook} from "../svg/Facebook logo 2019.svg";
 import {ReactComponent as Whatsapp} from "../svg/Whatsapp.svg";
 import {ReactComponent as Twitter} from "../svg/Twitter.svg";
 import {ReactComponent as Copy} from "../svg/fluent_document-copy-24-filled.svg"
-import {Link, useParams} from "react-router-dom"
-import { FacebookShareCount, RedditShareButton, TwitterShareButton,  WhatsappShareButton } from "react-share";
+import {useParams} from "react-router-dom"
 
 export default function Share(){
 

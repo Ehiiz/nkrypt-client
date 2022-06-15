@@ -18,19 +18,16 @@ export default function AnswerQuiz(){
     const navigate = useNavigate();
 
     useEffect(() =>{
-<<<<<<< HEAD
       const token = localStorage.getItem("jwt")
-      if(!token){
+    const userid = localStorage.getItem("user")
+    setUser(userid) 
+    if(!token){
         navigate("/")
       } else {
-        const userid = localStorage.getItem("user")
-        setUser(userid)
-=======
->>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
-        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/q-unlock/${id}`)
+       
+  Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/q-unlock/${id}`)
         .then(function(response){
             console.log(response);
-            setUser({...response.data.data.user})
             const newtitle = response.data.data.kryptDeets.title
             const questData = response.data.data.lockDeets.authenticate
             let answerRay = []
