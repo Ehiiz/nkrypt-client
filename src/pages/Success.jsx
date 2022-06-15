@@ -11,7 +11,15 @@ import Fetching from "../modals/Fetching"
 export default function Success(){
     const navigate = useNavigate();
     const {id} = useParams();
+<<<<<<< HEAD
     const [user, setUser] = useState("")
+=======
+
+    const fetcher = (...args) => fetch(...args).then(res => res.json())
+
+  const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/share/${id}`, fetcher)
+console.log(data)
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 
   useEffect(()=>{

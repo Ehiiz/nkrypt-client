@@ -77,7 +77,11 @@ export default function Signup(){
         const {src} = e.target
         const id = localStorage.getItem("user")
         console.log(src)
+<<<<<<< HEAD
         const payload = {src, id}
+=======
+        const payload = {src}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         Axios.post('https://sleepy-escarpment-55626.herokuapp.com/setprofilepic', payload)
         .then(res=>{
             console.log(res)
@@ -126,7 +130,11 @@ export default function Signup(){
                                                 const { token } = res.data;
                                                 console.log("Never")
                                                 localStorage.setItem('jwt', token);
+<<<<<<< HEAD
                                                 localStorage.setItem('user', res.data.id)
+=======
+                                                document.cookie = token
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
                                                 setModalcase(true)
                                                 }
                                                 else{
@@ -281,8 +289,12 @@ export default function Signup(){
 
     //Functions for Username Modal
     const usernameSubmit =()=>{
+<<<<<<< HEAD
         const id = localStorage.getItem("user")
         const payload = {userAdd, id}
+=======
+        const payload = {userAdd}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then(res=>{
             console.log(res)
@@ -334,8 +346,12 @@ export default function Signup(){
 
     //Functions for Userbio Modals
     const userbioSubmit = ()=>{
+<<<<<<< HEAD
         const id = localStorage.getItem("user")
         const payload = {userbio, id}
+=======
+        const payload = {userbio}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)

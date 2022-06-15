@@ -28,6 +28,29 @@ export default function Settings(){
     const [biomessage, setBioMessage] = useState("")
     
 
+<<<<<<< HEAD
+=======
+    useEffect(()=>{
+        Axios.get('https://sleepy-escarpment-55626.herokuapp.com/settings')
+        .then(function(res){
+            if (res.data.status === "not signed in"){
+                    navigate("/")
+            }else {
+            const status = res.data.status;
+            console.log(status)
+            console.log(res)
+            setUser({...res.data.data})
+            setProfileData({...res.data.data});
+            setUserAdd(res.data.data.username)
+            }
+          
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+        .then(function(){
+        })
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
     useEffect(()=>{
         const token = localStorage.getItem("jwt")
@@ -112,8 +135,12 @@ export default function Settings(){
     }
 
     const handleUserSubmit = e =>{
+<<<<<<< HEAD
         const userid = localStorage.getItem("user")
          const payload = {userAdd, userid}
+=======
+         const payload = {userAdd}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then((response) => {
             console.log(response)
@@ -173,8 +200,12 @@ export default function Settings(){
 
     //Function for Userbio Starts
     const userbioSubmit = ()=>{
+<<<<<<< HEAD
         const userid = localStorage.getItem("user")
         const payload = {userbio, userid}
+=======
+        const payload = {userbio}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)
@@ -204,9 +235,21 @@ export default function Settings(){
 
 //Logout Function
     const logOut = ()=>{
+<<<<<<< HEAD
       localStorage.removeItem("jwt")
       localStorage.removeItem("user")
       navigate('/')
+=======
+       
+        Axios.get("https://sleepy-escarpment-55626.herokuapp.com/logout").then((res) =>{
+                console.log(res.data.status)
+                const status = res.data.status
+                if (status === "success"){
+                    localStorage.removeItem("jwt")
+                    navigate('/')
+                }
+        })
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
     }
 
     const settings = "Settings"

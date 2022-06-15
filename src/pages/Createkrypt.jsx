@@ -74,6 +74,17 @@ useEffect(() => {
 
 },[newImage, newAudio])
 
+<<<<<<< HEAD
+=======
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR('https://sleepy-escarpment-55626.herokuapp.com/create', fetcher)
+console.log(data)
+
+if (error) return <div>failed to load</div>
+if (!data) return <div>loading...</div>
+
+
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 function truncateString(string, limit) {
   if (string.length > limit) {
     return string.substring(0, limit)
@@ -397,7 +408,11 @@ const handleDelete = (e) =>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
+<<<<<<< HEAD
                 user={user}
+=======
+                user={"62a374fcafcbd93ed7956d44"}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
             />
 
       </div>

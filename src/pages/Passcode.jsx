@@ -22,6 +22,7 @@ const updatePass = (e) => {
 } 
 
 useEffect(() => {
+<<<<<<< HEAD
 const token = localStorage.getItem("jwt")
 if(!token){
     navigate("/")
@@ -31,6 +32,25 @@ if(!token){
 }
     
 },[])
+=======
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/passcode/${id}`)
+        .then((res)=>{
+            if (res.data.status === "not signed in"){
+               navigate("/") 
+            } else {
+                setUser({...res.data.user})
+            }
+        
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .then(() => {})
+
+
+    }
+    ,[])
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 const openModal = () =>{
     if(passCell.answer === ""){
@@ -61,7 +81,7 @@ const sendData = () => {
               console.log(res);
               const status = res.data.status;
               if (status === "success"){
-                  navigate(`/share/${id}`)
+                  navigate(`https://sleepy-escarpment-55626.herokuapp.com/share/${id}`)
                   }
                   else{
                      window.location.reload();

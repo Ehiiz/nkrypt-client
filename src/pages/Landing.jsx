@@ -44,6 +44,13 @@ useEffect(() => {
 
 },[refresh])
   
+<<<<<<< HEAD
+=======
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, fetcher)
+console.log(data)
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 if (!data) return <Fetching />
 if (error) return <div>failed to load</div>
@@ -148,12 +155,12 @@ const navcolor = {
             </section>
             </section>
            
-            <section className="mt-40 flex flex-col w-full items-center rounded-t-3xl bg-secondary-500 min-h-screen">
+            <section className="mt-40 flex flex-col px-4 w-full items-center rounded-t-3xl bg-secondary-500 min-h-screen">
            <div className="pt-4">
            <hr className="border-2 border-white rounded-sm w-48 mb-2"/>
            </div>
-           <div className="mt-1 px-4 py-2 rounded-2xl flex bg-secondary-600">
-             <input type="text" placeholder="add a new comment" value={commentvalue} onChange={handleChange} className="bg-inherit border-b-2 border-secondary-700 placeholder:text-gray-500 placeholder:text-sm mr-3 placeholder:ml-2 text-white" />
+           <div className="mt-1 px-4 py-2 w-full rounded-2xl flex bg-secondary-600">
+             <input type="text" placeholder="add a new comment" value={commentvalue} onChange={handleChange} className="bg-inherit w-full border-b-2 border-secondary-700 placeholder:text-gray-500 placeholder:text-sm mr-3 placeholder:ml-2 text-white" />
              <div onClick={handleClick}><Send /></div>
            </div>
            <div className="w-full">
@@ -191,7 +198,11 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
+<<<<<<< HEAD
                user={user}
+=======
+               user={"62a374fcafcbd93ed7956d44"}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
          />
         </div>
     )

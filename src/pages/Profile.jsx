@@ -37,10 +37,14 @@ useEffect(() => {
     if (id === "undefined") {
         navigate('/');
     } else {
+<<<<<<< HEAD
         const userid = localStorage.getItem("user")
         setUser(userid)
         const payload = {userid}
         Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/profile/${id}`, payload)
+=======
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/profile/${id}`)
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         .then(function(res){
             console.log(res)
             const loggeduser = res.data.loggeduser;

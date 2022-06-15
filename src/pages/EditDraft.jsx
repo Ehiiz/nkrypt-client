@@ -26,6 +26,7 @@ export default function EditDraft(){
 
 
 useEffect(() => {
+<<<<<<< HEAD
   const token = localStorage.getItem("jwt")
 
   if (!token){
@@ -55,6 +56,19 @@ useEffect(() => {
 
   }
 
+=======
+  Axios.get("https://sleepy-escarpment-55626.herokuapp.com/drafts")
+  .then((res)=>{
+    console.log(res)
+    const data = res.data.data.reverse()
+    if (data.length === 0){
+      setEmptyCase(true)
+    } else {
+      setEmptyCase(false)
+    }
+    setKryptData([...data])
+    setUser(res.data.user)
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 },[newRender])
 
@@ -131,7 +145,7 @@ const handleDelete = (e)=>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user}
+                user={"62a374fcafcbd93ed7956d44"}
             />
 
       </div>

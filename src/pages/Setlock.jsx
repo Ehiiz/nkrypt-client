@@ -53,7 +53,13 @@ useEffect(() => {
 },[])    
 
     
+<<<<<<< HEAD
 
+=======
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/setlock/${id}`, fetcher)
+console.log(data)
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 if (error) return <div>failed to load</div>
 if (!data) return <div>loading...</div>

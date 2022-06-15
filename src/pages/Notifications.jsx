@@ -19,6 +19,7 @@ export default function Notification(){
     const [user, setUser] = useState({})
     const [emptyCase, setEmptyCase] = useState(false)
 
+<<<<<<< HEAD
 useEffect(() => {
 const token = localStorage.getItem("jwt")
 if (!token){
@@ -46,6 +47,29 @@ if (!token){
         console.log(error)
     })
     .then(()=>{})
+=======
+    useEffect(() => {
+       Axios.get("https://sleepy-escarpment-55626.herokuapp.com/notifications")
+       .then((response)=>{
+           if (response.data.status === "not signed in"){
+               navigate("/")
+           } else {
+           const newNotif = response.data.data.reverse();
+           if(newNotif.length === 0){
+            setEmptyCase(true)
+           }  else {
+            setEmptyCase(false)
+          }
+           setNotifBox(newNotif)
+           console.log(response.data.data)
+            setUser({...response.data.loggeduser})
+           }
+       })
+       .catch((error)=>{
+           console.log(error)
+       })
+       .then(()=>{})
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 }
       

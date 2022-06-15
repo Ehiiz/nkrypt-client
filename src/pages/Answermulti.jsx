@@ -16,7 +16,37 @@ export default function Answermulti(){
     const {id} = useParams();
     const navigate = useNavigate();
 
+<<<<<<< HEAD
     
+=======
+    useEffect(() =>{
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/m-unlock/${id}`)
+        .then(function(response){
+          if (response.data.status === "not signed in"){
+           navigate("/") 
+          } else {
+            console.log(response);
+            setUser({...response.data.data.user})
+            const newtitle = response.data.data.kryptDeets.title;
+            const questData =response.data.data.lockDeets.authenticate;
+            let answerRay = []
+            for (let i = 0; i < questData.length; i++) {
+             var newAns = {answer:""}
+                answerRay.push(newAns)
+            }
+            setUserQuiz(answerRay)
+            setAnswerMulti(questData)
+            setTitle(newtitle)
+          }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error + "This did not get anything");
+          })
+          .then(function () {
+            // always executed
+          });    
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
     useEffect(() =>{
     const token = localStorage.getItem("jwt")

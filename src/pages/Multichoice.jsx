@@ -20,6 +20,7 @@ const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
+<<<<<<< HEAD
   const token = localStorage.getItem("jwt")
   if(!token){
     navigate("/")
@@ -28,6 +29,21 @@ useEffect(() => {
     setUser(userid)
   }
  
+=======
+  Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/choice/${id}`)
+  .then((res)=>{
+    if (res.data.status === "not signed in"){
+      navigate("/")
+    } else {
+      setUser({...res.data.user})
+    }
+    })
+  .catch((err)=>{
+    console.log(err)
+  })
+  .then(()=>{})
+
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
 
 },[])
 

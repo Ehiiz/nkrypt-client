@@ -18,6 +18,7 @@ const [emptyCase, setEmptyCase] = useState(false)
 
 
    useEffect(() => {
+<<<<<<< HEAD
     const token = localStorage.getItem("jwt")
     if (!token){
 
@@ -26,6 +27,9 @@ const [emptyCase, setEmptyCase] = useState(false)
         setUser(userid)
         const payload = {userid}
         Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/followers/${id}`, payload)
+=======
+    Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/followers/${id}`)
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
     .then(res =>{
         console.log(res);
         const profollowers = res.data.profollowers;
@@ -164,7 +168,11 @@ const checkClick =(e)=>{
             notification={navcolor.notification}
             profile={navcolor.profile}
             search={navcolor.search}
+<<<<<<< HEAD
             user={user}
+=======
+            user={"62a374fcafcbd93ed7956d44"}
+>>>>>>> ca05fe09cc8a8817b52815107effc9eb92d8458d
         />
 
 
