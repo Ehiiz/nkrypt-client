@@ -19,28 +19,36 @@ export default function Notification(){
     const [user, setUser] = useState({})
     const [emptyCase, setEmptyCase] = useState(false)
 
-    useEffect(() => {
-       Axios.get("/notifications")
-       .then((response)=>{
-           if (response.data.status === "not signed in"){
-               navigate("/")
-           } else {
-           const newNotif = response.data.data.reverse();
-           if(newNotif.length === 0){
-            setEmptyCase(true)
-           }  else {
-            setEmptyCase(false)
-          }
-           setNotifBox(newNotif)
-           console.log(response.data.data)
-            setUser({...response.data.loggeduser})
-           }
-       })
-       .catch((error)=>{
-           console.log(error)
-       })
-       .then(()=>{})
+useEffect(() => {
+const token = localStorage.getItem("jwt")
+if (!token){
+    navigate("/")
+} else {
+    const userid = localStorage.getItem("user")
+    setUser(userid)
+    Axios.get("https://sleepy-escarpment-55626.herokuapp.com/notifications")
+    .then((response)=>{
+        if (response.data.status === "not signed in"){
+            navigate("/")
+        } else {
+        const newNotif = response.data.data.reverse();
+        if(newNotif.length === 0){
+         setEmptyCase(true)
+        }  else {
+         setEmptyCase(false)
+       }
+        setNotifBox(newNotif)
+        console.log(response.data.data)
+         setUser({...response.data.loggeduser})
+        }
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+    .then(()=>{})
 
+}
+      
 
     }, [])
 
@@ -101,7 +109,7 @@ return(
             notification={navcolor.notification}
             profile={navcolor.profile}
             search={navcolor.search}
-            user={user._id}
+            user={user}
         />
 
 

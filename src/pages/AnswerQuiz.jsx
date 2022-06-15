@@ -1,6 +1,6 @@
 import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
-import {Link, useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import QuizAnswerBox from "../macro-components/QuizAnswerBox";
 import {ReactComponent as Key} from "../svg/carbon_password.svg"
 import Axios from 'axios';
@@ -12,17 +12,20 @@ export default function AnswerQuiz(){
   const [answerQuiz, setAnswerQuiz] = useState([{question:""}])
   const [title, setTitle] = useState()
   const [userQuiz, setUserQuiz] = useState([{answer:""}])
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(undefined)
   
     const {id} = useParams();
     const navigate = useNavigate();
 
     useEffect(() =>{
-        Axios.get(`/q-unlock/${id}`)
+      const token = localStorage.getItem("jwt")
+      if(!token){
+        navigate("/")
+      } else {
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+        Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/q-unlock/${id}`)
         .then(function(response){
-          if (response.data.status === "not signed in"){
-            navigate("/")
-          } else {
             console.log(response);
             setUser({...response.data.data.user})
             const newtitle = response.data.data.kryptDeets.title
@@ -35,8 +38,6 @@ export default function AnswerQuiz(){
             setUserQuiz(answerRay)
             setAnswerQuiz(questData)
             setTitle(newtitle)
-          }
-           
         })
         .catch(function (error) {
             // handle error
@@ -46,6 +47,9 @@ export default function AnswerQuiz(){
             // always executed
           });  
 
+
+      }
+       
     },[])
 
 
@@ -60,10 +64,10 @@ export default function AnswerQuiz(){
       }
 
       const handleSubmit = () => {
-
-        const payload = {userQuiz}
+        const userid = localStorage.getItem("user");
+        const payload = {userQuiz, userid}
         console.log(payload);
-        Axios.post(`/q-unlock/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/q-unlock/${id}`, payload)
         .then(function (response){
           console.log(response);
           let status = response.data.status
@@ -73,9 +77,6 @@ export default function AnswerQuiz(){
           } else if (status === "failure"){
            window.location.reload();
           }
-        
-
-
         })
         .catch( function(error){
           console.log(error);
@@ -134,7 +135,7 @@ export default function AnswerQuiz(){
                     notification={navcolor.notification}
                     profile={navcolor.profile}
                     search={navcolor.search}
-                    user={user._id}
+                    user={user}
              />
     
         </div>

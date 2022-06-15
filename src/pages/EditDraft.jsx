@@ -13,7 +13,9 @@ import useSWR from "swr";
 export default function EditDraft(){
 
 
-  const [user, setUser] = useState("")
+  const [user, setUser] = useState(undefined)
+  
+  const navigate = useNavigate();
 
 
 
@@ -24,23 +26,36 @@ export default function EditDraft(){
 
 
 useEffect(() => {
-  Axios.get("/drafts")
-  .then((res)=>{
-    console.log(res)
-    const data = res.data.data.reverse()
-    if (data.length === 0){
-      setEmptyCase(true)
-    } else {
-      setEmptyCase(false)
-    }
-    setKryptData([...data])
-    setUser(res.data.user)
+  const token = localStorage.getItem("jwt")
 
-  })
-  .catch(err => {
-    console.log(err)
-  })
-  .then(()=>{})
+  if (!token){
+    navigate("/")
+
+  } else {
+    const userid = localStorage.getItem("user")
+    setUser(userid)
+    const payload = {userid}
+    Axios.post("https://sleepy-escarpment-55626.herokuapp.com/drafts", payload)
+    .then((res)=>{
+      console.log(res)
+      const data = res.data.data.reverse()
+      if (data.length === 0){
+        setEmptyCase(true)
+      } else {
+        setEmptyCase(false)
+      }
+      setKryptData([...data])
+      setUser(res.data.user)
+  
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    .then(()=>{})
+
+  }
+
+
 },[newRender])
 
 
@@ -50,7 +65,7 @@ const handleDelete = (e)=>{
   console.log(deleteId)
  
   const payload = {deleteId}
-  Axios.post("/deletekrypt", payload)
+  Axios.post("https://sleepy-escarpment-55626.herokuapp.com/deletekrypt", payload)
   .then(res=>{
     console.log(res)
     const status = res.data.status;

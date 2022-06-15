@@ -17,7 +17,7 @@ export default function Createkrypt(){
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(undefined)
 
   //State Management for Content Type
   const [krypt, setKrypt] = useState(["none"])
@@ -43,11 +43,12 @@ export default function Createkrypt(){
 
 
 useEffect(() => {
-  if(data){
-    if (data.status === "not signed in"){
-      navigate("/")
-    }
-  }
+  const token = localStorage.getItem("jwt")
+  if(!token){
+    navigate("/")
+  } else {
+    const userid = localStorage.getItem("user")
+    setUser(userid)
   if (newImage.file) {
     const reader = new FileReader()
     reader.onloadend = () =>{
@@ -68,15 +69,10 @@ useEffect(() => {
     setAudioPreview(null)
   }
 
+    
+  }
+
 },[newImage, newAudio])
-
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR('/create', fetcher)
-console.log(data)
-
-if (error) return <div>failed to load</div>
-if (!data) return <div>loading...</div>
-
 
 function truncateString(string, limit) {
   if (string.length > limit) {
@@ -144,10 +140,11 @@ const sendFile = (data, name,file)=>{
 console.log(newImage)
 //Data Posting Function
 const sendData = () => {
-      const payload = {finalData, kryptTitle, kryptData}
+  const id = localStorage.getItem("user")
+      const payload = {finalData, kryptTitle, kryptData, id}
       console.log(finalData);
       console.log(payload);
-      Axios.post('/create', payload)
+      Axios.post('https://sleepy-escarpment-55626.herokuapp.com/create', payload)
     .then(res => {
             console.log(res);
             const status = res.data.status;
@@ -279,7 +276,7 @@ const handleDelete = (e) =>{
    const payload = {public_id}
   
     console.log(name)
-    Axios.post("/destroy", payload)
+    Axios.post("https://sleepy-escarpment-55626.herokuapp.com/destroy", payload)
     .then(res=>{
       console.log(res);
       console.log(res.status)
@@ -400,7 +397,7 @@ const handleDelete = (e) =>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.user._id}
+                user={user}
             />
 
       </div>

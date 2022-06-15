@@ -5,20 +5,30 @@ import {useParams, useNavigate} from "react-router-dom";
 import {useEffect,  useState} from "react"
 import Axios from 'axios';
 import useSWR from "swr"
+import Fetching from "../modals/Fetching"
 
 
 export default function Success(){
     const navigate = useNavigate();
     const {id} = useParams();
-
-    const fetcher = (...args) => fetch(...args).then(res => res.json())
-
-  const { data, error } = useSWR(`/share/${id}`, fetcher)
-console.log(data)
+    const [user, setUser] = useState("")
 
 
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
+  useEffect(()=>{
+    const token = localStorage.getItem("jwt")
+    const userid = localStorage.getItem("user")
+    setUser(userid)
+    if (!token){
+        navigate("/")
+    }
+
+
+  },[])
+
+
+
+  
+  
   
 
    
@@ -54,7 +64,7 @@ console.log(data)
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.user._id}
+                user={user}
             />
         </div>
     )

@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
 import useSWR from "swr"
+import Fetching from "../modals/Fetching";
 
 
 
@@ -28,19 +29,25 @@ const {id} = useParams();
 const [commentvalue, setCommentValue] = useState("")
 const [refresh, setRefresh] = useState(false)
 const [comments, setComments] = useState([])
+const [user, setUser]= useState("")
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, fetcher)
+console.log(data)
 
 useEffect(() => {
-console.log("christ")
+  const token = localStorage.getItem("jwt")
+  const userid = localStorage.getItem("user")
+  setUser(userid)
+
 
 },[refresh])
   
-const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-const { data, error } = useSWR(`/krypt/${id}`, fetcher)
-console.log(data)
-
+if (!data) return <Fetching />
 if (error) return <div>failed to load</div>
-if (!data) return <div>loading...</div>
+
 
 
 const timeValue = ()=>{
@@ -83,13 +90,13 @@ const handleChange = e =>{
       
 const handleClick = (e) =>{
               e.preventDefault()
+              const userid = localStorage.getItem("user")
               const time = timeValue().kryptTime
               setCommentValue("")
-           const payload = {commentvalue, time, id}
-              Axios.post("/comment", payload)
+           const payload = {commentvalue, time, id, userid}
+              Axios.post("https://sleepy-escarpment-55626.herokuapp.com/comment", payload)
               .then((res)=>{
                   console.log(res)
-                 
               })
               .catch((err)=>{
                   console.log(err)
@@ -184,7 +191,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-               user={data.user._id}
+               user={user}
          />
         </div>
     )

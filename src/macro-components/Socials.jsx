@@ -26,9 +26,9 @@ export default function Socials(){
             <div onClick={twitter} className="cursor-pointer mr-4">
            <Twitter />
             </div>
-            <div onClick={facebook} className="cursor-pointer mr-4">
+            {/* <div onClick={facebook} className="cursor-pointer mr-4">
            <Facebook />
-            </div>
+            </div> */}
             <div className="cursor-pointer mr-4">
             <div onClick={google}>
             <Google />

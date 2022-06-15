@@ -11,11 +11,10 @@ const navigate = useNavigate();
 const [newPassword, setNewPassword] = useState("")
 
 const handleSubmit = ()=>{
-    alert("jesus")
 
 const payload = {newPassword}
 console.log(payload)
-Axios.post(`/${id}/resetpassword`, payload)
+Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/${id}/resetpassword`, payload)
 .then(response =>{
     console.log(response)
     const status = response.data.status
@@ -30,8 +29,6 @@ Axios.post(`/${id}/resetpassword`, payload)
 .then(() =>{})
 
 }
-
-console.log(newPassword)
 
 
     return (

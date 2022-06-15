@@ -19,6 +19,7 @@ const [lockValue, setLockValue] = useState("")
 const [quizLive, setQuizLive] = useState(true);
 const [choiceLive, setChoiceLive] = useState(true);
 const [passLive, setPassLive] = useState(true);
+const [user, setUser] = useState(undefined);
 
 
 const timeValue = ()=>{
@@ -38,19 +39,21 @@ const timeValue = ()=>{
       
 }
 
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/setlock/${id}`, fetcher)
 
 useEffect(() => { 
-        if(data){
-            if(data.status === "not signed in"){
-                navigate("/")
-            }
-        }
+       const token = localStorage.getItem("jwt")
+       if (!token){
+            navigate("/")
+       } else {
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+       }
 },[])    
 
     
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR(`/setlock/${id}`, fetcher)
-console.log(data)
+
 
 if (error) return <div>failed to load</div>
 if (!data) return <div>loading...</div>
@@ -60,7 +63,7 @@ const handleSubmit = e => {
     const time = timeValue().kryptTime
     const payload = {lockValue, date, time}
     console.log(payload);
-    Axios.post(`/setlock/${id}`, payload)
+    Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/setlock/${id}`, payload)
     .then(res => {
         console.log(res);
         const next = res.data.lockkrypt.type;
@@ -141,7 +144,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile} 
                 search={navcolor.search}
-                user={data.user._id}
+                user={user}
                 />
         </div>
     )

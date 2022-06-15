@@ -11,14 +11,21 @@ export default function Followers(){
 
  const {id} = useParams();
 
-const [user, setUser] = useState({})
+const [user, setUser] = useState(undefined)
 const [profollowers, setProfollowers] = useState([])
 const [newRender, setNewRender] = useState(true)
 const [emptyCase, setEmptyCase] = useState(false)
 
 
    useEffect(() => {
-    Axios.get(`/followers/${id}`)
+    const token = localStorage.getItem("jwt")
+    if (!token){
+
+    } else {
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+        const payload = {userid}
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/followers/${id}`, payload)
     .then(res =>{
         console.log(res);
         const profollowers = res.data.profollowers;
@@ -55,6 +62,9 @@ const [emptyCase, setEmptyCase] = useState(false)
         setUser(res.data.following)
     })
  
+
+    }
+    
    },[newRender])
 
 
@@ -62,13 +72,14 @@ const checkClick =(e)=>{
     let proid = e.target.value;
     let followstate = e.target.name;
     
+    const userid = localStorage.getItem("user")
     
     const payload = {
-        proid
+        proid, userid
     }
 
     if(followstate === "true"){
-        Axios.post('/unfollow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
         .then((response) =>{
             console.log(response)
         })
@@ -83,7 +94,7 @@ const checkClick =(e)=>{
         }
 
     } else if (followstate === "false") {
-        Axios.post('/follow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/follow', payload)
         .then((response) =>{
             console.log(response)
         })
@@ -153,7 +164,7 @@ const checkClick =(e)=>{
             notification={navcolor.notification}
             profile={navcolor.profile}
             search={navcolor.search}
-            user={user._id}
+            user={user}
         />
 
 

@@ -21,23 +21,15 @@ const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
-  Axios.get(`/quiz/${id}`)
-  .then((res)=>{
-    if (res.data.status === "not signed in") {
-      navigate("/")
-    } else {
-      setUser({...res.data.user})
-    }
-      
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  .then(()=>{})
+ const token = localStorage.getItem("jwt")
+ if (!token){
+  navigate("/")
+ } else {
+  const userid = localStorage.getItem("user")
+  setUser(userid)
+ }
 
-
-}
-,[])
+},[])
 
 
 const navcolor = {
@@ -76,10 +68,11 @@ const handleChange = (i,e) =>{
 
       
 const sendData = () => {
-  const payload = {questionBox, kryptbio}
+  const userid = localStorage.getItem("user")
+  const payload = {questionBox, kryptbio, userid}
   console.log(questionBox);
   console.log(payload);
-  Axios.post(`/quiz/${id}`, payload)
+  Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/quiz/${id}`, payload)
 .then(res => {
         console.log(res);
         const status = res.data.status;
@@ -163,7 +156,7 @@ const handleSubmit = () =>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+                user={user}
         />
        
         </div>

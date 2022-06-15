@@ -1,14 +1,14 @@
 import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
 import Timebox from "../macro-components/Timebox";
-import Trending from "../macro-components/Trending";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import {ReactComponent as Ghost} from "../svg/Spooky Stickers Ghost.svg"
-import useSWR from "swr";
-import Loading from "../modals/Loading"
+import useSWR from "swr"
+import Fetching from "../modals/Fetching"
+import { useCookies } from 'react-cookie';
 
 
 
@@ -16,33 +16,46 @@ import Loading from "../modals/Loading"
 export default function Home(){
 const navigate = useNavigate();
 const [modalCase, setModalcase] = useState(false)
+const [user, setUser] = useState(undefined)
 
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const { data, error } = useSWR("https://sleepy-escarpment-55626.herokuapp.com/home", fetcher)
+console.log(data)
 
 
 
 useEffect(() => {
-    console.log("christ")
-    
+    const userid = localStorage.getItem("user")
+            setUser(userid)
+  
     if(data){
         console.log(data.data.length)
-        const token = data.data.token
-        localStorage.setItem('jwt', token);
+        if(data.data.token){
+            const token = data.data.token
+            localStorage.setItem('jwt', token);
+            localStorage.setItem('user', data.data.id)
+            setUser(data.data.id)
+        } else {
+            const userid = localStorage.getItem("user")
+            setUser(userid)
+
+        }
+       
         if(data.data.length === 0){
                 setModalcase(true)
             }
 }
-
-
 },[])
 
-console.log(modalCase)
+if (!data) return <Fetching />;
+if (error) return  <p>Loading...</p>;
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR('https://sleepy-escarpment-55626.herokuapp.com/home', fetcher)
-//console.log(data)
 
-if (error) return <div>failed to load</div>
-if (!data) return <div><Loading /></div>
+
+
+
+
+
 
 
 
@@ -80,6 +93,7 @@ const home = "Home"
                    failed={homedata.failure}
                    comments={homedata.comment} 
                    id={homedata._id}
+                   key={homedata._id}
           />
 
           )} 
@@ -106,7 +120,7 @@ const home = "Home"
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.user._id}
+                user={user}
             />  
         </div>
     )

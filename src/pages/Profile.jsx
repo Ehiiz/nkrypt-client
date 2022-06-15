@@ -14,6 +14,8 @@ export default function Profile(){
     const {id} = useParams();
     const proid = id
 
+    const [user, setUser] = useState(undefined)
+
     const [profileDetails, setProfileDetails] = useState({})
     const [trueDetails, setTrueDetails] = useState({})
     const [profileData, setProfileData] = useState([])
@@ -35,7 +37,10 @@ useEffect(() => {
     if (id === "undefined") {
         navigate('/');
     } else {
-        Axios.get(`/profile/${id}`)
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+        const payload = {userid}
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/profile/${id}`, payload)
         .then(function(res){
             console.log(res)
             const loggeduser = res.data.loggeduser;
@@ -126,7 +131,7 @@ useEffect(() => {
             const payload = {
                 proid
             }
-            Axios.post('/unfollow', payload)
+            Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
             .then((response) =>{
                 console.log(response)
                 setFollowing(false)
@@ -139,7 +144,7 @@ useEffect(() => {
             .then(()=>{})
         } else {
             const payload = { proid}
-            Axios.post("/follow", payload)
+            Axios.post("https://sleepy-escarpment-55626.herokuapp.com/follow", payload)
             .then((response) => {
                 console.log(response)
                 setFollowing(true)
@@ -220,7 +225,7 @@ useEffect(() => {
              notification={navcolor.notification}
              profile={navcolor.profile}
              search={navcolor.search}
-             user={profileDetails._id}
+             user={user}
         /> 
         </div>
     )

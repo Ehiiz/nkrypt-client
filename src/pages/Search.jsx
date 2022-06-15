@@ -12,6 +12,7 @@ export default function Search(){
 const [topKrypt, setTopKrypt] = useState([])
 const [profiles, setProfiles] = useState([])
 const [searchValue, setSearchValue] = useState("")
+const [user, setUser] = useState(undefined)
 
 
 const navigate = useNavigate()
@@ -22,35 +23,43 @@ const fetcher = (...args) => fetch(...args).then(res => res.json())
 const { data, error } = useSWR('https://sleepy-escarpment-55626.herokuapp.com/search', fetcher)
 console.log(data)
 
+useEffect(() => {
+const userid = localStorage.getItem("user")
+setUser(userid)
+
+
+
+},[])
+
   if (error) return <div>failed to load</div>
   if (!data) return <div><Loading /></div>
 
 
-
-console.log(topKrypt)
-console.log(searchValue)
-
-
 const handleSubmit = (e) =>{
-   e.preventDefault()
-    const payload = {searchValue}
-    
-   const endPoint = searchValue.toLowerCase()
-console.log(payload)
-    Axios.post("/search", payload)
-    .then(res=>{
-        console.log(res)
-        const searchKrypt = res.data.searchKrypt
-        const searchUser = res.data.searchUser;
-        const usefollowingID = res.data.usefollowingID;
-        const usefollowersID = res.data.usefollowersID;
-        const userid = res.data.userid
-       navigate(`/search/${endPoint}`, {state:{searchUser,searchKrypt, usefollowingID,usefollowersID, userid, searchValue}})
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-    .then(()=>{})
+    const token = localStorage.getItem("jwt")
+    e.preventDefault()
+    if (!token){
+        navigate("/")
+    } else {
+        const userid = localStorage.getItem("user")
+        const payload = {searchValue, userid}
+        const endPoint = searchValue.toLowerCase()
+         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/search", payload)
+         .then(res=>{
+             const searchKrypt = res.data.searchKrypt
+             const searchUser = res.data.searchUser;
+             const usefollowingID = res.data.usefollowingID;
+             const usefollowersID = res.data.usefollowersID;
+             const userid = res.data.userid
+            navigate(`/search/${endPoint}`, {state:{searchUser,searchKrypt, usefollowingID,usefollowersID, userid, searchValue}})
+         })
+         .catch(err=>{
+             console.log(err)
+         })
+         .then(()=>{})
+    }
+
+ 
 }
 
 const navcolor = {
@@ -98,7 +107,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.user}
+                user={user}
         />
         </div>
     )

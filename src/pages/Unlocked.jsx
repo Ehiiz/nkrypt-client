@@ -9,6 +9,7 @@ import {ReactComponent as Achievement} from "../svg/Achievement.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
 import ReactPlayer from 'react-player';
 import useSWR from "swr";
+import Fetching from "../modals/Fetching"
 
 
 export default function Unlocked(){
@@ -20,24 +21,63 @@ const {id} = useParams();
 
 const [commentvalue, setCommentValue] = useState("")
 const [newRender, setNewRender] = useState(false)
+const [user, setUser] = useState(undefined)
+const [username, setUserName] = useState("")
+const [title, setTitle] = useState("")
+const [content, setContent] = useState([])
+const [krypt, setKrypt] = useState({})
 
-    useEffect(()=>{
-        if(data){
-            if (data.data.status === "not signed in"){
-                navigate("/")
-            } else if (data.data.status === "failure") {
-                 navigate("/home")
-            } 
-        }
-    },
-    [newRender])
+
+
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
-const { data, error } = useSWR(`/unlock/${id}`, fetcher)
-console.log(data)
+const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/unlock/${id}`, fetcher)
 
+
+useEffect(()=>{
+    const token = localStorage.getItem("jwt")
+    if (!token){
+        navigate("/")
+    } else {
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+        const payload = {userid}
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/unlock/${id}`, payload)
+        .then((response) => {
+            setUserName(response.data.creator.username)
+            setTitle(response.data.title)
+            setContent([...response.data.content])
+            setKrypt(response.data)
+        })
+        .catch(err=>{
+            console.log(err)
+            navigate("/")
+        })
+    }
+      
+},
+[newRender])
+
+
+if (!data) return <Fetching />;
 if (error) return <div>failed to load</div>
-if (!data) return <div>loading...</div>
+
+const timeValue = ()=>{
+    let newDate = new Date();
+     let hrs = newDate.getHours();
+     let mins = newDate.getMinutes();
+     if (mins <= 9){
+       mins = "0" + mins;
+     }
+    let today = newDate.getDate();
+    let month = newDate.getMonth();
+      
+     let kryptTime = `${hrs}:${mins}`
+     let kryptDate = `${today}, ${month}`
+  
+     return {kryptDate, kryptTime}
+}
+
 
 const handleChange = e =>{
     const {value} = e.target
@@ -46,11 +86,13 @@ const handleChange = e =>{
 
 const handleSubmit = (e) =>{
         e.preventDefault()
-     const payload = {commentvalue, id}
-        Axios.post("/comment", payload)
+        const userid = localStorage.getItem("user")
+        const time = timeValue().kryptTime
+        setCommentValue("")
+     const payload = {commentvalue, id, userid, time}
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/comment", payload)
         .then((res)=>{
             console.log(res)
-            setCommentValue("")
             setNewRender(!newRender)
         })
         .catch((err)=>{
@@ -76,12 +118,12 @@ const navcolor = {
             <Header />
             <section className="unlock-sec">
             <div className="flex w-full justify-between mb-4">
-            <h1 className="unlock-title">{data.data.title}</h1>
-            <p className="unlock-user"><span className="text-sm text-secondary-700">by </span>@{data.data.creator.username}</p>
+            <h1 className="unlock-title">{title}</h1>
+            <p className="unlock-user"><span className="text-sm text-secondary-700">by </span>@{username}</p>
             </div>
             <div className="px-5 flex items-center flex-col w-fit">
             
-            {data.content.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
+            {content.map((krypt, index)=> {if (krypt.includes(".jpg") || krypt.includes(".jpeg") || krypt.includes(".png") || krypt.includes(".jfif")){
                 return   <div className="items-center py-2 rounded-xl">
                          <img src={krypt} alt="kryptedimg" className="object-fit rounded-2xl"/>
                         </div>
@@ -105,15 +147,15 @@ const navcolor = {
             <section className="flex w-full justify-between px-6 mt-8">
                      <div className="land-con">
                     <Exclaim />
-                     {data.data.failure}
+                     {krypt.failure}
                      </div>
                      <div className="land-con">
                        <Achievement />
-                    {data.data.success}    
+                    {krypt.success}    
                      </div>
                      <div className="land-con">
                    <Comment />
-                     {data.data.comment}
+                     {krypt.comment}
                      </div>
                  </section>
             
@@ -156,7 +198,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.user}
+                user={user}
             />
         </div>
     )

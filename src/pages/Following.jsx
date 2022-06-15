@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import {Link, useParams, useNavigate} from "react-router-dom"
 import Header from '../core-components/Header';
 import Nav from '../core-components/Nav';
-import ProfileSix from "../img/Rectangle 47.png";
 import FollowBttn from '../micro-components/FollowBttn';
 import {ReactComponent as Pizza} from "../svg/Wavy Buddies Pizza.svg"
 
@@ -15,14 +14,22 @@ const [profollowing, setProfollowing] = useState([])
 const [newRender, setNewRender] = useState(false)
 const [emptyCase, setEmptyCase] = useState(false)
 
-   useEffect(() => {
-    Axios.get(`/following/${id}`)
+const navigate = useNavigate();
+
+useEffect(() => {
+const token = localStorage.getItem("jwt")
+if (!token){
+    navigate("/")
+} else {
+    const userid = localStorage.getItem("user")
+    setUser(userid)
+    const payload = {userid}
+    Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/following/${id}`, payload)
     .then(res =>{
-        console.log(res);
         const profollowing = res.data.profollowing;
         const usefollowingID = res.data.usefollowingID;
         const usefollowersID = res.data.usefollowersID;
-    const newarray =   profollowing.reduce((r,i)=>{
+        const newarray =   profollowing.reduce((r,i)=>{
             if(usefollowingID.includes(i.following._id)){
                 console.log("match")
                 return [...r, {following:{...i.following, following_status:true}}]
@@ -50,6 +57,9 @@ const [emptyCase, setEmptyCase] = useState(false)
         setProfollowing([...finalFollowing])
         setUser(res.data.following)
     })
+
+}
+   
    },[newRender])
 
 
@@ -57,12 +67,14 @@ const [emptyCase, setEmptyCase] = useState(false)
 const checkClick =(e)=>{
     let proid = e.target.value;
     let followstate = e.target.name;
+    const userid = localStorage.getItem("user")
+    
     const payload = {
-        proid
+        proid, userid
     }
 
     if(followstate === "true"){
-        Axios.post('/unfollow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
         .then((response) =>{
             console.log(response)
         })
@@ -77,7 +89,7 @@ const checkClick =(e)=>{
         }
 
     } else if (followstate === "false") {
-        Axios.post('/follow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/follow', payload)
         .then((response) =>{
             console.log(response)
         })
@@ -147,7 +159,7 @@ const checkClick =(e)=>{
             notification={navcolor.notification}
             profile={navcolor.profile}
             search={navcolor.search}
-            user={user._id}
+            user={user}
         />
 
 

@@ -1,12 +1,12 @@
 import Header from "../core-components/Header"
 import Nav from '../core-components/Nav'
 import { useState, useEffect, useRef } from "react"
-import{Link, useLocation} from "react-router-dom"
+import{Link, useLocation, useNavigate} from "react-router-dom"
 import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
 import {ReactComponent as Achievement} from "../svg/Achievement.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
 import Axios from "axios"
-import ProfileSix from "../img/Rectangle 47.png";
+
 
 
 export default function SearchResult(){
@@ -19,14 +19,21 @@ const [searchValue, setSearchValue] = useState("")
 const [newRender, setNewRender] = useState(false)
 const [emptyMessage, setEmptyMessage] = useState("")
 const [emptyKrypt, setEmptyKrypt] = useState("")
-const [user, setUser] = useState("")
+const [user, setUser] = useState(undefined)
 const count = useRef(0)
 
 const location = useLocation();
+const navigate = useNavigate();
+
 
 
 useEffect(() => {
-   console.log(count.current)
+  const token = localStorage.getItem("jwt")
+  const userid = localStorage.getItem("user")
+  setUser(userid)
+  if (!token){
+    navigate("/")
+  }
     if (count.current === 0){
         setKryptResults([...location.state.searchKrypt])
         const usefollowingID = location.state.usefollowingID;
@@ -75,7 +82,7 @@ useEffect(() => {
         console.log(payload)    
         const endPoint = searchValue.toLowerCase()
         console.log(payload)
-         Axios.post("/search", payload)
+         Axios.post("https://sleepy-escarpment-55626.herokuapp.com/search", payload)
          .then(res=>{
              console.log(res)
              const searchUser = res.data.searchUser;
@@ -137,14 +144,15 @@ const checkClick =(e)=>{
     let proid = e.target.value;
     let followstate = e.target.name;
     count.current = count.current + 1
-    console.log(proid)
+    const userid = localStorage.getItem("user")
+    
     const payload = {
-        proid
+        proid, userid
     }
     console.log(followstate)
 
     if(followstate === "true"){
-        Axios.post('/unfollow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/unfollow', payload)
         .then((response) =>{
             console.log(response)
             setNewRender(!newRender)
@@ -155,7 +163,7 @@ const checkClick =(e)=>{
         .then(()=>{})
        
     } else if (followstate === "false") {
-        Axios.post('/follow', payload)
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/follow', payload)
         .then((response) =>{
             console.log(response)
             setNewRender(!newRender)
@@ -166,17 +174,13 @@ const checkClick =(e)=>{
         .then(()=>{})
         
     }
-    console.log(e.target.value)
-    console.log(e.target.name)
 }
 
-console.log(newRender)
 
 const handleSubmit = (e) =>{
    e.preventDefault()
    count.current = count.current + 1
      setNewRender(!newRender)
-
 }
 
 const handleClick =(e)=>{

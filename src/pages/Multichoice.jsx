@@ -20,19 +20,14 @@ const [modal, setModal] = useState(false)
 
 
 useEffect(() => {
-  Axios.get(`/choice/${id}`)
-  .then((res)=>{
-    if (res.data.status === "not signed in"){
-      navigate("/")
-    } else {
-      setUser({...res.data.user})
-    }
-    })
-  .catch((err)=>{
-    console.log(err)
-  })
-  .then(()=>{})
-
+  const token = localStorage.getItem("jwt")
+  if(!token){
+    navigate("/")
+  } else {
+    const userid = localStorage.getItem("user")
+    setUser(userid)
+  }
+ 
 
 },[])
 
@@ -47,10 +42,11 @@ const addMulti = () => {
   
 
 const sendData = () => {
-        const payload = {multibox, kryptbio}
+  const userid = localStorage.getItem("user")
+        const payload = {multibox, kryptbio, userid}
         console.log(multibox);
         console.log(payload);
-        Axios.post(`/choice/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/choice/${id}`, payload)
       .then(res => {
               console.log(res);
               const status = res.data.status;
@@ -93,8 +89,6 @@ const bioChange = (e) =>{
 const handleSubmit = (e) => {
         sendData();
 }
-
-console.log(multibox);
 
      
 const removeQuestion = (i) => {
@@ -156,7 +150,7 @@ const navcolor = {
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+                user={user}
         />
        
         </div>

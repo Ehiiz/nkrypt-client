@@ -5,6 +5,8 @@ import Axios from 'axios';
 import { useNavigate, Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Updatebio from "../modals/Updatebio";
+import useSWR from "swr";
+import Fetching from "../modals/Fetching"
 
 export default function Settings(){
 
@@ -17,7 +19,7 @@ export default function Settings(){
     const [nextPassword, setNextPassword] = useState("")
     const [userAdd, setUserAdd] = useState("")
     const [message, setMessage] = useState("")
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(undefined)
     const [updatebio, setUpdatebio] = useState(false)
     const [newRender, setNewRender] = useState(false)
 
@@ -26,28 +28,23 @@ export default function Settings(){
     const [biomessage, setBioMessage] = useState("")
     
 
-    useEffect(()=>{
-        Axios.get('/settings')
-        .then(function(res){
-            if (res.data.status === "not signed in"){
-                    navigate("/")
-            }else {
-            const status = res.data.status;
-            console.log(status)
-            console.log(res)
-            setUser({...res.data.data})
-            setProfileData({...res.data.data});
-            setUserAdd(res.data.data.username)
-            }
-          
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-        .then(function(){
-        })
 
-    },[])
+    useEffect(()=>{
+        const token = localStorage.getItem("jwt")
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+        if (!token){
+            navigate("/")
+        } else {
+            const payload = {userid}
+          Axios.post("https://sleepy-escarpment-55626.herokuapp.com/settings", payload)
+          .then(response =>{
+            setUserAdd(response.data.data.username)
+          })
+        }
+    },[newRender])
+
+
    
 
     //Helper functions
@@ -76,10 +73,11 @@ export default function Settings(){
         setNextPassword(value)
     }
     const handleSubmit = e => {
+        const userid = localStorage.getItem("user")
         const payload = {
-            newPassword
+            newPassword, userid
         }
-       Axios.post("/checkpassword", payload)
+       Axios.post("https://sleepy-escarpment-55626.herokuapp.com/checkpassword", payload)
        .then((res) => {
            console.log(res)
            const status = res.data.status
@@ -93,10 +91,11 @@ export default function Settings(){
     }
 
     const handleSubmit2 = ()=> {
+        const userid = localStorage.getItem("user")
         const payload = {
-            nextPassword
+            nextPassword, userid
         }
-       Axios.post("/changepassword", payload)
+       Axios.post("https://sleepy-escarpment-55626.herokuapp.com/changepassword", payload)
        .then((res) => {
            console.log(res)
            const status = res.data.status
@@ -113,8 +112,9 @@ export default function Settings(){
     }
 
     const handleUserSubmit = e =>{
-         const payload = {userAdd}
-        Axios.post("/setusername", payload)
+        const userid = localStorage.getItem("user")
+         const payload = {userAdd, userid}
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then((response) => {
             console.log(response)
             const status = response.data.status;
@@ -137,9 +137,10 @@ export default function Settings(){
 
     
     const userCheck =(data)=>{
-        const payload = {data}
+        const userid = localStorage.getItem("user")
+        const payload = {data, userid}
         console.log(payload)
-        Axios.post("/checkuser", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/checkuser", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -172,8 +173,9 @@ export default function Settings(){
 
     //Function for Userbio Starts
     const userbioSubmit = ()=>{
-        const payload = {userbio}
-        Axios.post("/setuserbio", payload)
+        const userid = localStorage.getItem("user")
+        const payload = {userbio, userid}
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -202,15 +204,9 @@ export default function Settings(){
 
 //Logout Function
     const logOut = ()=>{
-       
-        Axios.get("/logout").then((res) =>{
-                console.log(res.data.status)
-                const status = res.data.status
-                if (status === "success"){
-                    localStorage.removeItem("jwt")
-                    navigate('/')
-                }
-        })
+      localStorage.removeItem("jwt")
+      localStorage.removeItem("user")
+      navigate('/')
     }
 
     const settings = "Settings"
@@ -277,7 +273,7 @@ export default function Settings(){
              notification={navcolor.notification}
              profile={navcolor.profile}
              search={navcolor.search}
-             user={user._id}
+             user={user}
         />
 
         </div>

@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom"
 import Userpic from "../modals/Userpic";
 import Username from "../modals/Username";
 import Userbio from "../modals/Userbio";
+import { useCookies } from 'react-cookie';
 
 
 export default function Signup(){
@@ -48,6 +49,8 @@ export default function Signup(){
     //Button Validation
     const [popError, setPopError] = useState("")
 
+    const [cookies, setCookie] = useCookies(['user']);
+
 
     function truncateString(string, limit) {
         if (string.length > limit) {
@@ -72,9 +75,10 @@ export default function Signup(){
 
     const createImage = (e)=>{
         const {src} = e.target
+        const id = localStorage.getItem("user")
         console.log(src)
-        const payload = {src}
-        Axios.post('/setprofilepic', payload)
+        const payload = {src, id}
+        Axios.post('https://sleepy-escarpment-55626.herokuapp.com/setprofilepic', payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -120,12 +124,12 @@ export default function Signup(){
                                             console.log(status)
                                             if (status === "success"){
                                                 const { token } = res.data;
+                                                console.log("Never")
                                                 localStorage.setItem('jwt', token);
+                                                localStorage.setItem('user', res.data.id)
                                                 setModalcase(true)
-                                                // navigate('/home')
                                                 }
                                                 else{
-                                                    // navigate('/signin')
                                                     alert("Error creating account. Try again")
                                                     window.location.reload()
                                                 }
@@ -277,8 +281,9 @@ export default function Signup(){
 
     //Functions for Username Modal
     const usernameSubmit =()=>{
-        const payload = {userAdd}
-        Axios.post("/setusername", payload)
+        const id = localStorage.getItem("user")
+        const payload = {userAdd, id}
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setusername", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -293,9 +298,10 @@ export default function Signup(){
     }
 
     const userCheck =(data)=>{
-        const payload = {data}
+        const id = localStorage.getItem("user")
+        const payload = {data, id}
         console.log(payload)
-        Axios.post("/checkuser", payload)
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/checkuser", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
@@ -328,13 +334,14 @@ export default function Signup(){
 
     //Functions for Userbio Modals
     const userbioSubmit = ()=>{
-        const payload = {userbio}
-        Axios.post("/setuserbio", payload)
+        const id = localStorage.getItem("user")
+        const payload = {userbio, id}
+        Axios.post("https://sleepy-escarpment-55626.herokuapp.com/setuserbio", payload)
         .then(res=>{
             console.log(res)
             const status = res.data.status
             if (status === "success"){
-        navigate("/home")
+         navigate("/home")
             } else {
                 setBioMessage("error creating username")
             }

@@ -10,4 +10,3 @@ export default function Loading ({success}){
         </div>
     )
 }
-{/* <Loader/> */}

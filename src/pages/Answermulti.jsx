@@ -1,6 +1,6 @@
 import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
-import {Link, useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import MultiAnswerBox from "../macro-components/MultiAnswerBox";
 import {useState, useEffect} from 'react';
 import Axios from 'axios';
@@ -11,39 +11,46 @@ export default function Answermulti(){
     const [answerMulti, setAnswerMulti] = useState([{question:"", option1:"", option2:"", option3:"", option4:""}])
     const [title, setTitle] = useState()
     const [userQuiz, setUserQuiz] = useState([{answer:""}])
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(undefined)
   
     const {id} = useParams();
     const navigate = useNavigate();
 
-    useEffect(() =>{
-        Axios.get(`/m-unlock/${id}`)
-        .then(function(response){
-          if (response.data.status === "not signed in"){
-           navigate("/") 
-          } else {
-            console.log(response);
-            setUser({...response.data.data.user})
-            const newtitle = response.data.data.kryptDeets.title;
-            const questData =response.data.data.lockDeets.authenticate;
-            let answerRay = []
-            for (let i = 0; i < questData.length; i++) {
-             var newAns = {answer:""}
-                answerRay.push(newAns)
-            }
-            setUserQuiz(answerRay)
-            setAnswerMulti(questData)
-            setTitle(newtitle)
-          }
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error + "This did not get anything");
-          })
-          .then(function () {
-            // always executed
-          });    
+    
 
+    useEffect(() =>{
+    const token = localStorage.getItem("jwt")
+    
+    if (!token){
+      navigate("/")
+    } else {
+      const userid = localStorage.getItem("user")
+      setUser(userid)
+      Axios.get(`https://sleepy-escarpment-55626.herokuapp.com/m-unlock/${id}`)
+      .then(function(response){
+          console.log(response);
+          setUser({...response.data.data.user})
+          const newtitle = response.data.data.kryptDeets.title;
+          const questData =response.data.data.lockDeets.authenticate;
+          let answerRay = []
+          for (let i = 0; i < questData.length; i++) {
+           var newAns = {answer:""}
+              answerRay.push(newAns)
+          }
+          setUserQuiz(answerRay)
+          setAnswerMulti(questData)
+          setTitle(newtitle)
+      })
+      .catch(function (error) {
+          // handle error
+          console.log(error + "This did not get anything");
+        })
+        .then(function () {
+          // always executed
+        });    
+
+    }
+      
     },[])
 
     const handleChange = (i,e) =>{
@@ -64,10 +71,10 @@ export default function Answermulti(){
     }
 
     const handleSubmit = () => {
-
-        const payload = {userQuiz}
+      const userid = localStorage.getItem("user");
+        const payload = {userQuiz, userid}
         console.log(payload);
-        Axios.post(`/m-unlock/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/m-unlock/${id}`, payload)
         .then(function (response){
           const status = response.data.status;
           if (status === "success"){
@@ -132,7 +139,7 @@ export default function Answermulti(){
                     notification={navcolor.notification}
                     profile={navcolor.profile}
                     search={navcolor.search}
-                    user={user._id}
+                    user={user}
              />
     
         </div>

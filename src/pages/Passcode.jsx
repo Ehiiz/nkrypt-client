@@ -12,7 +12,7 @@ export default function Passcodepage(){
     const navigate = useNavigate();
 
 const [passCell, setPassCell] = useState({answer:""})
-const [user, setUser] = useState({})
+const [user, setUser] = useState(undefined)
 const [kryptbio, setKryptbio] = useState("")
 const [modal, setModal] = useState(false)
 
@@ -22,23 +22,15 @@ const updatePass = (e) => {
 } 
 
 useEffect(() => {
-        Axios.get(`/passcode/${id}`)
-        .then((res)=>{
-            if (res.data.status === "not signed in"){
-               navigate("/") 
-            } else {
-                setUser({...res.data.user})
-            }
-        
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-        .then(() => {})
-
-
-    }
-    ,[])
+const token = localStorage.getItem("jwt")
+if(!token){
+    navigate("/")
+}     else {
+    const userid = localStorage.getItem("user")
+    setUser(userid)
+}
+    
+},[])
 
 const openModal = () =>{
     if(passCell.answer === ""){
@@ -59,11 +51,12 @@ const bioChange = (e) =>{
       
 
 const sendData = () => {
+    const userid = localStorage.getItem("user")
         const finalCell = [passCell]
-        const payload = {finalCell, kryptbio}
+        const payload = {finalCell, kryptbio, userid}
         console.log(passCell);
         console.log(payload);
-        Axios.post(`/passcode/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/passcode/${id}`, payload)
       .then(res => {
               console.log(res);
               const status = res.data.status;
@@ -118,7 +111,7 @@ return(
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={user._id}
+                user={user}
 
         />
 

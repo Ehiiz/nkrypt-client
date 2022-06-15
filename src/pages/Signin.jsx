@@ -21,8 +21,6 @@ export default function Signin(){
         } else {
 
         }
-  
-
     },[])
     
 
@@ -50,6 +48,7 @@ export default function Signin(){
                 if (status === "success"){
                     const { token } = res.data;
                     localStorage.setItem('jwt', token);
+                    localStorage.setItem('user', res.data.id)
                     navigate('/home')
                 }
                 else if (status === "failure"){

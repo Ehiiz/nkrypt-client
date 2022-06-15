@@ -2,6 +2,9 @@ import {Link} from "react-router-dom";
 export default function Nav({home, notification, profile, user, search}){
 
 
+    
+
+
     return(
         <nav className="flex text-xs items-end pb-3 justify-evenly mt-4 fixed bottom-0 left-0 right-0 bg-secondary-600 pt-3">
             <div className="nav-block">

@@ -5,31 +5,36 @@ import {ReactComponent as Key} from "../svg/carbon_password.svg"
 import {useEffect, useState} from 'react';
 import Axios from "axios";
 import useSWR from "swr";
+import Fetching from "../modals/Fetching";
 
 export default function Answerpass(){
    
     const [userAnswer, setUserAnswer] = useState([{answer:""}])
+    const [user, setUser] = useState(undefined)
   
     const {id} = useParams();
 
     const navigate = useNavigate();
+    const fetcher = (...args) => fetch(...args).then(res => res.json())
+    const { data, error } = useSWR(`https://sleepy-escarpment-55626.herokuapp.com/p-unlock/${id}`, fetcher)
+    
 
 useEffect(() =>{
-       
-        if(data){
-            if (data.data.status === "not signed in"){
-                navigate("/")
-            } 
-        }
-
+    const token = localStorage.getItem("jwt")
+    if(!token){
+        navigate("/")
+    } else {
+        const userid = localStorage.getItem("user")
+        setUser(userid)
+    }
     },[])
 
-    const fetcher = (...args) => fetch(...args).then(res => res.json())
-    const { data, error } = useSWR(`/p-unlock/${id}`, fetcher)
+    if (error) return <div>failed to load</div>
+    if (!data) return <Fetching />
+   
     console.log(data)
     
-    if (error) return <div>failed to load</div>
-    if (!data) return <div>loading...</div>
+   
     
 
     const handleChange = e => {
@@ -40,10 +45,11 @@ useEffect(() =>{
 
 
     const handleSubmit = () => {
-        const payload = {userAnswer}
+        const userid = localStorage.getItem("user");
+        const payload = {userAnswer, userid}
         console.log(payload)
 
-        Axios.post(`/p-unlock/${id}`, payload)
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/p-unlock/${id}`, payload)
         .then(function (response) {
             console.log(response.data);
             const status = response.data.status
@@ -100,7 +106,7 @@ useEffect(() =>{
                 notification={navcolor.notification}
                 profile={navcolor.profile}
                 search={navcolor.search}
-                user={data.data.user._id}
+                user={user}
          />
 
     </div>
