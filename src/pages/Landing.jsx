@@ -41,6 +41,7 @@ useEffect(() => {
   setModalCase(true)
   const token = localStorage.getItem("jwt")
   const userid = localStorage.getItem("user")
+  console.log(token)
   setUser(userid)
   const payload = {userid}
   Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/krypt/${id}`, payload)
