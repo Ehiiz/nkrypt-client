@@ -109,7 +109,8 @@ const handleClick = (e) =>{
               const userid = localStorage.getItem("user")
               const time = timeValue().kryptTime
               if(!token){
-                navigate("/")
+                console.log("christ")
+                //navigate("/")
               } else {
                 setCommentValue("")
                 const payload = {commentvalue, time, id, userid}

@@ -237,7 +237,7 @@ const onFileChange = (e) =>{
           formData.append('upload_preset', "gh7pirve")
           setLoading(true)
           sendFile(formData, e.target.name,e.target.files[0])
-        } else {
+        } else if (!e.target.files[0]){
           const newKrypt  = krypt.filter((kry)=> kry !== "audio")
           setKrypt(newKrypt)
         }
@@ -251,7 +251,7 @@ const onFileChange = (e) =>{
           formData.append('upload_preset', "gh7pirve")
           setLoading(true)
           sendFile(formData, e.target.name, e.target.files[0])
-        } else {
+        } else if (!e.target.files[0]) {
           const newKrypt  = krypt.filter((kry)=> kry !== "image")
           setKrypt(newKrypt)
         }
