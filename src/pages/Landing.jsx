@@ -110,18 +110,20 @@ const handleClick = (e) =>{
               const time = timeValue().kryptTime
               if(!token){
                 navigate("/")
+              } else {
+                setCommentValue("")
+                const payload = {commentvalue, time, id, userid}
+                   Axios.post("https://sleepy-escarpment-55626.herokuapp.com/comment", payload)
+                   .then((res)=>{
+                       console.log(res)
+                   })
+                   .catch((err)=>{
+                       console.log(err)
+                   })
+                   .then(()=>{})  
+                   setRefresh(!refresh)
               }
-              setCommentValue("")
-           const payload = {commentvalue, time, id, userid}
-              Axios.post("https://sleepy-escarpment-55626.herokuapp.com/comment", payload)
-              .then((res)=>{
-                  console.log(res)
-              })
-              .catch((err)=>{
-                  console.log(err)
-              })
-              .then(()=>{})  
-              setRefresh(!refresh)
+         
              
 }
 
