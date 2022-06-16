@@ -109,7 +109,7 @@ const handleClick = (e) =>{
               const userid = localStorage.getItem("user")
               const time = timeValue().kryptTime
               if(!token){
-                console.log("christ")
+                alert(<p className="py-8 px-2"><Link className="px-4 py-2">Login</Link> to comment</p>)
                 //navigate("/")
               } else {
                 setCommentValue("")
