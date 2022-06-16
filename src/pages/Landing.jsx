@@ -183,8 +183,8 @@ const navcolor = {
            <div className="mb-14">
            {comments.map((com)=>{ return <Comments
            comment={com.comment}
-       // username={com.user.username === null ? "not defined" : com.user.username }
-        //  image={com.user.image === null ?  "not defined" :com.user.image}
+        username={com.user.username}
+      image={com.user.image}
            time={com.time}
             />
 
