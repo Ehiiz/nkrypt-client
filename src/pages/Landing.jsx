@@ -109,8 +109,8 @@ const handleClick = (e) =>{
               const userid = localStorage.getItem("user")
               const time = timeValue().kryptTime
               if(!token){
-                alert(<p className="py-8 px-2"><Link className="px-4 py-2">Login</Link> to comment</p>)
-                //navigate("/")
+                alert("Login to comment")
+                navigate("/")
               } else {
                 setCommentValue("")
                 const payload = {commentvalue, time, id, userid}
