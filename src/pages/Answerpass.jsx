@@ -83,7 +83,7 @@ useEffect(() =>{
     <div className="page">
     <Header />
     <section className="flex flex-col px-4 py-4 mt-12 fixed top-0 mb-8 w-full bg-secondary-600 h-full">
-     <h2 className="self-end font-bold text-secondary-900 text-2xl"><span className="text-md font-bold">unlock</span>{data.data.kryptDeets.title}</h2> 
+     <h2 className="self-end font-bold text-secondary-900 text-2xl"><span className="text-sm">unlock</span> {data.data.kryptDeets.title}</h2> 
 
     <section className="text-white rounded-t-2xl flex flex-col bg-secondary-500 w-full mt-1 pt-4 px-4 pb-8 h-full">
         <div className="flex flex-col">
