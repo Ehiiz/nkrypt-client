@@ -186,6 +186,7 @@ const navcolor = {
         username={com.user.username}
       image={com.user.image}
            time={com.time}
+           id={com.user._id}
             />
 
           })}

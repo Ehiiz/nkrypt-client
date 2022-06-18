@@ -50,7 +50,7 @@ useEffect(()=>{
             setUserName(response.data.data.creator.username)
             setTitle(response.data.data.title)
             setContent([...response.data.content])
-            setKrypt(response.data)
+            setKrypt(response.data.data)
         })
         .catch(err=>{
             console.log(err)
