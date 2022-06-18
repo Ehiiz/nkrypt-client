@@ -10,7 +10,7 @@ return(
         <img src={image} alt='my profile' className="img-com"/>
         </div>
          <div>
-         <Link to={`profile/${id}`} className="text-secondary-400 text-sm mb-1 font-light">@{username}</Link>
+         <a href={`https://nkrypt.vercel.app/profile/${id}`} className="text-secondary-400 text-sm mb-1 font-light">@{username}</a>
          <p className="text-secondary-900 text-sm">{comment}</p>
          </div>
     </div>
