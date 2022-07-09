@@ -206,9 +206,9 @@ setKrypt([...krypt, "audio"])
 }
  
 const titleChange = (e)=>{
-  setKryptTitle(truncateString(e.target.value, 15))
+  setKryptTitle(truncateString(e.target.value, 21))
   if(kryptTitle.length === 15){
-    setMessage("title cannot be more than 15 characters")
+    setMessage("title cannot be more than 21 characters")
   } else {
     setMessage("")
   }
