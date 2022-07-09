@@ -141,7 +141,7 @@ const navcolor = {
             <Header />
             {modalCase && <Fetching />}
             <section className="mt-16 w-full">
-            <section className="fixed w-full bg-secondary-600">
+            <section className="fixed w-fit bg-secondary-600">
             <div className="flex justify-between w-full px-4">
             <p className="text-secondary-900 self-start">{kryptdata.title}<span className="text-secondary-800 text-xs"> {kryptstate}</span> </p>
                <div className="flex justify-self-end">
