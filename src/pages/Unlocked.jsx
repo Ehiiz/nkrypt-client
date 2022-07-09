@@ -137,7 +137,7 @@ const navcolor = {
                     </div> 
             } else {
                return <div key={index}  className="py-2">
-               <p className="text-secondary-700">{krypt}</p>
+               <p className="text-secondary-700 whitespace-pre-line">{krypt}</p>
                </div>
              
             }
