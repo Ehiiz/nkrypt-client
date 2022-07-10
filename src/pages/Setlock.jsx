@@ -161,7 +161,7 @@ const navcolor = {
           closeModal= {closeModal}
         />}
             <Header />
-            <section className="flex flex-col items-center pt-40">
+            <section className="flex flex-col items-center pt-28">
            
           <button value="passcode"  className={passLive ? "lock-bttn bg-primary text-white" : "lock-bttn border-2 border-white shadow "}  onClick={handleClick}>
             <Password />
@@ -179,7 +179,7 @@ const navcolor = {
           <button className="self-center ml-4" value="multiple" onClick={handleClick}>Multiple Choice Questions</button>
         </button>
 
-        <button value="multiple"  className={noLockLive ? "lock-bttn bg-primary text-white" : "lock-bttn border-2 border-white shadow "} onClick={handleClick}>
+        <button value="no-lock"  className={noLockLive ? "lock-bttn bg-primary text-white" : "lock-bttn border-2 border-white shadow "} onClick={handleClick}>
            <Unlock />
           <button className="self-center ml-4" value="no-lock" onClick={handleClick}>No Lock</button>
         </button>
