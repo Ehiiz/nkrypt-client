@@ -2,8 +2,8 @@ import Header from "../core-components/Header"
 import Nav from '../core-components/Nav'
 import { useState, useEffect, useRef } from "react"
 import{Link, useLocation, useNavigate} from "react-router-dom"
-import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
-import {ReactComponent as Achievement} from "../svg/Achievement.svg";
+import {ReactComponent as Exclaim} from "../svg/x.svg";
+import {ReactComponent as Achievement} from "../svg/eye.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
 import Axios from "axios"
 import Fetching from "../modals/Fetching"

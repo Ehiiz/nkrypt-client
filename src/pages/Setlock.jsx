@@ -4,10 +4,12 @@ import {Link, useNavigate} from "react-router-dom";
 import {ReactComponent as Choices} from "../svg/fluent_quiz-new-48-filled.svg"
 import {ReactComponent as Password} from "../svg/fluent_password-16-filled.svg"
 import {ReactComponent as Quiz} from "../svg/healthicons_i-exam-multiple-choice.svg";
+import {ReactComponent as Unlock} from "../svg/fad_unlock.svg"
 import {useState, useEffect} from 'react';
 import Axios from "axios"
 import {useParams} from 'react-router-dom';
 import useSWR from "swr";
+import Bio from "../modals/Bio"
 
 
 
@@ -19,9 +21,12 @@ const [lockValue, setLockValue] = useState("")
 const [quizLive, setQuizLive] = useState(true);
 const [choiceLive, setChoiceLive] = useState(true);
 const [passLive, setPassLive] = useState(true);
+const [noLockLive, setNoLockLive] = useState(true);
 const [user, setUser] = useState(undefined);
+const [kryptbio, setKryptbio] = useState("")
 
 const [modalCase, setModalCase] = useState(false)
+const [modal, setModal] = useState(false)
 
 
 const timeValue = ()=>{
@@ -72,6 +77,8 @@ const handleSubmit = e => {
             navigate(`/passcode/${id}`)
         } else if (next === "multiple"){
             navigate(`/choice/${id}`)
+        } else if (next === "no-lock"){
+         setModal(true)
         }
       }).catch(error => {
           console.log(error);
@@ -85,18 +92,55 @@ const handleClick = e => {
      setQuizLive(false)
      setPassLive(true)
      setChoiceLive(true)
+     setNoLockLive(true)  
   } else if (e.target.value === "passcode"){
     setQuizLive(true)
     setPassLive(false)
     setChoiceLive(true)
+    setNoLockLive(true)  
  }
  else if (e.target.value === "multiple"){
     setQuizLive(true)
     setPassLive(true)
-    setChoiceLive(false)   
+    setChoiceLive(false) 
+    setNoLockLive(true)  
+ } else if (e.target.value === "no-lock"){
+  setQuizLive(true)
+  setPassLive(true)
+  setChoiceLive(true)
+  setNoLockLive(false)  
  }
 
 }
+
+const handleSubmit2 = ()=>{
+
+    const userid = localStorage.getItem("user")
+    const payload = {kryptbio, userid}
+    console.log(payload);
+    Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/no-lock/${id}`, payload)
+  .then(res => {
+          console.log(res);
+          const status = res.data.status;
+          if (status === "success"){
+              navigate(`/share/${id}`)
+              }
+              else{
+                 window.location.reload();
+              }
+      }).catch(error => {
+          console.log(error);
+      })
+}
+
+const closeModal = () => {
+  setModal(false)
+}
+
+const bioChange = (e) =>{
+  setKryptbio(e.target.value)
+}
+
 
 const navcolor = {
         home:"fill-secondary-900",
@@ -110,6 +154,12 @@ const navcolor = {
     
     return (
         <div className="page">
+           {modal && <Bio 
+          kryptbio={kryptbio}
+          bioChange= {bioChange}
+          handleSubmit={handleSubmit2}
+          closeModal= {closeModal}
+        />}
             <Header />
             <section className="flex flex-col items-center pt-40">
            
@@ -129,6 +179,10 @@ const navcolor = {
           <button className="self-center ml-4" value="multiple" onClick={handleClick}>Multiple Choice Questions</button>
         </button>
 
+        <button value="multiple"  className={noLockLive ? "lock-bttn bg-primary text-white" : "lock-bttn border-2 border-white shadow "} onClick={handleClick}>
+           <Unlock />
+          <button className="self-center ml-4" value="no-lock" onClick={handleClick}>No Lock</button>
+        </button>
         
         <button onClick={handleSubmit} className="mt-2 shadow border-1 sub-bttn"> 
               next

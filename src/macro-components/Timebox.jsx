@@ -1,7 +1,7 @@
 import Boxicon from "../micro-components/Boxicon";
 import Microicon from "../micro-components/Microicon";
-import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
-import {ReactComponent as Achievement} from "../svg/Achievement.svg";
+import {ReactComponent as Exclaim} from "../svg/x.svg";
+import {ReactComponent as Achievement} from "../svg/eye.svg";
 import {ReactComponent as Chat} from "../svg/uil_comments-alt.svg";
 import {Link} from "react-router-dom";
 

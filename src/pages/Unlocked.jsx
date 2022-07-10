@@ -4,8 +4,8 @@ import Share from "../macro-components/Share";
 import {Link, useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react"
 import Axios from 'axios';
-import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
-import {ReactComponent as Achievement} from "../svg/Achievement.svg";
+import {ReactComponent as Exclaim} from "../svg/x.svg";
+import {ReactComponent as Achievement} from "../svg/eye.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
 import ReactPlayer from 'react-player';
 import useSWR from "swr";

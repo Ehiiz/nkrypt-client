@@ -3,8 +3,8 @@ import Header from "../core-components/Header";
 import Nav from "../core-components/Nav";
 import {Link} from "react-router-dom";
 import {useParams} from 'react-router-dom';
-import {ReactComponent as Exclaim} from "../svg/Exclamation Mark.svg";
-import {ReactComponent as Achievement} from "../svg/Achievement.svg";
+import {ReactComponent as Exclaim} from "../svg/x.svg";
+import {ReactComponent as Achievement} from "../svg/eye.svg";
 import {ReactComponent as Comment} from "../svg/uil_comments-alt.svg";
 import {ReactComponent as Chat} from "../svg/Chat.svg"
 import {ReactComponent as Audio} from "../svg/Play.svg";
@@ -82,6 +82,8 @@ const timeValue = ()=>{
 }
 
 const handleSubmit = () =>{
+  const userid = localStorage.getItem("user")
+  const payload = {userid}
           if(kryptstate === "dekrypted"){
             navigate(`/unlock/${id}`)
           } else if (kryptstate === "created by you"){
@@ -94,6 +96,24 @@ const handleSubmit = () =>{
              navigate(`/m-unlock/${id}`)
            } else if (kryptdata.type === 'passcode'){
              navigate(`/p-unlock/${id}`)
+           } else if (kryptdata.type === 'no-lock'){
+        Axios.post(`https://sleepy-escarpment-55626.herokuapp.com/no-unlock/${id}`, payload)
+        .then(function (response){
+          console.log(response);
+          let status = response.data.status
+          console.log(status);
+          if (status === "success"){
+            navigate(`/unlock/${id}`)
+          } else if (status === "failure"){
+           window.location.reload();
+          }
+        })
+        .catch( function(error){
+          console.log(error);
+        })
+        .then(function (){
+
+        })
            }
           }
 }
