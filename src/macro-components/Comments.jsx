@@ -5,15 +5,18 @@ export default function Comments({username, comment, image, time, id}){
 
 return(
     <div className="w-full mt-4 px-3">
-    <div className="flex w-full items-center">
-        <div className="mr-4">
-        <img src={image} alt='my profile' className="img-com"/>
+    <div className="flex flex-col w-full items-center">
+        <div className="flex w-full items-center">
+            <div className="mr-4">
+            <img src={image} alt='my profile' className="img-com"/>
+            </div>
+             <div>
+             <a href={`https://nkrypt.vercel.app/profile/${id}`} className="text-secondary-400 text-sm mb-1 font-light">@{username}</a>
+             </div>
         </div>
-         <div>
-         <a href={`https://nkrypt.vercel.app/profile/${id}`} className="text-secondary-400 text-sm mb-1 font-light">@{username}</a>
-         <p className="text-secondary-900 text-sm">{comment}</p>
-         </div>
+        <p className="text-secondary-900 text-sm">{comment}</p>
     </div>
+  
     <div className="flex justify-between text-secondary-900">
       <p>{time}</p>
       <div className="flex items-center invisible">
